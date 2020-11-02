@@ -2004,11 +2004,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       option: '',
-      operacion: ''
+      operacion: '',
+      automata: {
+        /*estados,alfabeto,transiciones,finales,inicio*/
+      },
+      estados: {},
+      alfabeto: {},
+      transiciones: [],
+      transicion: {
+        from: '',
+        caracter: '',
+        to: ''
+      },
+      finales: {},
+      validador: false,
+      contadorEstados: 0
     };
   },
   created: function created() {},
@@ -2033,7 +2071,22 @@ __webpack_require__.r(__webpack_exports__);
       this.operacion = 5;
       return;
     },
-    ingresarAutomata: function ingresarAutomata() {},
+    agregarEstado: function agregarEstado() {
+      var cont = this.contadorEstados;
+
+      if (cont != 0) {
+        cont++;
+      } else {}
+    },
+    crearEstado: function crearEstado() {
+      this.validador = true;
+    },
+    drawAutomata: function drawAutomata() {},
+    ingresarAutomata: function ingresarAutomata() {
+      /* primero hay que ingresar cantidad de estados(nodos),
+      inicio y finales,ingresar alfabeto,
+      ingresar transiciones  */
+    },
     afdEquivalente: function afdEquivalente() {},
     complemento: function complemento() {},
     union: function union() {},
@@ -2100,7 +2153,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      controlvista: 1
+      controlvista: 2
     };
   },
   mounted: function mounted() {
@@ -33050,7 +33103,81 @@ var render = function() {
                 _vm._v(" "),
                 _c("hr"),
                 _vm._v(" "),
-                _c("div", { staticClass: "row text-center" })
+                _c("div", { staticClass: "row text-center" }, [
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success",
+                        on: { click: _vm.crearEstado }
+                      },
+                      [_vm._v("Añadir Estado")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success",
+                        attrs: { type: "button" },
+                        on: { click: function($event) {} }
+                      },
+                      [_vm._v("Añadir Transición")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        on: { click: function($event) {} }
+                      },
+                      [_vm._v("Eliminar Estado")]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm.validador
+                  ? _c("div", { staticClass: "row text-center" }, [
+                      _c("form", { attrs: { action: "", method: "get" } }, [
+                        _vm._m(0),
+                        _vm._v(" "),
+                        _vm.contadorEstados == 0
+                          ? _c("div", [
+                              _c("input", {
+                                attrs: {
+                                  type: "checkbox",
+                                  id: "estadoInicial",
+                                  name: "estadoInicial",
+                                  value: "inicial"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("label", { attrs: { for: "estadoInicial" } }, [
+                                _vm._v("Este es el estado inicial")
+                              ]),
+                              _c("br")
+                            ])
+                          : _c("div", [
+                              _c("input", {
+                                attrs: {
+                                  type: "checkbox",
+                                  id: "estadofinal",
+                                  name: "estadofinal",
+                                  value: "final"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("label", { attrs: { for: "estadofinal" } }, [
+                                _vm._v("Este es un estado final")
+                              ]),
+                              _c("br")
+                            ])
+                      ])
+                    ])
+                  : _vm._e()
               ])
             : _vm._e(),
           _vm._v(" "),
@@ -33257,7 +33384,21 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "id" } }, [_vm._v("Ingresar Estado: ")]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: { type: "number", min: "0", name: "id" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 

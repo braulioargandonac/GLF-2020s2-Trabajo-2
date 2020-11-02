@@ -15,8 +15,32 @@
                     <div class="container-fluid py-4 mr-4" v-if="option===1">
                         <h3 class="mt-2">Autómata Finito Determinista (AFD)</h3>
                         <hr>
-                        <div class="row text-center">
-
+                            <div class="row text-center">
+                                <div class="col-md-4">
+                                    <button class="btn btn-success" @click="crearEstado">Añadir Estado</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="button" class="btn btn-success" @click="">Añadir Transición</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-danger" @click="">Eliminar Estado</button>
+                                </div>
+                            </div>
+                        <div class="row text-center" v-if="validador">
+                            <form action="" method="get">
+                                 <div class="form-group">
+                                    <label for="id">Ingresar Estado: </label> 
+                                    <input type="number" min="0" name="id" class="form-control"> 
+                                </div>
+                                <div v-if="contadorEstados==0">
+                                    <input type="checkbox" id="estadoInicial" name="estadoInicial" value="inicial">
+                                    <label for="estadoInicial">Este es el estado inicial</label><br>
+                                </div>
+                                <div v-else>
+                                    <input type="checkbox" id="estadofinal" name="estadofinal" value="final">
+                                    <label for="estadofinal">Este es un estado final</label><br>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     <div class="container-fluid py-4 mr-4" v-if="option===2">
@@ -101,13 +125,21 @@ export default {
         return{
             option:'',
             operacion:'',
+            automata:{/*estados,alfabeto,transiciones,finales,inicio*/},
+            estados:{},
+            alfabeto:{},
+            transiciones:[],
+            transicion:{from:'',caracter: '',to:''},
+            finales:{},
+            validador:false,
+            contadorEstados:0
 
         }
     },
     
     created(){
-
-    },
+        
+        },
 
     methods:{
         mostrarOp1(){
@@ -134,10 +166,33 @@ export default {
             this.operacion=5;
             return;
         },
+        
+        agregarEstado(){
+            var cont = this.contadorEstados
+            
+            if(cont!=0){
+                cont++
+                
+            }
+            else{
 
-        ingresarAutomata(){
-
+            }
         },
+
+        crearEstado(){
+            this.validador=true;
+            
+        },
+
+        drawAutomata(){
+            
+        },
+        ingresarAutomata(){
+            /* primero hay que ingresar cantidad de estados(nodos),
+            inicio y finales,ingresar alfabeto,
+            ingresar transiciones  */ 
+            
+            },
 
         afdEquivalente(){
 
