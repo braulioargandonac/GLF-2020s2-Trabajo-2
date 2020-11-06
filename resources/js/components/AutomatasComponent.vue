@@ -15,31 +15,47 @@
                     <div class="container-fluid py-4 mr-4" v-if="option===1">
                         <h3 class="mt-2">Autómata Finito Determinista (AFD)</h3>
                         <hr>
-                            <div class="row text-center">
-                                <div class="col-md-4">
-                                    <button class="btn btn-success" @click="crearEstado">Añadir Estado</button>
-                                </div>
-                                <div class="col-md-4">
-                                    <button type="button" class="btn btn-success" @click="">Añadir Transición</button>
-                                </div>
-                                <div class="col-md-4">
-                                    <button class="btn btn-danger" @click="">Eliminar Estado</button>
-                                </div>
+                        <div class="row text-center">
+                            <div class="col-md-4">
+                                <button class="btn btn-success" @click="createEstado">Añadir Estado</button>
                             </div>
-                        <div class="row text-center" v-if="validador">
-                            <form action="" method="get">
-                                 <div class="form-group">
-                                    <label for="id">Ingresar Estado: </label> 
-                                    <input type="number" min="0" name="id" class="form-control"> 
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-success" @click="createTransicion">Añadir Transición</button>
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-danger" @click="delAndClear">Eliminar Estado</button>
+                            </div>
+                        </div>
+                        <div class="my-4" v-if="validador">
+                            <div>
+                                <form @submit.prevent="agregarEstado">
+                                    <div class="form-group">
+                                        <label for="id">Ingrese el id: </label> 
+                                        <input type="number" min="1" v-model="estado.id" name="id" class="form-control"> 
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="btn btn-success btn-sm" type="submit">Agregar</button>
+                                    </div>
+                                </form>       
+                            </div>
+                        </div>
+                        <div v-if="createTrans" class="my-3">
+                            <form @submit.prevent="crearTransicion">
+                                <div class="form-group">
+                                    <label>Ingrese el id del estado inicial de la transición:</label>
+                                    <input type="number" min="1" v-model="transicion.from" class="form-control"> 
                                 </div>
-                                <div v-if="contadorEstados==0">
-                                    <input type="checkbox" id="estadoInicial" name="estadoInicial" value="inicial">
-                                    <label for="estadoInicial">Este es el estado inicial</label><br>
+                                <div class="form-group">
+                                    <label>Ingrese el id del estado final de la transición:</label>
+                                    <input type="number" min="1" v-model="transicion.to" class="form-control"> 
                                 </div>
-                                <div v-else>
-                                    <input type="checkbox" id="estadofinal" name="estadofinal" value="final">
-                                    <label for="estadofinal">Este es un estado final</label><br>
+                                <div class="form-group">
+                                    <label>Ingrese carácter de la transición: </label>
+                                    <input type="text" minlength="1" maxlength="1" pattern="[a-zA-Z]+" v-model="transicion.label" class="form-control">
                                 </div>
+                        
+                                <button class="btn btn-success btn-sm" type="submit" >Agregar</button>
+                                <button class="btn btn-success btn-sm" @click="drawAutomata">dibujar</button>
                             </form>
                         </div>
                     </div>
@@ -50,6 +66,10 @@
                             
                         </div>
                     </div>
+                </div>
+                 <div class="grafo1 col-md-5 card cardaux ml-3">
+                    <h3 class="text-center fredoka my-2">Representación</h3>
+                    <div id="grafo" class="mb-3" style="border: 1px solid lightgray;"></div>
                 </div>
             </div>
             <h1 class="text-center fredoka textocolor my-4">Operaciones</h1>
@@ -124,24 +144,29 @@ export default {
     data(){
         return{
             option:'',
-            operacion:'',
+            operacion:'', 
+            estado: {id:'', label:'',color:'#C52C0B'},
             automata:{/*estados,alfabeto,transiciones,finales,inicio*/},
-            estados:{},
-            alfabeto:{},
+            estados:[{id:'inicio', label:'inicio',color:'#75616b47'}],
+            alfabeto:[],
             transiciones:[],
-            transicion:{from:'',caracter: '',to:''},
+            transicion:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
             finales:{},
             validador:false,
-            contadorEstados:0
-
+            inicial:0,
+            createTrans: false
         }
     },
     
+
     created(){
         
-        },
+    },
 
     methods:{
+        
+        
+        
         mostrarOp1(){
             this.operacion=1;
             return;
@@ -166,33 +191,172 @@ export default {
             this.operacion=5;
             return;
         },
+
+        marcarInicial(){
+            this.inicial=1;
+            return;
+        },
         
         agregarEstado(){
             var cont = this.contadorEstados
+            this.estado.label=this.estado.id
+            this.estados.push(this.estado)
+            this.estado= {id:'', label:'',color:'#C52C0B'}
+            this.drawAutomata()
             
-            if(cont!=0){
-                cont++
+        },
+
+        createEstado(){
+            this.validador=true;
+            this.createTrans=false;
+        },
+
+        createTransicion(){
+            this.createTrans=true;
+            this.validador=false;
+        },
+
+        delAndClear(){  
+            var ultimo= this.estados.pop();
+            this.estados.pop()
+            for(var i=0; i< this.transiciones.length;i++)
+            {
+                if(this.transiciones[i].from===ultimo.id || this.transiciones[i].to===ultimo.id)
+                {
+                    this.transiciones.splice(i,1);
+                }
+            }     
+            
+            
+            console.log("Estado Eliminado");
+            this.drawAutomata();
+        },
+ 
+        crearTransicion(){
+            if(this.transicion.from==='' || this.transicion.to==='' )
+            {
+                alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
+                return;
+            }
+            
+            for(var i=0; i<this.transiciones.length;i++)
+            {
+                if(this.transiciones[i].from===this.transicion.from && this.transiciones[i].label===this.transicion.label)
+                {
+                    alert("la transición ya existe. Ingrese otra");
+                    return;
+                }
                 
             }
-            else{
-
-            }
-        },
-
-        crearEstado(){
-            this.validador=true;
+            this.addCaracterToAlfabeto();
+            this.transiciones.push(this.transicion);
+            this.transicion={from:'',label: '',to:''};
+            this.drawAutomata();
+            
             
         },
+
+        addCaracterToAlfabeto(){
+
+            var existe=false;
+
+            for (var i=0; i<this.transiciones.length;i++)
+            {
+                if(existe===true && this.transicion.label!= this.transiciones[i].label)
+                {
+                    existe==true
+                }
+                else{
+                    if(this.transiciones[i].label===this.transicion.label)
+                    {
+                        existe=true;
+                    }
+                    else{
+                        existe=false;
+                    }
+                }
+            }
+            
+            if(!existe)
+            {
+                this.alfabeto.push(this.transicion.label);
+            }
+
+            console.log(this.alfabeto);
+           /* var arregloAlfa = []
+            for (var i=0; i<this.transiciones.length;i++){
+                arregloAlfa.push(this.transiciones[i].label)
+               
+            }
+            console.log(arregloAlfa);
+            */
+        },
+        
+        // revisarAlfabeto(){
+        //   var nuevoAlfabeto 
+        //   for (var i=0; i< Alfabeto ;i++){
+
+        //   }  
+        // },
+
+        matrizAutomata(){
+            var matrix = matrix.newArray()
+        },
+
+        crearMatriz(){
+            var res = [];
+            for(var i=0; i<3;i++){
+                res[i]= new Array(this.estados.length*this.transiciones.length);
+            }
+            return res;
+        },
+
+    
+    /*  var existe=false;
+
+        for (var i=0; i<this.transiciones.length;i++)
+        {
+            if(existe===true && this.transicion.label!= this.transiciones[i].label)
+            {
+                existe==true
+            }
+            else{
+                if(this.transiciones[i].label===this.transicion.label)
+                {
+                    existe=true;
+                }
+                else{
+                    existe=false;
+                }
+            }
+        }
+        
+        if(!existe)
+        {
+            this.alfabeto.push(this.transicion.label);
+        }
+
+        console.log(this.alfabeto);
+    */
+
 
         drawAutomata(){
-            
+            var container= document.getElementById("grafo");
+            var data={nodes:this.estados,
+                      edges:this.transiciones};
+            var options = {
+                height: 520 + 'px',
+                edges:{
+                    
+                    arrows:'to',
+                },
+            };
+            var network= new vis.Network(container,data,options);
         },
-        ingresarAutomata(){
-            /* primero hay que ingresar cantidad de estados(nodos),
-            inicio y finales,ingresar alfabeto,
-            ingresar transiciones  */ 
-            
-            },
+
+        matrizAutomata(){
+            var matrix = {}
+        },
 
         afdEquivalente(){
 
@@ -217,8 +381,7 @@ export default {
         simplificar(){
 
         },
-        
-
+    
     },
 
 }
