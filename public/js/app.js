@@ -2052,6 +2052,49 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2060,7 +2103,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       estado: {
         id: '',
         label: '',
-        color: '#C52C0B'
+        color: '#C52C0B',
+        "final": false
       },
       automata: {
         /*estados,alfabeto,transiciones,finales,inicio*/
@@ -2083,11 +2127,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       finales: {},
       validador: false,
       inicial: 0,
-      createTrans: false
+      createTrans: false,
+      representacion1: false
     };
   },
   created: function created() {},
   methods: (_methods = {
+    representacion: function representacion() {
+      this.representacion1 = true;
+      return;
+    },
+    representacionBack: function representacionBack() {
+      this.representacion1 = false;
+      return;
+    },
     mostrarOp1: function mostrarOp1() {
       this.operacion = 1;
       return;
@@ -2127,6 +2180,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.validador = true;
       this.createTrans = false;
     },
+    estadoFinal: function estadoFinal() {},
     createTransicion: function createTransicion() {
       this.createTrans = true;
       this.validador = false;
@@ -2145,6 +2199,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.drawAutomata();
     },
     crearTransicion: function crearTransicion() {
+      if (this.transiciones.length == 0) {
+        this.transicion.from = 'inicio';
+        this.label;
+        this.transiciones.push();
+      }
+
       if (this.transicion.from === '' || this.transicion.to === '') {
         alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
         return;
@@ -2186,13 +2246,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       console.log(this.alfabeto);
-      /* var arregloAlfa = []
-       for (var i=0; i<this.transiciones.length;i++){
-           arregloAlfa.push(this.transiciones[i].label)
-          
-       }
-       console.log(arregloAlfa);
-       */
     },
     // revisarAlfabeto(){
     //   var nuevoAlfabeto 
@@ -2211,31 +2264,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       return res;
     },
-
-    /*  var existe=false;
-          for (var i=0; i<this.transiciones.length;i++)
-        {
-            if(existe===true && this.transicion.label!= this.transiciones[i].label)
-            {
-                existe==true
-            }
-            else{
-                if(this.transiciones[i].label===this.transicion.label)
-                {
-                    existe=true;
-                }
-                else{
-                    existe=false;
-                }
-            }
-        }
-        
-        if(!existe)
-        {
-            this.alfabeto.push(this.transicion.label);
-        }
-          console.log(this.alfabeto);
-    */
     drawAutomata: function drawAutomata() {
       var container = document.getElementById("grafo");
       var data = {
@@ -93117,125 +93145,204 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", [
-      _c("h1", { staticClass: "text-center textocolor fredoka mt-5 pt-4" }, [
-        _vm._v("Crear Autómata")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "grafo1 col-md-5 card cardaux mr-3" }, [
-          _c("div", { staticClass: "container-fluid mr-4" }, [
-            _c("h3", { staticClass: "mt-3" }, [
-              _vm._v("Seleccione el tipo de autómata:")
+    _c("h1", { staticClass: "text-center textocolor fredoka mt-5 pt-4" }, [
+      _vm._v("Crear Autómata")
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _vm.representacion1 === false
+        ? _c("div", { staticClass: "grafo1 col-md-5 mx-3 card cardaux" }, [
+            _c("div", { staticClass: "container-fluid mr-4" }, [
+              _c("h4", { staticClass: "mt-3" }, [
+                _vm._v("Seleccione el tipo de autómata:")
+              ]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.option,
+                      expression: "option"
+                    }
+                  ],
+                  staticClass: "custom-select mb-3 mr-3 mt-2",
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.option = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "option",
+                    { attrs: { selected: "" }, domProps: { value: 0 } },
+                    [_vm._v("Seleccione un tipo de autómata")]
+                  ),
+                  _vm._v(" "),
+                  _c("option", { domProps: { value: 1 } }, [
+                    _vm._v("Autómata Finito Determinista (AFD)")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { domProps: { value: 2 } }, [
+                    _vm._v("Autómata Finito no Determinista (AFND)")
+                  ])
+                ]
+              )
             ]),
             _vm._v(" "),
-            _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.option,
-                    expression: "option"
-                  }
-                ],
-                staticClass: "custom-select mb-3 mr-3 mt-2",
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.option = $event.target.multiple
-                      ? $$selectedVal
-                      : $$selectedVal[0]
-                  }
-                }
-              },
-              [
-                _c(
-                  "option",
-                  { attrs: { selected: "" }, domProps: { value: 0 } },
-                  [_vm._v("Seleccione un tipo de autómata")]
-                ),
-                _vm._v(" "),
-                _c("option", { domProps: { value: 1 } }, [
-                  _vm._v("Autómata Finito Determinista (AFD)")
-                ]),
-                _vm._v(" "),
-                _c("option", { domProps: { value: 2 } }, [
-                  _vm._v("Autómata Finito no Determinista (AFND)")
-                ])
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _vm.option === 1
-            ? _c("div", { staticClass: "container-fluid py-4 mr-4" }, [
-                _c("h3", { staticClass: "mt-2" }, [
-                  _vm._v("Autómata Finito Determinista (AFD)")
-                ]),
-                _vm._v(" "),
-                _c("hr"),
-                _vm._v(" "),
-                _c("div", { staticClass: "row text-center" }, [
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-success",
-                        on: { click: _vm.createEstado }
-                      },
-                      [_vm._v("Añadir Estado")]
-                    )
+            _vm.option === 1
+              ? _c("div", { staticClass: "container-fluid py-4 mr-4" }, [
+                  _c("h3", { staticClass: "mt-2" }, [
+                    _vm._v("Autómata Finito Determinista (AFD)")
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-success",
-                        attrs: { type: "button" },
-                        on: { click: _vm.createTransicion }
-                      },
-                      [_vm._v("Añadir Transición")]
-                    )
+                  _c("hr"),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row text-center my-4" }, [
+                    _c("div", { staticClass: "col-md-2" }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          on: { click: _vm.createEstado }
+                        },
+                        [_vm._v("Añadir Estado")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          attrs: { type: "button" },
+                          on: { click: _vm.createTransicion }
+                        },
+                        [_vm._v("Añadir Transición")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2" })
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-danger",
-                        on: { click: _vm.delAndClear }
-                      },
-                      [_vm._v("Eliminar Estado")]
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _vm.validador
-                  ? _c("div", { staticClass: "my-4" }, [
-                      _c("div", [
+                  _c("div", { staticClass: "row text-center" }, [
+                    _c("div", { staticClass: "col-md-2" }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          on: { click: _vm.representacion }
+                        },
+                        [_vm._v("Modificar Estado Final")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          on: { click: _vm.delAndClear }
+                        },
+                        [_vm._v("Eliminar Estado")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2" })
+                  ]),
+                  _vm._v(" "),
+                  _vm.validador
+                    ? _c("div", { staticClass: "my-4" }, [
+                        _c("div", [
+                          _c(
+                            "form",
+                            {
+                              on: {
+                                submit: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.agregarEstado($event)
+                                }
+                              }
+                            },
+                            [
+                              _c("div", { staticClass: "form-group" }, [
+                                _c("label", { attrs: { for: "id" } }, [
+                                  _vm._v("Ingrese el id: ")
+                                ]),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.estado.id,
+                                      expression: "estado.id"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "number",
+                                    min: "1",
+                                    name: "id"
+                                  },
+                                  domProps: { value: _vm.estado.id },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.estado,
+                                        "id",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _vm._m(0)
+                            ]
+                          )
+                        ])
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.createTrans
+                    ? _c("div", { staticClass: "my-3" }, [
                         _c(
                           "form",
                           {
                             on: {
                               submit: function($event) {
                                 $event.preventDefault()
-                                return _vm.agregarEstado($event)
+                                return _vm.crearTransicion($event)
                               }
                             }
                           },
                           [
                             _c("div", { staticClass: "form-group" }, [
-                              _c("label", { attrs: { for: "id" } }, [
-                                _vm._v("Ingrese el id: ")
+                              _c("label", [
+                                _vm._v(
+                                  "Ingrese el id del estado inicial de la transición:"
+                                )
                               ]),
                               _vm._v(" "),
                               _c("input", {
@@ -93243,21 +93350,21 @@ var render = function() {
                                   {
                                     name: "model",
                                     rawName: "v-model",
-                                    value: _vm.estado.id,
-                                    expression: "estado.id"
+                                    value: _vm.transicion.from,
+                                    expression: "transicion.from"
                                   }
                                 ],
                                 staticClass: "form-control",
-                                attrs: { type: "number", min: "1", name: "id" },
-                                domProps: { value: _vm.estado.id },
+                                attrs: { type: "number", min: "1" },
+                                domProps: { value: _vm.transicion.from },
                                 on: {
                                   input: function($event) {
                                     if ($event.target.composing) {
                                       return
                                     }
                                     _vm.$set(
-                                      _vm.estado,
-                                      "id",
+                                      _vm.transicion,
+                                      "from",
                                       $event.target.value
                                     )
                                   }
@@ -93265,357 +93372,314 @@ var render = function() {
                               })
                             ]),
                             _vm._v(" "),
-                            _vm._m(0)
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [
+                                _vm._v(
+                                  "Ingrese el id del estado final de la transición:"
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.transicion.to,
+                                    expression: "transicion.to"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "number", min: "1" },
+                                domProps: { value: _vm.transicion.to },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.transicion,
+                                      "to",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("label", [
+                                _vm._v("Ingrese carácter de la transición: ")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.transicion.label,
+                                    expression: "transicion.label"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "text",
+                                  minlength: "1",
+                                  maxlength: "1",
+                                  pattern: "[a-zA-Z]+"
+                                },
+                                domProps: { value: _vm.transicion.label },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.transicion,
+                                      "label",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-success btn-sm",
+                                attrs: { type: "submit" }
+                              },
+                              [_vm._v("Agregar")]
+                            )
                           ]
                         )
                       ])
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.createTrans
-                  ? _c("div", { staticClass: "my-3" }, [
-                      _c(
-                        "form",
-                        {
-                          on: {
-                            submit: function($event) {
-                              $event.preventDefault()
-                              return _vm.crearTransicion($event)
-                            }
-                          }
-                        },
-                        [
-                          _c("div", { staticClass: "form-group" }, [
-                            _c("label", [
-                              _vm._v(
-                                "Ingrese el id del estado inicial de la transición:"
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.transicion.from,
-                                  expression: "transicion.from"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "number", min: "1" },
-                              domProps: { value: _vm.transicion.from },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.transicion,
-                                    "from",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "form-group" }, [
-                            _c("label", [
-                              _vm._v(
-                                "Ingrese el id del estado final de la transición:"
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.transicion.to,
-                                  expression: "transicion.to"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: { type: "number", min: "1" },
-                              domProps: { value: _vm.transicion.to },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.transicion,
-                                    "to",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "form-group" }, [
-                            _c("label", [
-                              _vm._v("Ingrese carácter de la transición: ")
-                            ]),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.transicion.label,
-                                  expression: "transicion.label"
-                                }
-                              ],
-                              staticClass: "form-control",
-                              attrs: {
-                                type: "text",
-                                minlength: "1",
-                                maxlength: "1",
-                                pattern: "[a-zA-Z]+"
-                              },
-                              domProps: { value: _vm.transicion.label },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.transicion,
-                                    "label",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-success btn-sm",
-                              attrs: { type: "submit" }
-                            },
-                            [_vm._v("Agregar")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-success btn-sm",
-                              on: { click: _vm.drawAutomata }
-                            },
-                            [_vm._v("dibujar")]
-                          )
-                        ]
-                      )
-                    ])
-                  : _vm._e()
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.option === 2
-            ? _c("div", { staticClass: "container-fluid py-4 mr-4" }, [
-                _c("h3", { staticClass: "mt-2" }, [
-                  _vm._v("Autómata Finito no Determinista (AFND)")
-                ]),
-                _vm._v(" "),
-                _c("hr"),
-                _vm._v(" "),
-                _c("div", { staticClass: "row text-center" })
-              ])
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _vm._m(1)
+                    : _vm._e()
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.option === 2
+              ? _c("div", { staticClass: "container-fluid py-4 mr-4" }, [
+                  _c("h3", { staticClass: "mt-2" }, [
+                    _vm._v("Autómata Finito no Determinista (AFND)")
+                  ]),
+                  _vm._v(" "),
+                  _c("hr"),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row text-center" })
+                ])
+              : _vm._e()
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
+      _vm.representacion1 === true
+        ? _c("div", { staticClass: "grafo1 col-md-5 mx-3 card cardaux" }, [
+            _c("hr"),
+            _vm._v(" "),
+            _c("div", [
+              _vm._m(2),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-success mb-3 btn-sm",
+                  attrs: { type: "submit" },
+                  on: { click: _vm.representacionBack }
+                },
+                [_vm._v("Guardar")]
+              )
+            ])
+          ])
+        : _vm._e()
+    ]),
+    _vm._v(" "),
+    _c("h1", { staticClass: "text-center fredoka textocolor my-4" }, [
+      _vm._v("Operaciones")
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "card cardaux4 col-md-10 rounded-top" }, [
+        _c(
+          "div",
+          {
+            staticClass: "btn-group justify-content-center",
+            attrs: { role: "group" }
+          },
+          [
+            _c("a", { attrs: { href: "#afd-equivalente" } }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  on: { click: _vm.mostrarOp1 }
+                },
+                [_vm._v("AFD equivalente")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("a", { attrs: { href: "#complemento" } }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  on: { click: _vm.mostrarOp2 }
+                },
+                [_vm._v("Complemento")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("a", { attrs: { href: "#union" } }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  on: { click: _vm.mostrarOp3 }
+                },
+                [_vm._v("Unión")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("a", { attrs: { href: "#concatenacion" } }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  on: { click: _vm.mostrarOp4 }
+                },
+                [_vm._v("Concatenación")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("a", { attrs: { href: "#interseccion" } }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  on: { click: _vm.mostrarOp5 }
+                },
+                [_vm._v("Intersección")]
+              )
+            ])
+          ]
+        )
       ]),
       _vm._v(" "),
-      _c("h1", { staticClass: "text-center fredoka textocolor my-4" }, [
-        _vm._v("Operaciones")
-      ]),
+      _vm.operacion === 1
+        ? _c("div", { staticClass: "cardaux2 col-md-10" }, [
+            _c("h3", { staticClass: "text-center fredoka textocolor my-3" }, [
+              _vm._v("AFD equivalente")
+            ])
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "card cardaux4 col-md-10 rounded-top" }, [
-          _c(
+      _vm.operacion === 1
+        ? _c(
             "div",
             {
-              staticClass: "btn-group justify-content-center",
-              attrs: { role: "group" }
+              staticClass: "card cardaux3 col-md-10 rounded-bottom mb-3",
+              attrs: { id: "afd-equivalente" }
             },
             [
-              _c("a", { attrs: { href: "#afd-equivalente" } }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    on: { click: _vm.mostrarOp1 }
-                  },
-                  [_vm._v("AFD equivalente")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("a", { attrs: { href: "#complemento" } }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    on: { click: _vm.mostrarOp2 }
-                  },
-                  [_vm._v("Complemento")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("a", { attrs: { href: "#union" } }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    on: { click: _vm.mostrarOp3 }
-                  },
-                  [_vm._v("Unión")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("a", { attrs: { href: "#concatenacion" } }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    on: { click: _vm.mostrarOp4 }
-                  },
-                  [_vm._v("Concatenación")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("a", { attrs: { href: "#interseccion" } }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    on: { click: _vm.mostrarOp5 }
-                  },
-                  [_vm._v("Intersección")]
-                )
+              _c("div", { staticClass: "container" }, [
+                _vm._v("\n                aaaaaaa\n            ")
               ])
             ]
           )
-        ]),
-        _vm._v(" "),
-        _vm.operacion === 1
-          ? _c("div", { staticClass: "cardaux2 col-md-10" }, [
-              _c("h3", { staticClass: "text-center fredoka textocolor my-3" }, [
-                _vm._v("AFD equivalente")
-              ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.operacion === 2
+        ? _c("div", { staticClass: "cardaux2 col-md-10" }, [
+            _c("h3", { staticClass: "text-center fredoka textocolor my-3" }, [
+              _vm._v("Complemento")
             ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.operacion === 1
-          ? _c(
-              "div",
-              {
-                staticClass: "card cardaux3 col-md-10 rounded-bottom mb-3",
-                attrs: { id: "afd-equivalente" }
-              },
-              [
-                _c("div", { staticClass: "container" }, [
-                  _vm._v("\n                    aaaaaaa\n                ")
-                ])
-              ]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.operacion === 2
-          ? _c("div", { staticClass: "cardaux2 col-md-10" }, [
-              _c("h3", { staticClass: "text-center fredoka textocolor my-3" }, [
-                _vm._v("Complemento")
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.operacion === 2
+        ? _c(
+            "div",
+            {
+              staticClass: "card cardaux3 col-md-10 rounded-bottom mb-3",
+              attrs: { id: "afd-equivalente" }
+            },
+            [
+              _c("div", { staticClass: "container" }, [
+                _vm._v("\n                aaaaaaa\n            ")
               ])
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.operacion === 3
+        ? _c("div", { staticClass: "cardaux2 col-md-10" }, [
+            _c("h3", { staticClass: "text-center fredoka textocolor my-3" }, [
+              _vm._v("Unión")
             ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.operacion === 2
-          ? _c(
-              "div",
-              {
-                staticClass: "card cardaux3 col-md-10 rounded-bottom mb-3",
-                attrs: { id: "afd-equivalente" }
-              },
-              [
-                _c("div", { staticClass: "container" }, [
-                  _vm._v("\n                    aaaaaaa\n                ")
-                ])
-              ]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.operacion === 3
-          ? _c("div", { staticClass: "cardaux2 col-md-10" }, [
-              _c("h3", { staticClass: "text-center fredoka textocolor my-3" }, [
-                _vm._v("Unión")
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.operacion === 3
+        ? _c(
+            "div",
+            {
+              staticClass: "card cardaux3 col-md-10 rounded-bottom mb-3",
+              attrs: { id: "afd-equivalente" }
+            },
+            [
+              _c("div", { staticClass: "container" }, [
+                _vm._v("\n                aaaaaaa\n            ")
               ])
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.operacion === 4
+        ? _c("div", { staticClass: "cardaux2 col-md-10" }, [
+            _c("h3", { staticClass: "text-center fredoka textocolor my-3" }, [
+              _vm._v("Concatenación")
             ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.operacion === 3
-          ? _c(
-              "div",
-              {
-                staticClass: "card cardaux3 col-md-10 rounded-bottom mb-3",
-                attrs: { id: "afd-equivalente" }
-              },
-              [
-                _c("div", { staticClass: "container" }, [
-                  _vm._v("\n                    aaaaaaa\n                ")
-                ])
-              ]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.operacion === 4
-          ? _c("div", { staticClass: "cardaux2 col-md-10" }, [
-              _c("h3", { staticClass: "text-center fredoka textocolor my-3" }, [
-                _vm._v("Concatenación")
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.operacion === 4
+        ? _c(
+            "div",
+            {
+              staticClass: "card cardaux3 col-md-10 rounded-bottom mb-3",
+              attrs: { id: "afd-equivalente" }
+            },
+            [
+              _c("div", { staticClass: "container" }, [
+                _vm._v("\n                aaaaaaa\n            ")
               ])
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.operacion === 5
+        ? _c("div", { staticClass: "cardaux2 col-md-10" }, [
+            _c("h3", { staticClass: "text-center fredoka textocolor my-3" }, [
+              _vm._v("Intersección")
             ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.operacion === 4
-          ? _c(
-              "div",
-              {
-                staticClass: "card cardaux3 col-md-10 rounded-bottom mb-3",
-                attrs: { id: "afd-equivalente" }
-              },
-              [
-                _c("div", { staticClass: "container" }, [
-                  _vm._v("\n                    aaaaaaa\n                ")
-                ])
-              ]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.operacion === 5
-          ? _c("div", { staticClass: "cardaux2 col-md-10" }, [
-              _c("h3", { staticClass: "text-center fredoka textocolor my-3" }, [
-                _vm._v("Intersección")
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.operacion === 5
+        ? _c(
+            "div",
+            {
+              staticClass: "card cardaux3 col-md-10 rounded-bottom mb-3",
+              attrs: { id: "afd-equivalente" }
+            },
+            [
+              _c("div", { staticClass: "container" }, [
+                _vm._v("\n                aaaaaaaa\n            ")
               ])
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.operacion === 5
-          ? _c(
-              "div",
-              {
-                staticClass: "card cardaux3 col-md-10 rounded-bottom mb-3",
-                attrs: { id: "afd-equivalente" }
-              },
-              [
-                _c("div", { staticClass: "container" }, [
-                  _vm._v("\n                    aaaaaaaa\n                ")
-                ])
-              ]
-            )
-          : _vm._e()
-      ])
+            ]
+          )
+        : _vm._e()
     ])
   ])
 }
@@ -93636,7 +93700,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "grafo1 col-md-5 card cardaux ml-3" }, [
+    return _c("div", { staticClass: "grafo1 col-md-5 mx-3 card cardaux" }, [
       _c("h3", { staticClass: "text-center fredoka my-2" }, [
         _vm._v("Representación")
       ]),
@@ -93646,6 +93710,56 @@ var staticRenderFns = [
         staticStyle: { border: "1px solid lightgray" },
         attrs: { id: "grafo" }
       })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("table", { staticClass: "table table-striped table-dark" }, [
+      _c("thead", [
+        _c("tr", [
+          _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+          _vm._v(" "),
+          _c("th", { attrs: { scope: "col" } }, [_vm._v("First")]),
+          _vm._v(" "),
+          _c("th", { attrs: { scope: "col" } }, [_vm._v("Last")]),
+          _vm._v(" "),
+          _c("th", { attrs: { scope: "col" } }, [_vm._v("Handle")])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("tbody", [
+        _c("tr", [
+          _c("th", { attrs: { scope: "row" } }, [_vm._v("1")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("Mark")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("Otto")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("@mdo")])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("th", { attrs: { scope: "row" } }, [_vm._v("2")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("Jacob")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("Thornton")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("@fat")])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("th", { attrs: { scope: "row" } }, [_vm._v("3")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("Larry")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("the Bird")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("@twitter")])
+        ])
+      ])
     ])
   }
 ]
