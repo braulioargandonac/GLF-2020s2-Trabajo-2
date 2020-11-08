@@ -2092,8 +2092,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2235,11 +2233,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     marcarFinal: function marcarFinal(id) {
       for (var i = 0; i < this.estados.length; i++) {
-        console.log("check", this.checked);
-
-        if (this.estados[i].id == id) {
+        if (this.estados[i].id == id && this.estados[i]["final"] == false) {
           this.estados[i]["final"] = true;
           console.log("final", i, "", this.estados[i]["final"]);
+        } else {
+          if (this.estados[i].id == id && this.estados[i]["final"] == true) {
+            this.estados[i]["final"] = false;
+          }
         }
 
         console.log("estado: ", this.estados[i].label, this.estados[i]["final"]);
@@ -93528,77 +93528,32 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(_vm.transiciones, function(item, index) {
+                  _vm._l(_vm.estados, function(item, index) {
                     return _c("tr", { key: index }, [
                       _c("td", { attrs: { scope: "row" } }, [
                         _vm._v(_vm._s(index))
                       ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.from))]),
-                      _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(item.label))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.to))]),
                       _vm._v(" "),
                       _c("td", [
                         _c("div", [
-                          _vm._v(
-                            "\n                                    Estado Final\n                                    "
-                          ),
                           _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.estados[index].final,
-                                expression: "estados[index].final"
-                              }
-                            ],
                             attrs: {
                               type: "checkbox",
                               name: "state",
                               id: "state"
                             },
-                            domProps: {
-                              checked: _vm.checked,
-                              checked: Array.isArray(_vm.estados[index].final)
-                                ? _vm._i(_vm.estados[index].final, null) > -1
-                                : _vm.estados[index].final
-                            },
                             on: {
                               click: function($event) {
-                                return _vm.marcarFinal(item.from)
-                              },
-                              change: function($event) {
-                                var $$a = _vm.estados[index].final,
-                                  $$el = $event.target,
-                                  $$c = $$el.checked ? true : false
-                                if (Array.isArray($$a)) {
-                                  var $$v = null,
-                                    $$i = _vm._i($$a, $$v)
-                                  if ($$el.checked) {
-                                    $$i < 0 &&
-                                      _vm.$set(
-                                        _vm.estados[index],
-                                        "final",
-                                        $$a.concat([$$v])
-                                      )
-                                  } else {
-                                    $$i > -1 &&
-                                      _vm.$set(
-                                        _vm.estados[index],
-                                        "final",
-                                        $$a
-                                          .slice(0, $$i)
-                                          .concat($$a.slice($$i + 1))
-                                      )
-                                  }
-                                } else {
-                                  _vm.$set(_vm.estados[index], "final", $$c)
-                                }
+                                return _vm.marcarFinal(item.id)
                               }
                             }
-                          })
+                          }),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: "state" } }, [
+                            _vm._v("Estado Final")
+                          ])
                         ])
                       ])
                     ])
@@ -93845,10 +93800,6 @@ var staticRenderFns = [
     return _c("thead", [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Estado")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Transicion")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Estado")]),
         _vm._v(" "),

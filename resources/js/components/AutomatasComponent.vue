@@ -86,21 +86,19 @@
                             <tr>
                             <th scope="col">#</th>
                             <th scope="col">Estado</th> 
-                            <th scope="col">Transicion</th> 
-                            <th scope="col">Estado</th>
                             <th scope="col">Final</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item,index) in transiciones" :key="index">
+                            <tr v-for="(item,index) in estados" :key="index">
                                 <td scope="row">{{index}}</td>
-                                <td>{{item.from}}</td>
                                 <td>{{item.label}}</td>
-                                <td>{{item.to}}</td>
                                 <td>
                                     <div>
-                                        Estado Final
-                                        <input type="checkbox" name="state" id="state" :checked="checked" @click="marcarFinal(item.from)" v-model="estados[index].final" >
+                                        
+                                        
+                                        <input type="checkbox" name="state" id="state" @click="marcarFinal(item.id)">
+                                        <label for="state">Estado Final</label>
                                     </div>
                                 </td>
 
@@ -313,11 +311,20 @@ export default {
 
         marcarFinal(id)
         {
+            
+
+
             for(var i=0; i<this.estados.length;i++){
-                console.log("check",this.checked);
-                if(this.estados[i].id==id){
+                
+                if(this.estados[i].id==id  && this.estados[i].final==false){
                     this.estados[i].final=true;
                     console.log("final",i ,"",this.estados[i].final);
+                }
+                else
+                {
+                    if(this.estados[i].id==id  && this.estados[i].final==true){
+                        this.estados[i].final=false
+                    }
                 }
                 console.log("estado: ",this.estados[i].label, this.estados[i].final);
 
