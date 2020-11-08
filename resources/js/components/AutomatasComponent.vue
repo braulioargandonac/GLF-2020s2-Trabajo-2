@@ -1,15 +1,29 @@
 <template>
     <div>
-        <h1 class="text-center textocolor fredoka mt-5 pt-4">Crear Autómata</h1>
+        <!-- crear automata 1 crear automata 2 
+        crear 1 // afd afnd 
+        crear 2 // afd afnd 
+        automataCreate -->
+        <h1 class="text-center textocolor fredoka mt-5 pt-4">Crear Autómata</h1> 
+        
         <div class="row justify-content-center">
             <div class="grafo1 col-md-5 mx-3 card cardaux" v-if="representacion1===false">
                 <div class="container-fluid mr-4">
-                    <h4 class="mt-3">Seleccione el tipo de autómata:</h4>
-                    <select class="custom-select mb-3 mr-3 mt-2" v-model="option">
-                        <option selected :value="0">Seleccione un tipo de autómata</option>
-                        <option :value="1">Autómata Finito Determinista (AFD)</option>
-                        <option :value="2">Autómata Finito no Determinista (AFND)</option>
-                    </select>
+                    <div class="row justify-content-center" v-if="!automataCreate">
+                        <div class="row">
+                            <div class="col-md-6"><button class="btn-btn-success info textocolor" @click="selectAutomata1">crear autómata 1</button></div>
+                            <div class="col-md-6"><button class="btn-btn-success info textocolor" @click="selectAutomata2">crear autómata 2</button></div>
+                        </div>
+                    </div>   
+                    <div v-if="automataCreate===true">
+                        <h4 class="mt-3">Seleccione el tipo de autómata:</h4>
+                        <select class="custom-select mb-3 mr-3 mt-2" v-model="option" >
+                            <option selected :value="0">Seleccione un tipo de autómata</option>
+                            <option :value="1">Autómata Finito Determinista (AFD)</option>
+                            <option :value="2">Autómata Finito no Determinista (AFND)</option>
+                        </select>
+                        <button class="btn-btn-success" @click="back">Volver</button>   
+                    </div>         
                 </div>
                 <div class="container-fluid py-4 mr-4" v-if="option===1">
                     <h3 class="mt-2">Autómata Finito Determinista (AFD)</h3>
@@ -36,30 +50,58 @@
                     </div>
                     <div class="my-4" v-if="validador">
                         <div>
-                            <form @submit.prevent="agregarEstado">
+                            <form @submit.prevent="agregarEstado" v-if="selectAuto===1">
                                 <div class="form-group">
                                     <label for="id">Ingrese el id: </label> 
-                                    <input type="number" min="1" v-model="estado.id" name="id" class="form-control"> 
+                                    <input type="number" min="1" v-model="estadoAutomata1.id" name="id" class="form-control"> 
                                 </div>
                                 <div class="text-center">
                                     <button class="btn btn-success btn-sm" type="submit">Agregar</button>
                                 </div>
                             </form>       
+
+                            <form @submit.prevent="agregarEstado" v-else>
+                                <div class="form-group">
+                                    <label for="id">Ingrese el id: </label> 
+                                    <input type="number" min="1" v-model="estadoAutomata2.id" name="id" class="form-control"> 
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-success btn-sm" type="submit">Agregar</button>
+                                </div>
+
+                            </form>
                         </div>
                     </div>
                     <div v-if="createTrans" class="my-3">
-                        <form @submit.prevent="crearTransicion">
+                        <form @submit.prevent="crearTransicion" v-if="selectAuto===1">
                             <div class="form-group">
                                 <label>Ingrese el id del estado inicial de la transición:</label>
-                                <input type="number" min="1" v-model="transicion.from" class="form-control"> 
+                                <input type="number" min="1" v-model="transicionAutomata1.from" class="form-control"> 
                             </div>
                             <div class="form-group">
                                 <label>Ingrese el id del estado final de la transición:</label>
-                                <input type="number" min="1" v-model="transicion.to" class="form-control"> 
+                                <input type="number" min="1" v-model="transicionAutomata1.to" class="form-control"> 
                             </div>
                             <div class="form-group">
                                 <label>Ingrese carácter de la transición: </label>
-                                <input type="text" minlength="1" maxlength="1" pattern="[a-zA-Z]+" v-model="transicion.label" class="form-control">
+                                <input type="text" minlength="1" maxlength="1" pattern="[a-zA-Z]+" v-model="transicionAutomata1.label" class="form-control">
+                            </div>
+                    
+                            <button class="btn btn-success btn-sm" type="submit" >Agregar</button>
+                        </form>
+
+                        <form @submit.prevent="crearTransicion" v-else>
+                            <div class="form-group">
+                                <label>Ingrese el id del estado inicial de la transición:</label>
+                                <input type="number" min="1" v-model="transicionAutomata2.from" class="form-control"> 
+                            </div>
+                            <div class="form-group">
+                                <label>Ingrese el id del estado final de la transición:</label>
+                                <input type="number" min="1" v-model="transicionAutomata2.to" class="form-control"> 
+                            </div>
+                            <div class="form-group">
+                                <label>Ingrese carácter de la transición: </label>
+                                <input type="text" minlength="1" maxlength="1" pattern="[a-zA-Z]+" v-model="transicionAutomata2.label" class="form-control">
                             </div>
                     
                             <button class="btn btn-success btn-sm" type="submit" >Agregar</button>
@@ -183,20 +225,29 @@ export default {
 
     data(){
         return{
-            option:'',
+            option:0,
             operacion:'', 
-            estado: {id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'},
+            estadoAutomata1: {id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'},
             automata:{/*estados,alfabeto,transiciones,finales,inicio*/},
-            estados:[{id:'inicio', label:'inicio',color:'#75616b47', final:false}],
-            alfabeto:[],
-            transiciones:[],
-            transicion:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
+            estadosAutomata1:[{id:'inicio', label:'inicio',color:'#75616b47', final:false}],
+            alfabeto1:[],
+            alfabeto2:[],
+            transicionesAutomata1:[],
+            transicionAutomata1:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
+
+            estadoAutomata2: {id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'},
+            estadosAutomata2:[{id:'inicio', label:'inicio',color:'#75616b47', final:false}],
+            transicionAutomata2:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
+            transicionesAutomata2:[],
+
             finales:{},
             validador:false,
             inicial:0,
             createTrans: false,
             representacion1:false,
-            checked:false
+            checked:false,
+            automataCreate:false,
+            selectAuto:''
         }
     },
     
@@ -207,6 +258,24 @@ export default {
 
     methods:{
         
+        selectAutomata1(){
+            this.selectAuto=1
+            this.automataCreate=true
+            return
+        },
+
+        back(){
+            this.automataCreate=false;
+            this.option=0;
+            this.createTrans=false;
+            this.createEstado=false;
+            return
+        },
+        
+        selectAutomata2(){
+            this.selectAuto=2
+            return
+        },
         
         representacion(){
             this.representacion1=true;
@@ -251,40 +320,72 @@ export default {
         agregarEstado(){
             var cont = this.contadorEstados
             this.estado.label=this.estado.id
-            if(this.estados.length===1)
+            if(this.selectAuto===1)
             {
-                console.log('entro')
-                this.estados.push(this.estado);
-                this.transicion.from='inicio'
-                this.transicion.to=this.estado.id
-                this.transicion.label=''
-                this.transiciones.push(this.transicion)
-                this.transicion={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}}
-                this.estado= {id:'', label:'',color:'#C52C0B' ,final:false}
-                this.drawAutomata()
-                return;
+                if(this.estadosAutomata1.length===1)
+                {
+                    console.log('entro')
+                    this.estadosAutomata1.push(this.estado);
+                    this.transicionAutomata1.from='inicio'
+                    this.transicionAutomata1.to=this.estado.id
+                    this.transicionAutomata1.label=''
+                    this.transicionesAutomata1.push(this.transicionAutomata1)
+                    this.transicionAutomata1={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}}
+                    this.estadoAutomata1= {id:'', label:'',color:'#C52C0B' ,final:false}
+                    this.drawAutomata()
+                    return;
+                }
+                else{
+                    console.log("tay en el else")
+                    this.estadosAutomata1.push(this.estadoAutomata1)
+                    this.estadoAutomata1= {id:'', label:'',color:'#C52C0B' ,final:false}
+                    this.drawAutomata()
+                }
+
             }
             else{
-                console.log("tay en el else")
-                this.estados.push(this.estado)
-                this.estado= {id:'', label:'',color:'#C52C0B' ,final:false}
-                this.drawAutomata()
+                if(this.estadosAutomata2.length===1)
+                {
+                    console.log('entro')
+                    this.estadosAutomata2.push(this.estadoAutomata2);
+                    this.transicionAutomata2.from='inicio'
+                    this.transicionAutomata2.to=this.estadoAutomata2.id
+                    this.transicionAutomata2.label=''
+                    this.transicionesAutomata2.push(this.transicionAutomata2)
+                    this.transicionAutomata2={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}}
+                    this.estadoAutomata2= {id:'', label:'',color:'#C52C0B' ,final:false}
+                    this.drawAutomata()
+                    return;
+                }
+                else{
+                    console.log("tay en el else")
+                    this.estadosAutomata2.push(this.estadosAutomata2)
+                    this.estadoAutomata2= {id:'', label:'',color:'#C52C0B' ,final:false}
+                    this.drawAutomata()
+                }
             }
+            
             
         },
 
         createEstado(){
-            console.log("sdadasdasd");
-            console.log("estado",this.estado);
-            console.log("estados",this.estados);
-            console.log("transicion",this.transicion);
-            console.log("transiciones",this.transiciones);
+
+            if(this.selectAuto===1)
+            {
+                console.log("estado",this.estadoAutomata1);
+                console.log("estados",this.estadosAutomata1);
+                console.log("transicion",this.transicionAutomata1);
+                console.log("transiciones",this.transicionesAutomata1);
+
+            }
+            else{
+                console.log("estado",this.estadoAutomata2);
+                console.log("estados",this.estadosAutomata2);
+                console.log("transicion",this.transicionAutomata2);
+                console.log("transiciones",this.transicionesAutomata2);
+            }           
             this.validador=true;
             this.createTrans=false;
-        },
-
-        estadoFinal(){
-           
         },
 
 
@@ -294,108 +395,190 @@ export default {
         },
 
         delAndClear(){  
-            var ultimo= this.estados.pop();
-            this.estados.pop()
-            for(var i=0; i< this.transiciones.length;i++)
+
+            if(this.selectAuto===1)
             {
-                if(this.transiciones[i].from===ultimo.id || this.transiciones[i].to===ultimo.id)
+                var ultimo= this.estadosAutomata1.pop();
+                this.estadosAutomata1.pop()
+                for(var i=0; i< this.transicionesAutomata1.length;i++)
                 {
-                    this.transiciones.splice(i,1);
-                }
-            }     
-            
-            
+                    if(this.transicionesAutomata1[i].from===ultimo.id || this.transicionesAutomata1[i].to===ultimo.id)
+                    {
+                        this.transicionesAutomata1.splice(i,1);
+                    }
+                } 
+
+            }
+            else{
+                var ultimo= this.estadosAutomata2.pop();
+                this.estadosAutomata2.pop()
+                for(var i=0; i< this.transicionesAutomata2.length;i++)
+                {
+                    if(this.transicionesAutomata2[i].from===ultimo.id || this.transicionesAutomata2[i].to===ultimo.id)
+                    {
+                        this.transicionesAutomata2.splice(i,1);
+                    }
+                } 
+            }
+               
             console.log("Estado Eliminado");
             this.drawAutomata();
         },
 
         marcarFinal(id)
         {
-            for(var i=0; i<this.estados.length;i++){
-                
-                if(this.estados[i].id==id  && this.estados[i].final==false){
-                    this.estados[i].final=true;
-                    this.estados[i].shape='diamond';
-                    this.estados[i].color='#5cb85c';
-                    this.drawAutomata();
-                    console.log("final",i ,"",this.estados[i].final);
-                }
-                else
-                {
-                    if(this.estados[i].id==id  && this.estados[i].final==true){
-                        this.estados[i].final=false;
-                        this.estados[i].shape='ellipse';
-                        this.estados[i].color='#C52C0B';
+            if(this.selectAuto===1)
+            {
+                  for(var i=0; i<this.estados.length;i++){
+                    if(this.estadosAutomata1[i].id==id  && this.estadosAutomata1[i].final==false){
+                        this.estadosAutomata1[i].final=true;
+                        this.estadosAutomata1[i].shape='diamond';
+                        this.estadosAutomata1[i].color='#5cb85c';
                         this.drawAutomata();
+                        console.log("final",i ,"",this.estadosAutomata1[i].final);
                     }
-                }
-                console.log("estado: ",this.estados[i].label, this.estados[i].final);
-            }   
+                    else
+                    {
+                        if(this.estadosAutomata1[i].id==id  && this.estadosAutomata1[i].final==true){
+                            this.estadosAutomata1[i].final=false;
+                            this.estadosAutomata1[i].shape='ellipse';
+                            this.estadosAutomata1[i].color='#C52C0B';
+                            this.drawAutomata();
+                        }
+                    }
+                    console.log("estado: ",this.estadosAutomata1[i].label, this.estadosAutomata1[i].final);
+                } 
+
+            }
+            else{
+                  for(var i=0; i<this.estados.length;i++){
+                    if(this.estadosAutomata2[i].id==id  && this.estadosAutomata2[i].final==false){
+                        this.estadosAutomata2[i].final=true;
+                        this.estadosAutomata2[i].shape='diamond';
+                        this.estadosAutomata2[i].color='#5cb85c';
+                        this.drawAutomata();
+                        console.log("final",i ,"",this.estadosAutomata2[i].final);
+                    }
+                    else
+                    {
+                        if(this.estadosAutomata2[i].id==id  && this.estadosAutomata2[i].final==true){
+                            this.estadosAutomata2[i].final=false;
+                            this.estadosAutomata2[i].shape='ellipse';
+                            this.estadosAutomata2[i].color='#C52C0B';
+                            this.drawAutomata();
+                        }
+                    }
+                    console.log("estado: ",this.estadosAutomata2[i].label, this.estadosAutomata2[i].final);
+                } 
+            }
+            
         },
  
         crearTransicion(){
             
-          
-
-            if(this.transicion.from==='' || this.transicion.to==='' )
-            {
-                alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
-                return;
-            }
-            
-            for(var i=0; i<this.transiciones.length;i++)
-            {
-                if(this.transiciones[i].from===this.transicion.from && this.transiciones[i].label===this.transicion.label)
+            if(this.selectAuto===1){
+                if(this.transicionAutomata1.from==='' || this.transicionAutomata1.to==='' )
                 {
-                    alert("la transición ya existe. Ingrese otra");
+                    alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
                     return;
                 }
                 
+                for(var i=0; i<this.transicionesAutomata1.length;i++)
+                {
+                    if(this.transicionesAutomata1[i].from===this.transicionAutomata1.from && this.transicionesAutomata1[i].label===this.transicionAutomata1.label)
+                    {
+                        alert("la transición ya existe. Ingrese otra");
+                        return;
+                    }
+                    
+                }
+                this.addCaracterToAlfabeto();
+                this.transicionesAutomata1.push(this.transicionAutomata1);
+                this.transicionAutomata1={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
             }
-            this.addCaracterToAlfabeto();
-            this.transiciones.push(this.transicion);
-            this.transicion={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
-            this.drawAutomata();
-            
-            
+            else{
+                if(this.transicionAutomata2.from==='' || this.transicionAutomata2.to==='' )
+                {
+                    alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
+                    return;
+                }
+                
+                for(var i=0; i<this.transicionesAutomata2.length;i++)
+                {
+                    if(this.transicionesAutomata2[i].from===this.transicionAutomata2.from && this.transicionesAutomata2[i].label===this.transicionAutomata2.label)
+                    {
+                        alert("la transición ya existe. Ingrese otra");
+                        return;
+                    }
+                    
+                }
+                this.addCaracterToAlfabeto();
+                this.transicionesAutomata2.push(this.transicionAutomata2);
+                this.transicionAutomata2={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
+
+            }
+            this.drawAutomata();          
         },
 
         addCaracterToAlfabeto(){
 
             var existe=false;
 
-            for (var i=0; i<this.transiciones.length;i++)
+            if(this.selectAuto===1)
             {
-                if(existe===true && this.transicion.label!= this.transiciones[i].label)
+                for (var i=0; i<this.transicionesAutomata1.length;i++)
                 {
-                    existe=true
-                }
-                else{
-                    if(this.transiciones[i].label===this.transicion.label)
+                    if(existe===true && this.transicionAutomata1.label!= this.transicionesAutomata1[i].label)
                     {
-                        existe=true;
+                        existe=true
                     }
                     else{
-                        existe=false;
+                        if(this.transicionesAutomata1[i].label===this.transicionAutomata1.label)
+                        {
+                            existe=true;
+                        }
+                        else{
+                            existe=false;
+                        }
                     }
                 }
+                
+                if(!existe)
+                {
+                    this.alfabeto1.push(this.transicionAutomata1.label);
+                }
+
+                console.log(this.alfabeto1);
+            }
+            else{
+                for (var i=0; i<this.transicionesAutomata2.length;i++)
+                {
+                    if(existe===true && this.transicionAutomata2.label!= this.transicionesAutomata2[i].label)
+                    {
+                        existe=true
+                    }
+                    else{
+                        if(this.transicionesAutomata2[i].label===this.transicionAutomata2.label)
+                        {
+                            existe=true;
+                        }
+                        else{
+                            existe=false;
+                        }
+                    }
+                }
+                
+                if(!existe)
+                {
+                    this.alfabeto1.push(this.transicionAutomata2.label);
+                }
+
+                console.log("alfabeto2: ",this.alfabeto2);
             }
             
-            if(!existe)
-            {
-                this.alfabeto.push(this.transicion.label);
-            }
-
-            console.log(this.alfabeto);
         },
         
-        // revisarAlfabeto(){
-        //   var nuevoAlfabeto 
-        //   for (var i=0; i< Alfabeto ;i++){
-
-        //   }  
-        // },
-
+        /*Arrgelar esto  */
         matrizAutomata(){
             var matrix = matrix.newArray()
         },
@@ -407,7 +590,7 @@ export default {
             }
             return res;
         },
-
+        /**hasta acá  */
         drawAutomata(){
             var container= document.getElementById("grafo");
             var data={nodes:this.estados,
