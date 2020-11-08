@@ -1908,10 +1908,6 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var _methods;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -2132,7 +2128,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   created: function created() {},
-  methods: (_methods = {
+  methods: {
     representacion: function representacion() {
       this.representacion1 = true;
       return;
@@ -2282,7 +2278,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       for (var i = 0; i < this.transiciones.length; i++) {
         if (existe === true && this.transicion.label != this.transiciones[i].label) {
-          existe == true;
+          existe = true;
         } else {
           if (this.transiciones[i].label === this.transicion.label) {
             existe = true;
@@ -2328,10 +2324,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       };
       var network = new vis.Network(container, data, options);
-    }
-  }, _defineProperty(_methods, "matrizAutomata", function matrizAutomata() {
-    var matrix = {};
-  }), _defineProperty(_methods, "afdEquivalente", function afdEquivalente() {}), _defineProperty(_methods, "complemento", function complemento() {}), _defineProperty(_methods, "union", function union() {}), _defineProperty(_methods, "concatenacion", function concatenacion() {}), _defineProperty(_methods, "interseccion", function interseccion() {}), _defineProperty(_methods, "simplificar", function simplificar() {}), _methods)
+    },
+    afdEquivalente: function afdEquivalente() {},
+    complemento: function complemento() {},
+    union: function union() {},
+    concatenacion: function concatenacion() {},
+    interseccion: function interseccion() {},
+    simplificar: function simplificar() {}
+  }
 });
 
 /***/ }),
@@ -106449,6 +106449,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! particles.js */ "./node_modules/particles.js/particles.js");
 
+window.vis = __webpack_require__(/*! vis */ "./node_modules/vis/dist/vis.js");
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 window.vis = __webpack_require__(/*! vis */ "./node_modules/vis/dist/vis.js");
 Vue.component('integrantes', __webpack_require__(/*! ./components/IntegrantesComponent.vue */ "./resources/js/components/IntegrantesComponent.vue")["default"]);
@@ -106773,8 +106774,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /opt/lampp/htdocs/GLF-2020s2-Trabajo-2/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /opt/lampp/htdocs/GLF-2020s2-Trabajo-2/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

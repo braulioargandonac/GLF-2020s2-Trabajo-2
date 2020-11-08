@@ -368,7 +368,7 @@ export default {
             {
                 if(existe===true && this.transicion.label!= this.transiciones[i].label)
                 {
-                    existe==true
+                    existe=true
                 }
                 else{
                     if(this.transiciones[i].label===this.transicion.label)
@@ -422,9 +422,6 @@ export default {
             var network= new vis.Network(container,data,options);
         },
 
-        matrizAutomata(){
-            var matrix = {}
-        },
 
         afdEquivalente(){
 

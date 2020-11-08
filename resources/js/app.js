@@ -1,6 +1,7 @@
 require('./bootstrap');
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 require('particles.js');
+window.vis= require('vis');
 window.Vue = require('vue');
 window.vis = require('vis');
 
