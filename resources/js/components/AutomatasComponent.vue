@@ -85,33 +85,32 @@
                         <thead>
                             <tr>
                             <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
+                            <th scope="col">Estado</th> 
+                            <th scope="col">Transicion</th> 
+                            <th scope="col">Estado</th>
+                            <th scope="col">Final</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
+                            <tr v-for="(item,index) in transiciones" :key="index">
+                                <td scope="row">{{index}}</td>
+                                <td>{{item.from}}</td>
+                                <td>{{item.label}}</td>
+                                <td>{{item.to}}</td>
+                                <td>
+                                    <div>
+                                        Estado Final
+                                        <input type="checkbox" name="state" id="state" :checked="checked" @click="marcarFinal(item.from)" v-model="estados[index].final" >
+                                    </div>
+                                </td>
+
+                            
                             </tr>
-                            <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                            </tr>
-                            <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                            </tr>
+
+                            
                         </tbody>    
                     </table> 
-                    <button class="btn btn-success mb-3 btn-sm" type="submit" @click="representacionBack">Guardar</button>
+                    <button class="btn btn-success mb-3 btn-sm text-right" type="submit" @click="representacionBack">Guardar</button>
                 </div>
             </div>
         </div>
@@ -190,7 +189,7 @@ export default {
             operacion:'', 
             estado: {id:'', label:'',color:'#C52C0B', final:false},
             automata:{/*estados,alfabeto,transiciones,finales,inicio*/},
-            estados:[{id:'inicio', label:'inicio',color:'#75616b47'}],
+            estados:[{id:'inicio', label:'inicio',color:'#75616b47', final:false}],
             alfabeto:[],
             transiciones:[],
             transicion:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
@@ -198,7 +197,8 @@ export default {
             validador:false,
             inicial:0,
             createTrans: false,
-            representacion1:false
+            representacion1:false,
+            checked:false
         }
     },
     
@@ -242,7 +242,9 @@ export default {
             this.operacion=5;
             return;
         },
+        mostrartabla(){
 
+        },
         marcarInicial(){
             this.inicial=1;
             return;
@@ -251,13 +253,34 @@ export default {
         agregarEstado(){
             var cont = this.contadorEstados
             this.estado.label=this.estado.id
-            this.estados.push(this.estado)
-            this.estado= {id:'', label:'',color:'#C52C0B'}
-            this.drawAutomata()
+            if(this.estados.length===1)
+            {
+                console.log('entro')
+                this.estados.push(this.estado);
+                this.transicion.from='inicio'
+                this.transicion.to=this.estado.id
+                this.transicion.label=''
+                this.transiciones.push(this.transicion)
+                this.transicion={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}}
+                this.estado= {id:'', label:'',color:'#C52C0B' ,final:false}
+                this.drawAutomata()
+                return;
+            }
+            else{
+                console.log("tay en el else")
+                this.estados.push(this.estado)
+                this.estado= {id:'', label:'',color:'#C52C0B' ,final:false}
+                this.drawAutomata()
+            }
             
         },
 
         createEstado(){
+            console.log("sdadasdasd");
+            console.log("estado",this.estado);
+            console.log("estados",this.estados);
+            console.log("transicion",this.transicion);
+            console.log("transiciones",this.transiciones);
             this.validador=true;
             this.createTrans=false;
         },
@@ -287,15 +310,24 @@ export default {
             console.log("Estado Eliminado");
             this.drawAutomata();
         },
+
+        marcarFinal(id)
+        {
+            for(var i=0; i<this.estados.length;i++){
+                console.log("check",this.checked);
+                if(this.estados[i].id==id){
+                    this.estados[i].final=true;
+                    console.log("final",i ,"",this.estados[i].final);
+                }
+                console.log("estado: ",this.estados[i].label, this.estados[i].final);
+
+            }
+          
+        },
  
         crearTransicion(){
             
-            if(this.transiciones.length==0){
-                
-                this.transicion.from='inicio'
-                this.label
-                this.transiciones.push(   )
-            }
+          
 
             if(this.transicion.from==='' || this.transicion.to==='' )
             {
@@ -314,7 +346,7 @@ export default {
             }
             this.addCaracterToAlfabeto();
             this.transiciones.push(this.transicion);
-            this.transicion={from:'',label: '',to:''};
+            this.transicion={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
             this.drawAutomata();
             
             

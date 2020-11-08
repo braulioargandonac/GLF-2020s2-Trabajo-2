@@ -2094,7 +2094,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2112,7 +2111,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       estados: [{
         id: 'inicio',
         label: 'inicio',
-        color: '#75616b47'
+        color: '#75616b47',
+        "final": false
       }],
       alfabeto: [],
       transiciones: [],
@@ -2128,7 +2128,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       validador: false,
       inicial: 0,
       createTrans: false,
-      representacion1: false
+      representacion1: false,
+      checked: false
     };
   },
   created: function created() {},
@@ -2161,6 +2162,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.operacion = 5;
       return;
     },
+    mostrartabla: function mostrartabla() {},
     marcarInicial: function marcarInicial() {
       this.inicial = 1;
       return;
@@ -2168,15 +2170,48 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     agregarEstado: function agregarEstado() {
       var cont = this.contadorEstados;
       this.estado.label = this.estado.id;
-      this.estados.push(this.estado);
-      this.estado = {
-        id: '',
-        label: '',
-        color: '#C52C0B'
-      };
-      this.drawAutomata();
+
+      if (this.estados.length === 1) {
+        console.log('entro');
+        this.estados.push(this.estado);
+        this.transicion.from = 'inicio';
+        this.transicion.to = this.estado.id;
+        this.transicion.label = '';
+        this.transiciones.push(this.transicion);
+        this.transicion = {
+          from: '',
+          label: '',
+          to: '',
+          color: {
+            color: 'rgb(0,0,0)'
+          }
+        };
+        this.estado = {
+          id: '',
+          label: '',
+          color: '#C52C0B',
+          "final": false
+        };
+        this.drawAutomata();
+        return;
+      } else {
+        console.log("tay en el else");
+        this.estados.push(this.estado);
+        this.estado = {
+          id: '',
+          label: '',
+          color: '#C52C0B',
+          "final": false
+        };
+        this.drawAutomata();
+      }
     },
     createEstado: function createEstado() {
+      console.log("sdadasdasd");
+      console.log("estado", this.estado);
+      console.log("estados", this.estados);
+      console.log("transicion", this.transicion);
+      console.log("transiciones", this.transiciones);
       this.validador = true;
       this.createTrans = false;
     },
@@ -2198,13 +2233,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       console.log("Estado Eliminado");
       this.drawAutomata();
     },
-    crearTransicion: function crearTransicion() {
-      if (this.transiciones.length == 0) {
-        this.transicion.from = 'inicio';
-        this.label;
-        this.transiciones.push();
-      }
+    marcarFinal: function marcarFinal(id) {
+      for (var i = 0; i < this.estados.length; i++) {
+        console.log("check", this.checked);
 
+        if (this.estados[i].id == id) {
+          this.estados[i]["final"] = true;
+          console.log("final", i, "", this.estados[i]["final"]);
+        }
+
+        console.log("estado: ", this.estados[i].label, this.estados[i]["final"]);
+      }
+    },
+    crearTransicion: function crearTransicion() {
       if (this.transicion.from === '' || this.transicion.to === '') {
         alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
         return;
@@ -2222,7 +2263,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.transicion = {
         from: '',
         label: '',
-        to: ''
+        to: '',
+        color: {
+          color: 'rgb(0,0,0)'
+        }
       };
       this.drawAutomata();
     },
@@ -93479,12 +93523,94 @@ var render = function() {
             _c("hr"),
             _vm._v(" "),
             _c("div", [
-              _vm._m(2),
+              _c("table", { staticClass: "table table-striped table-dark" }, [
+                _vm._m(2),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.transiciones, function(item, index) {
+                    return _c("tr", { key: index }, [
+                      _c("td", { attrs: { scope: "row" } }, [
+                        _vm._v(_vm._s(index))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.from))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.label))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.to))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("div", [
+                          _vm._v(
+                            "\n                                    Estado Final\n                                    "
+                          ),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.estados[index].final,
+                                expression: "estados[index].final"
+                              }
+                            ],
+                            attrs: {
+                              type: "checkbox",
+                              name: "state",
+                              id: "state"
+                            },
+                            domProps: {
+                              checked: _vm.checked,
+                              checked: Array.isArray(_vm.estados[index].final)
+                                ? _vm._i(_vm.estados[index].final, null) > -1
+                                : _vm.estados[index].final
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.marcarFinal(item.from)
+                              },
+                              change: function($event) {
+                                var $$a = _vm.estados[index].final,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = null,
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      _vm.$set(
+                                        _vm.estados[index],
+                                        "final",
+                                        $$a.concat([$$v])
+                                      )
+                                  } else {
+                                    $$i > -1 &&
+                                      _vm.$set(
+                                        _vm.estados[index],
+                                        "final",
+                                        $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1))
+                                      )
+                                  }
+                                } else {
+                                  _vm.$set(_vm.estados[index], "final", $$c)
+                                }
+                              }
+                            }
+                          })
+                        ])
+                      ])
+                    ])
+                  }),
+                  0
+                )
+              ]),
               _vm._v(" "),
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-success mb-3 btn-sm",
+                  staticClass: "btn btn-success mb-3 btn-sm text-right",
                   attrs: { type: "submit" },
                   on: { click: _vm.representacionBack }
                 },
@@ -93716,49 +93842,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("table", { staticClass: "table table-striped table-dark" }, [
-      _c("thead", [
-        _c("tr", [
-          _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
-          _vm._v(" "),
-          _c("th", { attrs: { scope: "col" } }, [_vm._v("First")]),
-          _vm._v(" "),
-          _c("th", { attrs: { scope: "col" } }, [_vm._v("Last")]),
-          _vm._v(" "),
-          _c("th", { attrs: { scope: "col" } }, [_vm._v("Handle")])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("tbody", [
-        _c("tr", [
-          _c("th", { attrs: { scope: "row" } }, [_vm._v("1")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Mark")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Otto")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("@mdo")])
-        ]),
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
         _vm._v(" "),
-        _c("tr", [
-          _c("th", { attrs: { scope: "row" } }, [_vm._v("2")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Jacob")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Thornton")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("@fat")])
-        ]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Estado")]),
         _vm._v(" "),
-        _c("tr", [
-          _c("th", { attrs: { scope: "row" } }, [_vm._v("3")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Larry")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("the Bird")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("@twitter")])
-        ])
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Transicion")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Estado")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Final")])
       ])
     ])
   }
@@ -106720,8 +106814,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Luciano\Desktop\2020-2\Grafos y lenguajes formales\Grafos\GLF-2020s2-Trabajo-2\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Luciano\Desktop\2020-2\Grafos y lenguajes formales\Grafos\GLF-2020s2-Trabajo-2\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
