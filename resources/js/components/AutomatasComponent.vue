@@ -97,7 +97,7 @@
                                     <div>
                                         
                                         
-                                        <input type="checkbox" name="state" id="state" @click="marcarFinal(item.id)">
+                                        <input type="checkbox" name="state" id="state" @click="marcarFinal(item.id)" :checked="estados[index].final">
                                         <label for="state">Estado Final</label>
                                     </div>
                                 </td>
@@ -185,7 +185,7 @@ export default {
         return{
             option:'',
             operacion:'', 
-            estado: {id:'', label:'',color:'#C52C0B', final:false},
+            estado: {id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'},
             automata:{/*estados,alfabeto,transiciones,finales,inicio*/},
             estados:[{id:'inicio', label:'inicio',color:'#75616b47', final:false}],
             alfabeto:[],
@@ -311,25 +311,26 @@ export default {
 
         marcarFinal(id)
         {
-            
-
-
             for(var i=0; i<this.estados.length;i++){
                 
                 if(this.estados[i].id==id  && this.estados[i].final==false){
                     this.estados[i].final=true;
+                    this.estados[i].shape='diamond';
+                    this.estados[i].color='#5cb85c';
+                    this.drawAutomata();
                     console.log("final",i ,"",this.estados[i].final);
                 }
                 else
                 {
                     if(this.estados[i].id==id  && this.estados[i].final==true){
-                        this.estados[i].final=false
+                        this.estados[i].final=false;
+                        this.estados[i].shape='ellipse';
+                        this.estados[i].color='#C52C0B';
+                        this.drawAutomata();
                     }
                 }
                 console.log("estado: ",this.estados[i].label, this.estados[i].final);
-
-            }
-          
+            }   
         },
  
         crearTransicion(){

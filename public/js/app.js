@@ -2101,7 +2101,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         id: '',
         label: '',
         color: '#C52C0B',
-        "final": false
+        "final": false,
+        shape: 'ellipse'
       },
       automata: {
         /*estados,alfabeto,transiciones,finales,inicio*/
@@ -2235,10 +2236,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       for (var i = 0; i < this.estados.length; i++) {
         if (this.estados[i].id == id && this.estados[i]["final"] == false) {
           this.estados[i]["final"] = true;
+          this.estados[i].shape = 'diamond';
+          this.estados[i].color = '#5cb85c';
+          this.drawAutomata();
           console.log("final", i, "", this.estados[i]["final"]);
         } else {
           if (this.estados[i].id == id && this.estados[i]["final"] == true) {
             this.estados[i]["final"] = false;
+            this.estados[i].shape = 'ellipse';
+            this.estados[i].color = '#C52C0B';
+            this.drawAutomata();
           }
         }
 
@@ -93544,6 +93551,7 @@ var render = function() {
                               name: "state",
                               id: "state"
                             },
+                            domProps: { checked: _vm.estados[index].final },
                             on: {
                               click: function($event) {
                                 return _vm.marcarFinal(item.id)
@@ -106765,8 +106773,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Luciano\Desktop\2020-2\Grafos y lenguajes formales\Grafos\GLF-2020s2-Trabajo-2\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Luciano\Desktop\2020-2\Grafos y lenguajes formales\Grafos\GLF-2020s2-Trabajo-2\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
