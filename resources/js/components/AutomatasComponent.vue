@@ -10,19 +10,21 @@
             <div class="grafo1 col-md-5 mx-3 card cardaux" v-if="representacion1===false">
                 <div class="container-fluid mr-4">
                     <div class="row justify-content-center" v-if="!automataCreate">
-                        <div class="row">
-                            <div class="col-md-6"><button class="btn-btn-success info textocolor" @click="selectAutomata1">crear autómata 1</button></div>
-                            <div class="col-md-6"><button class="btn-btn-success info textocolor" @click="selectAutomata2">crear autómata 2</button></div>
+                        <div class="row my-3">
+                            <div class="col-md-6"><button class="btn btn-success info textocolor" @click="selectAutomata1">Crear autómata 1</button></div>
+                            <div class="col-md-6"><button class="btn btn-success info textocolor" @click="selectAutomata2">Crear autómata 2</button></div>
                         </div>
                     </div>   
-                    <div v-if="automataCreate===true">
+                    <div v-if="automataCreate===true" class="my-3">
+                        <h3 class="mt-3" v-if="selectAuto===1">Autómata 1</h3>
+                        <h3 class="mt-3" v-if="selectAuto===2">Autómata 2</h3>
                         <h4 class="mt-3">Seleccione el tipo de autómata:</h4>
                         <select class="custom-select mb-3 mr-3 mt-2" v-model="option" >
                             <option selected :value="0">Seleccione un tipo de autómata</option>
                             <option :value="1">Autómata Finito Determinista (AFD)</option>
                             <option :value="2">Autómata Finito no Determinista (AFND)</option>
                         </select>
-                        <button class="btn-btn-success" @click="back">Volver</button>   
+                        <button class="btn btn-success" @click="back">Volver</button>   
                     </div>         
                 </div>
                 <div class="container-fluid py-4 mr-4" v-if="option===1">
@@ -111,14 +113,57 @@
                 <div class="container-fluid py-4 mr-4" v-if="option===2">
                     <h3 class="mt-2">Autómata Finito no Determinista (AFND)</h3>
                     <hr>
+                     <div class="row text-center my-4">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <button class="btn btn-success" @click="createEstado">Añadir Estado</button>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-success" @click="createTransicion">Añadir Transición</button>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
                     <div class="row text-center">
-                        
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <button class="btn btn-success" @click="representacion">Modificar Estado Final</button>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-danger" @click="delAndClear">Eliminar Estado</button>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="my-4" v-if="validador">
+                        <div>
+                            <form @submit.prevent="agregarEstado" v-if="selectAuto===1">
+                                <div class="form-group">
+                                    <label for="id">Ingrese el id: </label> 
+                                    <input type="number" min="1" v-model="estadoAutomata1.id" name="id" class="form-control"> 
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-success btn-sm" type="submit">Agregar</button>
+                                </div>
+                            </form>       
+
+                            <form @submit.prevent="agregarEstado" v-if="selectAuto===2">
+                                <div class="form-group">
+                                    <label for="id">Ingrese el id: </label> 
+                                    <input type="number" min="1" v-model="estadoAutomata2.id" name="id" class="form-control"> 
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-success btn-sm" type="submit">Agregar</button>
+                                </div>
+
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="grafo1 col-md-5 mx-3 card cardaux">
                 <h3 class="text-center fredoka my-2">Representación</h3>
                 <div id="grafo" class="mb-3" style="border: 1px solid lightgray;"></div>
+                <div id="grafo2" class="mb-3" style="border: 1px solid lightgray;"></div>
+                
             </div>
             <div class="grafo1 col-md-5 mx-3 card cardaux" v-if="representacion1===true">
                 <hr>
@@ -132,14 +177,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item,index) in estados" :key="index">
+                            <tr v-for="(item,index) in estadosAutomata1" :key="index">
                                 <td scope="row">{{index}}</td>
                                 <td>{{item.label}}</td>
                                 <td>
                                     <div>
                                         
                                         
-                                        <input type="checkbox" name="state" id="state" @click="marcarFinal(item.id)" :checked="estados[index].final">
+                                        <input type="checkbox" name="state" id="state" @click="marcarFinal(item.id)" :checked="estadosAutomata1[index].final">
                                         <label for="state">Estado Final</label>
                                     </div>
                                 </td>
@@ -269,11 +314,13 @@ export default {
             this.option=0;
             this.createTrans=false;
             this.createEstado=false;
+            this.validador=false;
             return
         },
         
         selectAutomata2(){
-            this.selectAuto=2
+            this.selectAuto=2;
+            this.automataCreate=true;
             return
         },
         
@@ -319,15 +366,16 @@ export default {
         
         agregarEstado(){
             var cont = this.contadorEstados
-            this.estado.label=this.estado.id
+            
             if(this.selectAuto===1)
             {
+                this.estadoAutomata1.label=this.estadoAutomata1.id
                 if(this.estadosAutomata1.length===1)
                 {
                     console.log('entro')
-                    this.estadosAutomata1.push(this.estado);
+                    this.estadosAutomata1.push(this.estadoAutomata1);
                     this.transicionAutomata1.from='inicio'
-                    this.transicionAutomata1.to=this.estado.id
+                    this.transicionAutomata1.to=this.estadoAutomata1.id
                     this.transicionAutomata1.label=''
                     this.transicionesAutomata1.push(this.transicionAutomata1)
                     this.transicionAutomata1={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}}
@@ -344,6 +392,7 @@ export default {
 
             }
             else{
+                this.estadoAutomata2.label=this.estadoAutomata2.id
                 if(this.estadosAutomata2.length===1)
                 {
                     console.log('entro')
@@ -359,9 +408,10 @@ export default {
                 }
                 else{
                     console.log("tay en el else")
-                    this.estadosAutomata2.push(this.estadosAutomata2)
+                    this.estadosAutomata2.push(this.estadoAutomata2)
                     this.estadoAutomata2= {id:'', label:'',color:'#C52C0B' ,final:false}
                     this.drawAutomata()
+                    return
                 }
             }
             
@@ -429,7 +479,7 @@ export default {
         {
             if(this.selectAuto===1)
             {
-                  for(var i=0; i<this.estados.length;i++){
+                  for(var i=0; i<this.estadosAutomata1.length;i++){
                     if(this.estadosAutomata1[i].id==id  && this.estadosAutomata1[i].final==false){
                         this.estadosAutomata1[i].final=true;
                         this.estadosAutomata1[i].shape='diamond';
@@ -451,7 +501,7 @@ export default {
 
             }
             else{
-                  for(var i=0; i<this.estados.length;i++){
+                  for(var i=0; i<this.estadosAutomata2.length;i++){
                     if(this.estadosAutomata2[i].id==id  && this.estadosAutomata2[i].final==false){
                         this.estadosAutomata2[i].final=true;
                         this.estadosAutomata2[i].shape='diamond';
@@ -593,8 +643,12 @@ export default {
         /**hasta acá  */
         drawAutomata(){
             var container= document.getElementById("grafo");
-            var data={nodes:this.estados,
-                      edges:this.transiciones};
+            var container2= document.getElementById("grafo2");
+            var data={nodes:this.estadosAutomata1,
+                      edges:this.transicionesAutomata1};
+
+            var data2={nodes:this.estadosAutomata2,
+                       edges:this.transicionesAutomata2};
             var options = {
                 height: 520 + 'px',
                 edges:{
@@ -602,7 +656,16 @@ export default {
                     arrows:'to',
                 },
             };
+              var options2 = {
+                height: 520 + 'px',
+                edges:{
+                    
+                    arrows:'to',
+                },
+            };
             var network= new vis.Network(container,data,options);
+            var network2= new vis.Network(container2,data2,options2);
+            
         },
 
 

@@ -2130,6 +2130,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2206,10 +2251,12 @@ __webpack_require__.r(__webpack_exports__);
       this.option = 0;
       this.createTrans = false;
       this.createEstado = false;
+      this.validador = false;
       return;
     },
     selectAutomata2: function selectAutomata2() {
       this.selectAuto = 2;
+      this.automataCreate = true;
       return;
     },
     representacion: function representacion() {
@@ -2247,14 +2294,15 @@ __webpack_require__.r(__webpack_exports__);
     },
     agregarEstado: function agregarEstado() {
       var cont = this.contadorEstados;
-      this.estado.label = this.estado.id;
 
       if (this.selectAuto === 1) {
+        this.estadoAutomata1.label = this.estadoAutomata1.id;
+
         if (this.estadosAutomata1.length === 1) {
           console.log('entro');
-          this.estadosAutomata1.push(this.estado);
+          this.estadosAutomata1.push(this.estadoAutomata1);
           this.transicionAutomata1.from = 'inicio';
-          this.transicionAutomata1.to = this.estado.id;
+          this.transicionAutomata1.to = this.estadoAutomata1.id;
           this.transicionAutomata1.label = '';
           this.transicionesAutomata1.push(this.transicionAutomata1);
           this.transicionAutomata1 = {
@@ -2285,6 +2333,8 @@ __webpack_require__.r(__webpack_exports__);
           this.drawAutomata();
         }
       } else {
+        this.estadoAutomata2.label = this.estadoAutomata2.id;
+
         if (this.estadosAutomata2.length === 1) {
           console.log('entro');
           this.estadosAutomata2.push(this.estadoAutomata2);
@@ -2310,7 +2360,7 @@ __webpack_require__.r(__webpack_exports__);
           return;
         } else {
           console.log("tay en el else");
-          this.estadosAutomata2.push(this.estadosAutomata2);
+          this.estadosAutomata2.push(this.estadoAutomata2);
           this.estadoAutomata2 = {
             id: '',
             label: '',
@@ -2318,6 +2368,7 @@ __webpack_require__.r(__webpack_exports__);
             "final": false
           };
           this.drawAutomata();
+          return;
         }
       }
     },
@@ -2367,7 +2418,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     marcarFinal: function marcarFinal(id) {
       if (this.selectAuto === 1) {
-        for (var i = 0; i < this.estados.length; i++) {
+        for (var i = 0; i < this.estadosAutomata1.length; i++) {
           if (this.estadosAutomata1[i].id == id && this.estadosAutomata1[i]["final"] == false) {
             this.estadosAutomata1[i]["final"] = true;
             this.estadosAutomata1[i].shape = 'diamond';
@@ -2386,7 +2437,7 @@ __webpack_require__.r(__webpack_exports__);
           console.log("estado: ", this.estadosAutomata1[i].label, this.estadosAutomata1[i]["final"]);
         }
       } else {
-        for (var i = 0; i < this.estados.length; i++) {
+        for (var i = 0; i < this.estadosAutomata2.length; i++) {
           if (this.estadosAutomata2[i].id == id && this.estadosAutomata2[i]["final"] == false) {
             this.estadosAutomata2[i]["final"] = true;
             this.estadosAutomata2[i].shape = 'diamond';
@@ -2516,9 +2567,14 @@ __webpack_require__.r(__webpack_exports__);
     /**hasta acá  */
     drawAutomata: function drawAutomata() {
       var container = document.getElementById("grafo");
+      var container2 = document.getElementById("grafo2");
       var data = {
-        nodes: this.estados,
-        edges: this.transiciones
+        nodes: this.estadosAutomata1,
+        edges: this.transicionesAutomata1
+      };
+      var data2 = {
+        nodes: this.estadosAutomata2,
+        edges: this.transicionesAutomata2
       };
       var options = {
         height: 520 + 'px',
@@ -2526,7 +2582,14 @@ __webpack_require__.r(__webpack_exports__);
           arrows: 'to'
         }
       };
+      var options2 = {
+        height: 520 + 'px',
+        edges: {
+          arrows: 'to'
+        }
+      };
       var network = new vis.Network(container, data, options);
+      var network2 = new vis.Network(container2, data2, options2);
     },
     afdEquivalente: function afdEquivalente() {},
     complemento: function complemento() {},
@@ -93409,15 +93472,15 @@ var render = function() {
             _c("div", { staticClass: "container-fluid mr-4" }, [
               !_vm.automataCreate
                 ? _c("div", { staticClass: "row justify-content-center" }, [
-                    _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "row my-3" }, [
                       _c("div", { staticClass: "col-md-6" }, [
                         _c(
                           "button",
                           {
-                            staticClass: "btn-btn-success info textocolor",
+                            staticClass: "btn btn-success info textocolor",
                             on: { click: _vm.selectAutomata1 }
                           },
-                          [_vm._v("crear autómata 1")]
+                          [_vm._v("Crear autómata 1")]
                         )
                       ]),
                       _vm._v(" "),
@@ -93425,10 +93488,10 @@ var render = function() {
                         _c(
                           "button",
                           {
-                            staticClass: "btn-btn-success info textocolor",
+                            staticClass: "btn btn-success info textocolor",
                             on: { click: _vm.selectAutomata2 }
                           },
-                          [_vm._v("crear autómata 2")]
+                          [_vm._v("Crear autómata 2")]
                         )
                       ])
                     ])
@@ -93436,7 +93499,19 @@ var render = function() {
                 : _vm._e(),
               _vm._v(" "),
               _vm.automataCreate === true
-                ? _c("div", [
+                ? _c("div", { staticClass: "my-3" }, [
+                    _vm.selectAuto === 1
+                      ? _c("h3", { staticClass: "mt-3" }, [
+                          _vm._v("Autómata 1")
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.selectAuto === 2
+                      ? _c("h3", { staticClass: "mt-3" }, [
+                          _vm._v("Autómata 2")
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
                     _c("h4", { staticClass: "mt-3" }, [
                       _vm._v("Seleccione el tipo de autómata:")
                     ]),
@@ -93489,7 +93564,7 @@ var render = function() {
                     _c(
                       "button",
                       {
-                        staticClass: "btn-btn-success",
+                        staticClass: "btn btn-success",
                         on: { click: _vm.back }
                       },
                       [_vm._v("Volver")]
@@ -93959,13 +94034,184 @@ var render = function() {
                   _vm._v(" "),
                   _c("hr"),
                   _vm._v(" "),
-                  _c("div", { staticClass: "row text-center" })
+                  _c("div", { staticClass: "row text-center my-4" }, [
+                    _c("div", { staticClass: "col-md-2" }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          on: { click: _vm.createEstado }
+                        },
+                        [_vm._v("Añadir Estado")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          attrs: { type: "button" },
+                          on: { click: _vm.createTransicion }
+                        },
+                        [_vm._v("Añadir Transición")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2" })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row text-center" }, [
+                    _c("div", { staticClass: "col-md-2" }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          on: { click: _vm.representacion }
+                        },
+                        [_vm._v("Modificar Estado Final")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          on: { click: _vm.delAndClear }
+                        },
+                        [_vm._v("Eliminar Estado")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2" })
+                  ]),
+                  _vm._v(" "),
+                  _vm.validador
+                    ? _c("div", { staticClass: "my-4" }, [
+                        _c("div", [
+                          _vm.selectAuto === 1
+                            ? _c(
+                                "form",
+                                {
+                                  on: {
+                                    submit: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.agregarEstado($event)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("div", { staticClass: "form-group" }, [
+                                    _c("label", { attrs: { for: "id" } }, [
+                                      _vm._v("Ingrese el id: ")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.estadoAutomata1.id,
+                                          expression: "estadoAutomata1.id"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        min: "1",
+                                        name: "id"
+                                      },
+                                      domProps: {
+                                        value: _vm.estadoAutomata1.id
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.estadoAutomata1,
+                                            "id",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._m(2)
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.selectAuto === 2
+                            ? _c(
+                                "form",
+                                {
+                                  on: {
+                                    submit: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.agregarEstado($event)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("div", { staticClass: "form-group" }, [
+                                    _c("label", { attrs: { for: "id" } }, [
+                                      _vm._v("Ingrese el id: ")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.estadoAutomata2.id,
+                                          expression: "estadoAutomata2.id"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "number",
+                                        min: "1",
+                                        name: "id"
+                                      },
+                                      domProps: {
+                                        value: _vm.estadoAutomata2.id
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.estadoAutomata2,
+                                            "id",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._m(3)
+                                ]
+                              )
+                            : _vm._e()
+                        ])
+                      ])
+                    : _vm._e()
                 ])
               : _vm._e()
           ])
         : _vm._e(),
       _vm._v(" "),
-      _vm._m(2),
+      _vm._m(4),
       _vm._v(" "),
       _vm.representacion1 === true
         ? _c("div", { staticClass: "grafo1 col-md-5 mx-3 card cardaux" }, [
@@ -93973,11 +94219,11 @@ var render = function() {
             _vm._v(" "),
             _c("div", [
               _c("table", { staticClass: "table table-striped table-dark" }, [
-                _vm._m(3),
+                _vm._m(5),
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(_vm.estados, function(item, index) {
+                  _vm._l(_vm.estadosAutomata1, function(item, index) {
                     return _c("tr", { key: index }, [
                       _c("td", { attrs: { scope: "row" } }, [
                         _vm._v(_vm._s(index))
@@ -93993,7 +94239,9 @@ var render = function() {
                               name: "state",
                               id: "state"
                             },
-                            domProps: { checked: _vm.estados[index].final },
+                            domProps: {
+                              checked: _vm.estadosAutomata1[index].final
+                            },
                             on: {
                               click: function($event) {
                                 return _vm.marcarFinal(item.id)
@@ -94243,6 +94491,30 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "text-center" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-success btn-sm", attrs: { type: "submit" } },
+        [_vm._v("Agregar")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "text-center" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-success btn-sm", attrs: { type: "submit" } },
+        [_vm._v("Agregar")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "grafo1 col-md-5 mx-3 card cardaux" }, [
       _c("h3", { staticClass: "text-center fredoka my-2" }, [
         _vm._v("Representación")
@@ -94252,6 +94524,12 @@ var staticRenderFns = [
         staticClass: "mb-3",
         staticStyle: { border: "1px solid lightgray" },
         attrs: { id: "grafo" }
+      }),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "mb-3",
+        staticStyle: { border: "1px solid lightgray" },
+        attrs: { id: "grafo2" }
       })
     ])
   },
@@ -107228,8 +107506,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Luciano\Desktop\2020-2\Grafos y lenguajes formales\Grafos\GLF-2020s2-Trabajo-2\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Luciano\Desktop\2020-2\Grafos y lenguajes formales\Grafos\GLF-2020s2-Trabajo-2\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
