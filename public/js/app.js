@@ -94599,7 +94599,7 @@ var staticRenderFns = [
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "row accordion", attrs: { id: "tiposdegrafos" } },
+            { staticClass: "row accordion", attrs: { id: "automatas" } },
             [
               _c(
                 "ul",
@@ -94615,14 +94615,14 @@ var staticRenderFns = [
                         "list-group-item analisis collapsed info textocolor",
                       attrs: {
                         "data-toggle": "collapse",
-                        "data-target": "#Grafosimple",
+                        "data-target": "#af",
                         "aria-expanded": "false",
-                        "aria-controls": "Grafosimple"
+                        "aria-controls": "af"
                       }
                     },
                     [
                       _vm._v(
-                        "\n                        AFD\n                    "
+                        "\n                        Autómata Finito (AF)\n                    "
                       )
                     ]
                   ),
@@ -94634,14 +94634,33 @@ var staticRenderFns = [
                         "list-group-item analisis collapsed info textocolor",
                       attrs: {
                         "data-toggle": "collapse",
-                        "data-target": "#Multigrafo",
+                        "data-target": "#afd",
                         "aria-expanded": "false",
-                        "aria-controls": "Multigrafo"
+                        "aria-controls": "afd"
                       }
                     },
                     [
                       _vm._v(
-                        "\n                        AFND\n                    "
+                        "\n                        Autómata Finito Determinista (AFD)\n                    "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    {
+                      staticClass:
+                        "list-group-item analisis collapsed info textocolor",
+                      attrs: {
+                        "data-toggle": "collapse",
+                        "data-target": "#afnd",
+                        "aria-expanded": "false",
+                        "aria-controls": "afnd"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                        Autómata Finito no Determinista (AFND)\n                    "
                       )
                     ]
                   )
@@ -94653,10 +94672,7 @@ var staticRenderFns = [
                   "div",
                   {
                     staticClass: "collapse",
-                    attrs: {
-                      id: "Grafosimple",
-                      "data-parent": "#tiposdegrafos"
-                    }
+                    attrs: { id: "af", "data-parent": "#automatas" }
                   },
                   [
                     _c("div", {}, [
@@ -94665,12 +94681,16 @@ var staticRenderFns = [
                         { staticClass: "row d-flex justify-content-center" },
                         [
                           _c("h4", { staticClass: "textocolor fredoka" }, [
-                            _vm._v("Autómata Finito Determinista")
+                            _vm._v("Autómata Finito")
                           ])
                         ]
                       ),
                       _vm._v(" "),
-                      _c("p", { staticClass: "textocolor lato" }),
+                      _c("p", { staticClass: "textocolor lato" }, [
+                        _vm._v(
+                          "\n                                Un autómata finito (AF) o máquina de estado finito es un modelo computacional que realiza cómputos en forma automática sobre una entrada para producir una salida.\n                                Este modelo está conformado por un alfabeto, un conjunto de estados finito, una función de transición, un estado inicial y un conjunto de estados finales. \n                                Su funcionamiento se basa en una función de transición, que recibe a partir de un estado inicial una cadena de caracteres pertenecientes al alfabeto (la entrada), y que va leyendo dicha cadena a medida que el autómata se desplaza de un estado a otro, para finalmente detenerse en un estado final o de aceptación, que representa la salida.\n                            "
+                        )
+                      ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "row justify-content-center" }, [
                         _c("div", { staticClass: "image-parent" }, [
@@ -94688,7 +94708,43 @@ var staticRenderFns = [
                   "div",
                   {
                     staticClass: "collapse",
-                    attrs: { id: "Multigrafo", "data-parent": "#tiposdegrafos" }
+                    attrs: { id: "afd", "data-parent": "#automatas" }
+                  },
+                  [
+                    _c("div", {}, [
+                      _c(
+                        "div",
+                        { staticClass: "row d-flex justify-content-center" },
+                        [
+                          _c("h4", { staticClass: "textocolor fredoka" }, [
+                            _vm._v("Autómata Finito Determinista")
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "textocolor lato" }, [
+                        _vm._v(
+                          "\n                                Un autómata finito determinista (abreviado AFD) es un autómata finito que además es un sistema determinista; es decir, para cada estado q ∈ Q en que se encuentre el autómata, y con cualquier símbolo a ∈ Σ del alfabeto leído, existe siempre a lo más una transición posible δ(q,a).\n                            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row justify-content-center" }, [
+                        _c("div", { staticClass: "image-parent" }, [
+                          _c("img", {
+                            staticClass: "img-fluid",
+                            attrs: { src: "" }
+                          })
+                        ])
+                      ])
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "collapse",
+                    attrs: { id: "afnd", "data-parent": "#automatas" }
                   },
                   [
                     _c("div", {}, [
@@ -94702,7 +94758,11 @@ var staticRenderFns = [
                         ]
                       ),
                       _vm._v(" "),
-                      _c("p", { staticClass: "textocolor lato" }),
+                      _c("p", { staticClass: "textocolor lato" }, [
+                        _vm._v(
+                          " \n                                Un autómata finito no determinista (abreviado AFND) es aquel que, a diferencia de los autómatas finitos deterministas, posee al menos un estado q ∈ Q, tal que para un símbolo a ∈ Σ del alfabeto, existe más de una transición δ(q,a) posible.\n                            "
+                        )
+                      ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "row justify-content-center" }, [
                         _c("div", { staticClass: "image-parentmg" }, [
@@ -107506,8 +107566,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\Users\crist\Desktop\Cursos\Grafos\GLF-2020s2-Trabajo-2\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\Users\crist\Desktop\Cursos\Grafos\GLF-2020s2-Trabajo-2\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
