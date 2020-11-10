@@ -2178,15 +2178,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      option: 0,
-      operacion: '',
-      estadoAutomata1: {
-        id: '',
-        label: '',
-        color: '#C52C0B',
-        "final": false,
-        shape: 'ellipse'
-      },
       automata: {
         /*estados,alfabeto,transiciones,finales,inicio*/
       },
@@ -2196,8 +2187,13 @@ __webpack_require__.r(__webpack_exports__);
         color: '#75616b47',
         "final": false
       }],
-      alfabeto1: [],
-      alfabeto2: [],
+      estadoAutomata1: {
+        id: '',
+        label: '',
+        color: '#C52C0B',
+        "final": false,
+        shape: 'ellipse'
+      },
       transicionesAutomata1: [],
       transicionAutomata1: {
         from: '',
@@ -2207,6 +2203,13 @@ __webpack_require__.r(__webpack_exports__);
           color: 'rgb(0,0,0)'
         }
       },
+      alfabeto1: [],
+      estadosAutomata2: [{
+        id: 'inicio',
+        label: 'inicio',
+        color: '#75616b47',
+        "final": false
+      }],
       estadoAutomata2: {
         id: '',
         label: '',
@@ -2214,12 +2217,6 @@ __webpack_require__.r(__webpack_exports__);
         "final": false,
         shape: 'ellipse'
       },
-      estadosAutomata2: [{
-        id: 'inicio',
-        label: 'inicio',
-        color: '#75616b47',
-        "final": false
-      }],
       transicionAutomata2: {
         from: '',
         label: '',
@@ -2229,7 +2226,9 @@ __webpack_require__.r(__webpack_exports__);
         }
       },
       transicionesAutomata2: [],
-      finales: {},
+      alfabeto2: [],
+      option: 0,
+      operacion: '',
       validador: false,
       inicial: 0,
       createTrans: false,
@@ -2250,7 +2249,6 @@ __webpack_require__.r(__webpack_exports__);
       this.automataCreate = false;
       this.option = 0;
       this.createTrans = false;
-      this.createEstado = false;
       this.validador = false;
       return;
     },
@@ -107566,8 +107564,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\Users\crist\Desktop\Cursos\Grafos\GLF-2020s2-Trabajo-2\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\Users\crist\Desktop\Cursos\Grafos\GLF-2020s2-Trabajo-2\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /opt/lampp/htdocs/GLF-2020s2-Trabajo-2/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /opt/lampp/htdocs/GLF-2020s2-Trabajo-2/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

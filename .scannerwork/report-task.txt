@@ -2,5 +2,5 @@ projectKey=GLF-2020S2-TRABAJO-2
 serverUrl=http://localhost:9000
 serverVersion=8.5.0.37579
 dashboardUrl=http://localhost:9000/dashboard?id=GLF-2020S2-TRABAJO-2
-ceTaskId=AXWpdjwz8HRWf3Ant0t7
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AXWpdjwz8HRWf3Ant0t7
+ceTaskId=AXWz0QsauHIqri-exnxo
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AXWz0QsauHIqri-exnxo

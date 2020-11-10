@@ -270,22 +270,22 @@ export default {
 
     data(){
         return{
-            option:0,
-            operacion:'', 
-            estadoAutomata1: {id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'},
             automata:{/*estados,alfabeto,transiciones,finales,inicio*/},
+
             estadosAutomata1:[{id:'inicio', label:'inicio',color:'#75616b47', final:false}],
-            alfabeto1:[],
-            alfabeto2:[],
+            estadoAutomata1: {id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'},
             transicionesAutomata1:[],
             transicionAutomata1:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
+            alfabeto1:[],
 
-            estadoAutomata2: {id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'},
             estadosAutomata2:[{id:'inicio', label:'inicio',color:'#75616b47', final:false}],
+            estadoAutomata2: {id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'},
             transicionAutomata2:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
             transicionesAutomata2:[],
+            alfabeto2:[],
 
-            finales:{},
+            option:0,
+            operacion:'', 
             validador:false,
             inicial:0,
             createTrans: false,
@@ -313,7 +313,6 @@ export default {
             this.automataCreate=false;
             this.option=0;
             this.createTrans=false;
-            this.createEstado=false;
             this.validador=false;
             return
         },
