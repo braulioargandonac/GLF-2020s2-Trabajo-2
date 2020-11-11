@@ -2256,6 +2256,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2308,6 +2309,21 @@ __webpack_require__.r(__webpack_exports__);
       },
       transicionesAutomata2: [],
       alfabeto2: [],
+      automataUnion: [{
+        id: 'inicio',
+        label: 'inicio',
+        color: '#75616b47',
+        "final": false
+      }],
+      transicionUnion: {
+        from: '',
+        label: '',
+        to: '',
+        color: {
+          color: 'rgb(0,0,0)'
+        }
+      },
+      transicionesUnion: [],
       cadena: '',
       option: 0,
       operacion: '',
@@ -2357,6 +2373,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     mostrarOp3: function mostrarOp3() {
       this.operacion = 3;
+      this.union();
+      this.drawAutomata();
       return;
     },
     mostrarOp4: function mostrarOp4() {
@@ -2700,10 +2718,20 @@ __webpack_require__.r(__webpack_exports__);
           return;
         }
 
-        for (var i = 0; i < this.transicionesAutomata1.length; i++) {
-          if (this.transicionesAutomata1[i].from === this.transicionAutomata1.from && this.transicionesAutomata1[i].label === this.transicionAutomata1.label && this.transicionesAutomata1[i].to === this.transicionAutomata1.to) {
-            alert("la transición ya existe. Ingrese otra");
-            return;
+        if (this.existeTransicion(this.transicionesAutomata1, this.transicionAutomata1)) {
+          alert("la transición ya existe. Ingrese otra");
+          return;
+        } else {
+          for (var i = 0; i < this.transicionesAutomata1.length; i++) {
+            if (this.transicionesAutomata1[i].from === this.transicionAutomata1.from && this.transicionesAutomata1[i].label != this.transicionAutomata1.label && this.transicionesAutomata1[i].to === this.transicionAutomata1.to) {
+              var aux = [this.transicionesAutomata1[i].label, this.transicionAutomata1.label];
+              console.log("aux:", aux);
+              this.transicionesAutomata1[i].label = aux[0] + ',' + aux[1];
+              console.log("label", this.transicionesAutomata1[i].label);
+              this.drawAutomata();
+              this.addCaracterToAlfabeto();
+              return;
+            }
           }
         }
 
@@ -2717,20 +2745,26 @@ __webpack_require__.r(__webpack_exports__);
             color: 'rgb(0,0,0)'
           }
         };
-
-        for (var i = 0; i < this.transicionesAutomata1.length; i++) {
-          console.log(this.transicionesAutomata1[i].from);
-        }
       } else {
         if (this.transicionAutomata2.from === '' || this.transicionAutomata2.to === '') {
           alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
           return;
         }
 
-        for (var i = 0; i < this.transicionesAutomata2.length; i++) {
-          if (this.transicionesAutomata2[i].from === this.transicionAutomata2.from && this.transicionesAutomata2[i].label === this.transicionAutomata2.label && this.transicionesAutomata2[i].to === this.transicionAutomata2.to) {
-            alert("la transición ya existe. Ingrese otra");
-            return;
+        if (this.existeTransicion(this.transicionesAutomata2, this.transicionAutomata2)) {
+          alert("la transición ya existe. Ingrese otra");
+          return;
+        } else {
+          for (var i = 0; i < this.transicionesAutomata2.length; i++) {
+            if (this.transicionesAutomata2[i].from === this.transicionAutomata2.from && this.transicionesAutomata2[i].label != this.transicionAutomata2.label && this.transicionesAutomata2[i].to === this.transicionAutomata2.to) {
+              var aux = [this.transicionesAutomata2[i].label, this.transicionAutomata2.label];
+              console.log("aux:", aux);
+              this.transicionesAutomata2[i].label = aux[0] + ',' + aux[1];
+              console.log("label", this.transicionesAutomata2[i].label);
+              this.drawAutomata();
+              this.addCaracterToAlfabeto();
+              return;
+            }
           }
         }
 
@@ -2744,15 +2778,18 @@ __webpack_require__.r(__webpack_exports__);
             color: 'rgb(0,0,0)'
           }
         };
-
-        for (var i = 0; i < this.transicionesAutomata2.length; i++) {
-          console.log("from :", this.transicionesAutomata2[i].from);
-          console.log("label :", this.transicionesAutomata2[i].label);
-          console.log("to :", this.transicionesAutomata2[i].to);
-        }
       }
 
       this.drawAutomata();
+    },
+    existeTransicion: function existeTransicion(transiciones, transicion) {
+      for (var i = 0; i < transiciones.length; i++) {
+        if (transiciones[i].from === transicion.from && transiciones[i].to === transicion.to && transiciones[i].label === transicion.label) {
+          return true;
+        }
+      }
+
+      return false;
     },
     addCaracterToAlfabeto: function addCaracterToAlfabeto() {
       var existe = false;
@@ -2823,6 +2860,7 @@ __webpack_require__.r(__webpack_exports__);
     drawAutomata: function drawAutomata() {
       var container = document.getElementById("grafo");
       var container2 = document.getElementById("grafo2");
+      var containerUnion = document.getElementById("union");
       var data = {
         nodes: this.estadosAutomata1,
         edges: this.transicionesAutomata1
@@ -2830,6 +2868,10 @@ __webpack_require__.r(__webpack_exports__);
       var data2 = {
         nodes: this.estadosAutomata2,
         edges: this.transicionesAutomata2
+      };
+      var dataUnion = {
+        nodes: this.automataUnion,
+        edges: this.transicionesUnion
       };
       var options = {
         height: 320 + 'px',
@@ -2843,12 +2885,60 @@ __webpack_require__.r(__webpack_exports__);
           arrows: 'to'
         }
       };
+      var optionsUnion = {
+        height: 320 + 'px',
+        edges: {
+          arrows: 'to'
+        }
+      };
       var network = new vis.Network(container, data, options);
       var network2 = new vis.Network(container2, data2, options2);
+      var networkUnion = new vis.Network(containerUnion, dataUnion, optionsUnion);
     },
     afdEquivalente: function afdEquivalente() {},
     complemento: function complemento() {},
-    union: function union() {},
+    union: function union() {
+      var auto1 = this.transicionesAutomata1;
+      var auto2 = this.transicionesAutomata2;
+      var autoUnion = '';
+      var autoaux = {
+        id: '',
+        label: '',
+        color: '#C52C0B',
+        "final": false,
+        shape: 'ellipse'
+      };
+      var nuevoAlfabeto = this.alfabeto1 + this.alfabeto2; //union alfabetos simplificar 
+      //console.log(nuevoAlfabeto); 
+
+      for (var i = 1; i < this.estadosAutomata1.length; i++) {
+        // if(auto1[i].from==='inicio' && auto2[i].from==='inicio' && auto1[i].to!='' && auto2[i].to!='' ){
+        //     autoUnion = auto1[i].to + auto2[i].to 
+        // }
+
+        /* transicionUnion:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
+        transicionesUnion:[], */
+        for (var k = 1; k < this.estadosAutomata2.length; k++) {
+          autoaux.label = this.estadosAutomata1[i].label + this.estadosAutomata2[k].label;
+          autoaux.id = autoaux.label;
+
+          if (this.estadosAutomata1[i]["final"] == true || this.estadosAutomata2[k]["final"] == true) {
+            autoaux["final"] = true;
+          }
+
+          this.automataUnion.push(autoaux);
+          console.log(this.automataUnion);
+          autoaux = {
+            id: '',
+            label: '',
+            color: '#C52C0B',
+            "final": false,
+            shape: 'ellipse'
+          };
+        } // console.log("union",autoUnion);
+
+      }
+    },
     concatenacion: function concatenacion() {},
     interseccion: function interseccion() {},
     simplificar: function simplificar() {}
@@ -95075,7 +95165,7 @@ var render = function() {
             [
               _c("div", { staticClass: "container" }, [
                 _vm._v(
-                  "\n                Inter cambiar estados finales por no finales\n            "
+                  "\n                Esta propiedad es solo para AFD, intercambia los estados finales por no finales.\n            "
                 )
               ])
             ]
@@ -95097,11 +95187,7 @@ var render = function() {
               staticClass: "card cardaux3 col-md-10 rounded-bottom mb-3",
               attrs: { id: "afd-equivalente" }
             },
-            [
-              _c("div", { staticClass: "container" }, [
-                _vm._v("\n                aaaaaaa\n            ")
-              ])
-            ]
+            [_vm._m(7)]
           )
         : _vm._e(),
       _vm._v(" "),
@@ -95122,7 +95208,9 @@ var render = function() {
             },
             [
               _c("div", { staticClass: "container" }, [
-                _vm._v("\n                aaaaaaa\n            ")
+                _vm._v(
+                  "\n                Se concatena una una cadena del primer lenguaje y una cadena del segundo lenguaje.\n            "
+                )
               ])
             ]
           )
@@ -95145,7 +95233,9 @@ var render = function() {
             },
             [
               _c("div", { staticClass: "container" }, [
-                _vm._v("\n                aaaaaaaa\n            ")
+                _vm._v(
+                  "\n                La intersección de ambos lenguajes utiliza la operación de interseccion de conjuntos, Automata1 ∩ Automata2: \n            "
+                )
               ])
             ]
           )
@@ -95264,6 +95354,21 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Final")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "container" }, [
+      _vm._v(
+        "\n                La unión de dos lenguajes regulares es otro lenguaje regular, donde se utiliza la operación de unión de conjuntos, de manera que, Σ = {x,y} si L1 = {x,xy} y L2 = {yx,yy} la unión es L1UL2 = {x,xy,yx,yy}.\n                "
+      ),
+      _c("div", {
+        staticClass: "mb-3",
+        staticStyle: { border: "1px solid lightgray" },
+        attrs: { id: "union" }
+      })
     ])
   }
 ]
@@ -108294,8 +108399,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /opt/lampp/htdocs/GLF-2020s2-Trabajo-2/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /opt/lampp/htdocs/GLF-2020s2-Trabajo-2/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Luciano\Desktop\2020-2\Grafos y lenguajes formales\Grafos\GLF-2020s2-Trabajo-2\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Luciano\Desktop\2020-2\Grafos y lenguajes formales\Grafos\GLF-2020s2-Trabajo-2\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

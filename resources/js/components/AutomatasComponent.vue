@@ -314,12 +314,13 @@
             </div>
 
             <!--Caso 3: UNION -->
-            <div class="cardaux2 col-md-10" v-if="operacion===3">
+            <div class="cardaux2 col-md-10" v-if="operacion===3" >
                 <h3 class="text-center fredoka textocolor my-3">Unión</h3>
             </div>
             <div id="afd-equivalente" class="card cardaux3 col-md-10 rounded-bottom mb-3" v-if="operacion===3">
                 <div class="container">
                     La unión de dos lenguajes regulares es otro lenguaje regular, donde se utiliza la operación de unión de conjuntos, de manera que, Σ = {x,y} si L1 = {x,xy} y L2 = {yx,yy} la unión es L1UL2 = {x,xy,yx,yy}.
+                    <div id="union" class="mb-3" style="border: 1px solid lightgray;"></div>
                 </div>
             </div>
 
@@ -364,6 +365,11 @@ export default {
             transicionAutomata2:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
             transicionesAutomata2:[],
             alfabeto2:[],
+            
+            
+            automataUnion: [{id:'inicio', label:'inicio',color:'#75616b47', final:false}],
+            transicionUnion:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
+            transicionesUnion:[],
 
             cadena:'',
 
@@ -426,6 +432,8 @@ export default {
 
         mostrarOp3(){
             this.operacion=3;
+            this.union();
+            this.drawAutomata();
             return;
         },
 
@@ -779,31 +787,35 @@ export default {
             this.drawAutomata();          
         },
 
-        crearTransicionAFND(){
-            
+        crearTransicionAFND(){           
             if(this.selectAuto===1){
                 if(this.transicionAutomata1.from==='' || this.transicionAutomata1.to==='' )
                 {
                     alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
                     return;
                 }
-                
-                for(var i=0; i<this.transicionesAutomata1.length;i++)
+                if(this.existeTransicion(this.transicionesAutomata1,this.transicionAutomata1))
                 {
-                    if(this.transicionesAutomata1[i].from===this.transicionAutomata1.from && this.transicionesAutomata1[i].label===this.transicionAutomata1.label && this.transicionesAutomata1[i].to===this.transicionAutomata1.to)
-                    {
-                        alert("la transición ya existe. Ingrese otra");
-                        return;
-                    }
-                    
+                   alert("la transición ya existe. Ingrese otra");
+                   return;
                 }
+                else{
+                    for(var i=0; i<this.transicionesAutomata1.length;i++)
+                    {
+                        if(this.transicionesAutomata1[i].from===this.transicionAutomata1.from && this.transicionesAutomata1[i].label!=this.transicionAutomata1.label && this.transicionesAutomata1[i].to===this.transicionAutomata1.to){
+                            var aux = [this.transicionesAutomata1[i].label, this.transicionAutomata1.label]
+                            console.log("aux:", aux);
+                            this.transicionesAutomata1[i].label= aux[0]+','+aux[1];
+                            console.log("label",this.transicionesAutomata1[i].label);
+                            this.drawAutomata();
+                            this.addCaracterToAlfabeto();
+                            return;    
+                        }                    
+                    }
+                }               
                 this.addCaracterToAlfabeto();
                 this.transicionesAutomata1.push(this.transicionAutomata1);
                 this.transicionAutomata1={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
-                for(var i=0; i<this.transicionesAutomata1.length;i++)
-                {
-                    console.log(this.transicionesAutomata1[i].from);
-                }
             }
             else{
                 if(this.transicionAutomata2.from==='' || this.transicionAutomata2.to==='' )
@@ -811,31 +823,44 @@ export default {
                     alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
                     return;
                 }
-                
-                for(var i=0; i<this.transicionesAutomata2.length;i++)
+
+                if(this.existeTransicion(this.transicionesAutomata2,this.transicionAutomata2))
                 {
-                    if(this.transicionesAutomata2[i].from===this.transicionAutomata2.from && this.transicionesAutomata2[i].label===this.transicionAutomata2.label && this.transicionesAutomata2[i].to===this.transicionAutomata2.to)
-                    {
-                        alert("la transición ya existe. Ingrese otra");
-                        return;
-                    }
-                    
+                   alert("la transición ya existe. Ingrese otra");
+                   return;
                 }
+                else{
+                    for(var i=0; i<this.transicionesAutomata2.length;i++)
+                    {
+                        if(this.transicionesAutomata2[i].from===this.transicionAutomata2.from && this.transicionesAutomata2[i].label!=this.transicionAutomata2.label && this.transicionesAutomata2[i].to===this.transicionAutomata2.to)
+                        {
+                            var aux = [this.transicionesAutomata2[i].label, this.transicionAutomata2.label]
+                            console.log("aux:", aux);
+                            this.transicionesAutomata2[i].label= aux[0]+','+aux[1];
+                            console.log("label",this.transicionesAutomata2[i].label);
+                            this.drawAutomata();
+                            this.addCaracterToAlfabeto();
+                            return;   
+                        }        
+                    }     
+                }          
                 this.addCaracterToAlfabeto();
                 this.transicionesAutomata2.push(this.transicionAutomata2);
                 this.transicionAutomata2={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
-                for(var i=0; i<this.transicionesAutomata2.length;i++)
-                {
-                    console.log("from :",this.transicionesAutomata2[i].from);
-                    console.log("label :",this.transicionesAutomata2[i].label);
-                    console.log("to :",this.transicionesAutomata2[i].to);
-                }
-
             }
             this.drawAutomata(); 
-            
+        },
 
-            
+        existeTransicion(transiciones,transicion)
+        {
+            for(var i=0; i<transiciones.length;i++)
+            {
+                if(transiciones[i].from===transicion.from && transiciones[i].to === transicion.to && transiciones[i].label===transicion.label)
+                {
+                    return true;
+                }
+            }
+            return false;
 
         },
 
@@ -922,11 +947,17 @@ export default {
         drawAutomata(){
             var container= document.getElementById("grafo");
             var container2= document.getElementById("grafo2");
+            var containerUnion= document.getElementById("union");
+
             var data={nodes:this.estadosAutomata1,
                       edges:this.transicionesAutomata1};
 
             var data2={nodes:this.estadosAutomata2,
                        edges:this.transicionesAutomata2};
+            
+            var dataUnion={nodes:this.automataUnion,
+                           edges:this.transicionesUnion};
+
             var options = {
                 height: 320 + 'px',
                 
@@ -942,8 +973,17 @@ export default {
                     arrows:'to',
                 },
             };
+
+            var optionsUnion= {
+                height:320 + 'px',
+                edges:{
+                    arrows:'to',
+                }
+            };
+
             var network= new vis.Network(container,data,options);
             var network2= new vis.Network(container2,data2,options2);
+            var networkUnion= new vis.Network(containerUnion,dataUnion,optionsUnion);
             
         },
 
@@ -957,7 +997,32 @@ export default {
         },
 
         union(){
-            
+            var auto1= this.transicionesAutomata1
+            var auto2 =this.transicionesAutomata2
+            var autoUnion = ''
+            var autoaux = {id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'}
+            var nuevoAlfabeto = this.alfabeto1 + this.alfabeto2 //union alfabetos simplificar 
+            //console.log(nuevoAlfabeto); 
+ 
+            for(var i=1 ; i<this.estadosAutomata1.length ;i++){
+                
+                // if(auto1[i].from==='inicio' && auto2[i].from==='inicio' && auto1[i].to!='' && auto2[i].to!='' ){
+                //     autoUnion = auto1[i].to + auto2[i].to 
+                // }
+                /* transicionUnion:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
+                transicionesUnion:[], */
+                for(var k =1; k<this.estadosAutomata2.length; k++){
+                    autoaux.label=this.estadosAutomata1[i].label+this.estadosAutomata2[k].label;
+                    autoaux.id=autoaux.label;
+                    if(this.estadosAutomata1[i].final==true || this.estadosAutomata2[k].final==true){
+                        autoaux.final=true;
+                    }
+                    this.automataUnion.push(autoaux);
+                    console.log(this.automataUnion);  
+                    autoaux = {id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'}
+                }
+                // console.log("union",autoUnion);
+            }
         },
 
         concatenacion(){
