@@ -2175,6 +2175,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2227,6 +2246,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       transicionesAutomata2: [],
       alfabeto2: [],
+      cadena: '',
       option: 0,
       operacion: '',
       validador: false,
@@ -2240,6 +2260,64 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {},
   methods: {
+    consultarCadena: function consultarCadena() {
+      var word = this.cadena.split('');
+      var transicionesEstadoActual = [];
+      var estadoActual;
+      console.log(word);
+
+      if (this.selectAuto === 1) {
+        estadoActual = this.estadosAutomata1[1].id;
+        console.log(estadoActual);
+
+        for (var i = 0; i < word.length; i++) {
+          if (!this.existeCaracter(word[i])) {
+            alert('La palabra no pertenence al lenguaje');
+            return;
+          } //llena con las transiciones que corresponden del estado actual
+
+
+          for (var j = 0; j < this.transicionesAutomata1.length; j++) {
+            if (this.transicionesAutomata1[j].from == estadoActual) {
+              transicionesEstadoActual.push(this.transicionesAutomata1[j]);
+            }
+          } //recorre las transiciones del estado actual para pasar al otro de acuerdo al caracter actual
+
+
+          for (var k = 0; k < transicionesEstadoActual.length; k++) {
+            if (transicionesEstadoActual[k].label == word[i]) {
+              estadoActual = transicionesEstadoActual[k].to;
+              console.log('estado actual: ', estadoActual);
+            }
+          }
+
+          transicionesEstadoActual = [];
+        }
+
+        for (var l = 0; l < this.estadosAutomata1.length; l++) {
+          if (estadoActual === this.estadosAutomata1[l].id) {
+            if (this.estadosAutomata1[l]["final"] == true) {
+              alert('la palabra pertenece al lenguaje');
+              return;
+            } else {
+              alert('la palabra no pertenece al lenguaje');
+              return;
+            }
+          }
+        }
+      }
+    },
+    existeCaracter: function existeCaracter(caracter) {
+      if (this.selectAuto === 1) {
+        for (var i = 0; i < this.alfabeto1.length; i++) {
+          if (this.alfabeto1[i] == caracter) {
+            return true;
+          }
+        }
+
+        return false;
+      }
+    },
     selectAutomata1: function selectAutomata1() {
       this.selectAuto = 1;
       this.automataCreate = true;
@@ -93636,6 +93714,58 @@ var render = function() {
                     _c("div", { staticClass: "col-md-2" })
                   ]),
                   _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6 my-4" }, [
+                    _c(
+                      "form",
+                      {
+                        on: {
+                          submit: function($event) {
+                            $event.preventDefault()
+                            return _vm.consultarCadena($event)
+                          }
+                        }
+                      },
+                      [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c("label", { attrs: { for: "" } }, [
+                            _vm._v("Ingrese la palabra: ")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.cadena,
+                                expression: "cadena"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text" },
+                            domProps: { value: _vm.cadena },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.cadena = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success",
+                            attrs: { type: "submit" }
+                          },
+                          [_vm._v("Consultar Palabra")]
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
                   _vm.validador
                     ? _c("div", { staticClass: "my-4" }, [
                         _c("div", [
@@ -94087,6 +94217,58 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-2" })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6 my-4" }, [
+                    _c(
+                      "form",
+                      {
+                        on: {
+                          submit: function($event) {
+                            $event.preventDefault()
+                            return _vm.consultarCadena($event)
+                          }
+                        }
+                      },
+                      [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c("label", { attrs: { for: "" } }, [
+                            _vm._v("Ingrese la palabra: ")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.cadena,
+                                expression: "cadena"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text" },
+                            domProps: { value: _vm.cadena },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.cadena = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success",
+                            attrs: { type: "submit" }
+                          },
+                          [_vm._v("Consultar Palabra")]
+                        )
+                      ]
+                    )
                   ]),
                   _vm._v(" "),
                   _vm.validador

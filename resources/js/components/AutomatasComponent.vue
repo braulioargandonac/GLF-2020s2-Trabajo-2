@@ -50,6 +50,15 @@
                         </div>
                         <div class="col-md-2"></div>
                     </div>
+                    <div class="col-md-6 my-4">
+                        <form @submit.prevent="consultarCadena">
+                            <div class="form-group">
+                                <label for="">Ingrese la palabra: </label>
+                                <input type="text" class="form-control" v-model="cadena">
+                            </div>
+                         <button class="btn btn-success" type="submit" >Consultar Palabra</button>
+                        </form>
+                    </div>
                     <div class="my-4" v-if="validador">
                         <div>
                             <form @submit.prevent="agregarEstado" v-if="selectAuto===1">
@@ -132,6 +141,16 @@
                             <button class="btn btn-danger" @click="delAndClear">Eliminar Estado</button>
                         </div>
                         <div class="col-md-2"></div>
+                    </div>
+
+                    <div class="col-md-6 my-4">
+                        <form @submit.prevent="consultarCadena">
+                            <div class="form-group">
+                                <label for="">Ingrese la palabra: </label>
+                                <input type="text" class="form-control" v-model="cadena">
+                            </div>
+                         <button class="btn btn-success" type="submit">Consultar Palabra</button>
+                        </form>
                     </div>
                     <div class="my-4" v-if="validador">
                         <div>
@@ -284,6 +303,8 @@ export default {
             transicionesAutomata2:[],
             alfabeto2:[],
 
+            cadena:'',
+
             option:0,
             operacion:'', 
             validador:false,
@@ -302,6 +323,75 @@ export default {
     },
 
     methods:{
+        
+        consultarCadena(){
+            var word=this.cadena.split('');
+            var transicionesEstadoActual=[];
+            var estadoActual;
+            console.log(word);
+            if(this.selectAuto===1)
+            {
+                estadoActual=this.estadosAutomata1[1].id;
+                console.log(estadoActual);
+                for(var i=0;i<word.length;i++)
+                {
+                    if(!this.existeCaracter(word[i]))
+                    {
+                        alert('La palabra no pertenence al lenguaje');
+                        return;
+                    }
+                    //llena con las transiciones que corresponden del estado actual
+                    for(var j=0; j<this.transicionesAutomata1.length;j++)
+                    {
+                        if(this.transicionesAutomata1[j].from==estadoActual)
+                        {
+                            transicionesEstadoActual.push(this.transicionesAutomata1[j]);
+                        }
+                    }
+                    //recorre las transiciones del estado actual para pasar al otro de acuerdo al caracter actual
+                    for(var k=0; k<transicionesEstadoActual.length;k++)
+                    {
+                        if(transicionesEstadoActual[k].label==word[i])
+                        {
+                            estadoActual=transicionesEstadoActual[k].to;
+                            console.log('estado actual: ', estadoActual);
+                        }
+                    }
+                    transicionesEstadoActual=[];
+                }
+
+                for(var l=0; l<this.estadosAutomata1.length;l++)
+                {
+                    if(estadoActual===this.estadosAutomata1[l].id)
+                    {
+                        if(this.estadosAutomata1[l].final==true)
+                        {
+                            alert('la palabra pertenece al lenguaje');
+                            return
+                        }
+                        else
+                        {
+                            alert('la palabra no pertenece al lenguaje')
+                            return
+                        }  
+                    }
+                }                        
+            }      
+        },
+
+        existeCaracter(caracter){
+            if(this.selectAuto===1)
+            {
+                for(var i=0;i<this.alfabeto1.length;i++)
+                {
+                    if(this.alfabeto1[i]==caracter)
+                    {
+                        return true
+                    }
+                }
+                return false;
+            }
+        },
         
         selectAutomata1(){
             this.selectAuto=1
