@@ -299,7 +299,7 @@
             </div>
             <div id="afd-equivalente" class="card cardaux3 col-md-10 rounded-bottom mb-3" v-if="operacion===1">
                 <div class="container">
-                    aaaaaaa
+                    La conversión implica pasar por un AFD intermedio con estados y transiciones redundantes, luego se eliminan los estados inaccesibles o inalcanzables, es decir, aquellos a los que no se puede acceder a partir del estado inicial. Luego de este procedimiento, se obtiene el AFD equivalente.
                 </div>
             </div>
 
@@ -309,7 +309,7 @@
             </div>
             <div id="afd-equivalente" class="card cardaux3 col-md-10 rounded-bottom mb-3" v-if="operacion===2">
                 <div class="container">
-                    aaaaaaa
+                    Inter cambiar estados finales por no finales
                 </div>
             </div>
 

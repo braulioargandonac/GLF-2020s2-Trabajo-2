@@ -95049,7 +95049,9 @@ var render = function() {
             },
             [
               _c("div", { staticClass: "container" }, [
-                _vm._v("\n                aaaaaaa\n            ")
+                _vm._v(
+                  "\n                La conversión implica pasar por un AFD intermedio con estados y transiciones redundantes, luego se eliminan los estados inaccesibles o inalcanzables, es decir, aquellos a los que no se puede acceder a partir del estado inicial. Luego de este procedimiento, se obtiene el AFD equivalente.\n            "
+                )
               ])
             ]
           )
@@ -95072,7 +95074,9 @@ var render = function() {
             },
             [
               _c("div", { staticClass: "container" }, [
-                _vm._v("\n                aaaaaaa\n            ")
+                _vm._v(
+                  "\n                Inter cambiar estados finales por no finales\n            "
+                )
               ])
             ]
           )
