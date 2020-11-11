@@ -2194,6 +2194,58 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2260,64 +2312,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {},
   methods: {
-    consultarCadena: function consultarCadena() {
-      var word = this.cadena.split('');
-      var transicionesEstadoActual = [];
-      var estadoActual;
-      console.log(word);
-
-      if (this.selectAuto === 1) {
-        estadoActual = this.estadosAutomata1[1].id;
-        console.log(estadoActual);
-
-        for (var i = 0; i < word.length; i++) {
-          if (!this.existeCaracter(word[i])) {
-            alert('La palabra no pertenence al lenguaje');
-            return;
-          } //llena con las transiciones que corresponden del estado actual
-
-
-          for (var j = 0; j < this.transicionesAutomata1.length; j++) {
-            if (this.transicionesAutomata1[j].from == estadoActual) {
-              transicionesEstadoActual.push(this.transicionesAutomata1[j]);
-            }
-          } //recorre las transiciones del estado actual para pasar al otro de acuerdo al caracter actual
-
-
-          for (var k = 0; k < transicionesEstadoActual.length; k++) {
-            if (transicionesEstadoActual[k].label == word[i]) {
-              estadoActual = transicionesEstadoActual[k].to;
-              console.log('estado actual: ', estadoActual);
-            }
-          }
-
-          transicionesEstadoActual = [];
-        }
-
-        for (var l = 0; l < this.estadosAutomata1.length; l++) {
-          if (estadoActual === this.estadosAutomata1[l].id) {
-            if (this.estadosAutomata1[l]["final"] == true) {
-              alert('la palabra pertenece al lenguaje');
-              return;
-            } else {
-              alert('la palabra no pertenece al lenguaje');
-              return;
-            }
-          }
-        }
-      }
-    },
-    existeCaracter: function existeCaracter(caracter) {
-      if (this.selectAuto === 1) {
-        for (var i = 0; i < this.alfabeto1.length; i++) {
-          if (this.alfabeto1[i] == caracter) {
-            return true;
-          }
-        }
-
-        return false;
-      }
-    },
     selectAutomata1: function selectAutomata1() {
       this.selectAuto = 1;
       this.automataCreate = true;
@@ -2367,6 +2361,111 @@ __webpack_require__.r(__webpack_exports__);
     marcarInicial: function marcarInicial() {
       this.inicial = 1;
       return;
+    },
+    consultarCadena: function consultarCadena() {
+      var word = this.cadena.split('');
+      var transicionesEstadoActual = [];
+      var estadoActual;
+      console.log(word);
+
+      if (this.selectAuto === 1) {
+        estadoActual = this.estadosAutomata1[1].id;
+        console.log(estadoActual);
+
+        for (var i = 0; i < word.length; i++) {
+          if (!this.existeCaracter(word[i])) {
+            alert('La palabra no pertenence al lenguaje');
+            return;
+          } //llena con las transiciones que corresponden del estado actual
+
+
+          for (var j = 0; j < this.transicionesAutomata1.length; j++) {
+            if (this.transicionesAutomata1[j].from == estadoActual) {
+              transicionesEstadoActual.push(this.transicionesAutomata1[j]);
+            }
+          } //recorre las transiciones del estado actual para pasar al otro de acuerdo al caracter actual
+
+
+          for (var k = 0; k < transicionesEstadoActual.length; k++) {
+            if (transicionesEstadoActual[k].label == word[i]) {
+              estadoActual = transicionesEstadoActual[k].to;
+              console.log('estado actual: ', estadoActual);
+            }
+          }
+
+          transicionesEstadoActual = [];
+        }
+
+        for (var l = 0; l < this.estadosAutomata1.length; l++) {
+          if (estadoActual === this.estadosAutomata1[l].id) {
+            if (this.estadosAutomata1[l]["final"] == true) {
+              alert('la palabra pertenece al lenguaje');
+              return;
+            } else {
+              alert('la palabra no pertenece al lenguaje');
+              return;
+            }
+          }
+        }
+      } else {
+        estadoActual = this.estadosAutomata2[1].id;
+        console.log(estadoActual);
+
+        for (var i = 0; i < word.length; i++) {
+          if (!this.existeCaracter(word[i])) {
+            alert('La palabra no pertenence al lenguaje');
+            return;
+          } //llena con las transiciones que corresponden del estado actual
+
+
+          for (var j = 0; j < this.transicionesAutomata2.length; j++) {
+            if (this.transicionesAutomata2[j].from == estadoActual) {
+              transicionesEstadoActual.push(this.transicionesAutomata2[j]);
+            }
+          } //recorre las transiciones del estado actual para pasar al otro de acuerdo al caracter actual
+
+
+          for (var k = 0; k < transicionesEstadoActual.length; k++) {
+            if (transicionesEstadoActual[k].label == word[i]) {
+              estadoActual = transicionesEstadoActual[k].to;
+              console.log('estado actual: ', estadoActual);
+            }
+          }
+
+          transicionesEstadoActual = [];
+        }
+
+        for (var l = 0; l < this.estadosAutomata2.length; l++) {
+          if (estadoActual === this.estadosAutomata2[l].id) {
+            if (this.estadosAutomata2[l]["final"] == true) {
+              alert('la palabra pertenece al lenguaje');
+              return;
+            } else {
+              alert('la palabra no pertenece al lenguaje');
+              return;
+            }
+          }
+        }
+      }
+    },
+    existeCaracter: function existeCaracter(caracter) {
+      if (this.selectAuto === 1) {
+        for (var i = 0; i < this.alfabeto1.length; i++) {
+          if (this.alfabeto1[i] == caracter) {
+            return true;
+          }
+        }
+
+        return false;
+      } else {
+        for (var i = 0; i < this.alfabeto2.length; i++) {
+          if (this.alfabeto2[i] == caracter) {
+            return true;
+          }
+        }
+
+        return false;
+      }
     },
     agregarEstado: function agregarEstado() {
       var cont = this.contadorEstados;
@@ -2580,6 +2679,67 @@ __webpack_require__.r(__webpack_exports__);
             color: 'rgb(0,0,0)'
           }
         };
+      }
+
+      this.drawAutomata();
+    },
+    crearTransicionAFND: function crearTransicionAFND() {
+      if (this.selectAuto === 1) {
+        if (this.transicionAutomata1.from === '' || this.transicionAutomata1.to === '') {
+          alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
+          return;
+        }
+
+        for (var i = 0; i < this.transicionesAutomata1.length; i++) {
+          if (this.transicionesAutomata1[i].from === this.transicionAutomata1.from && this.transicionesAutomata1[i].label === this.transicionAutomata1.label && this.transicionesAutomata1[i].to === this.transicionAutomata1.to) {
+            alert("la transición ya existe. Ingrese otra");
+            return;
+          }
+        }
+
+        this.addCaracterToAlfabeto();
+        this.transicionesAutomata1.push(this.transicionAutomata1);
+        this.transicionAutomata1 = {
+          from: '',
+          label: '',
+          to: '',
+          color: {
+            color: 'rgb(0,0,0)'
+          }
+        };
+
+        for (var i = 0; i < this.transicionesAutomata1.length; i++) {
+          console.log(this.transicionesAutomata1[i].from);
+        }
+      } else {
+        if (this.transicionAutomata2.from === '' || this.transicionAutomata2.to === '') {
+          alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
+          return;
+        }
+
+        for (var i = 0; i < this.transicionesAutomata2.length; i++) {
+          if (this.transicionesAutomata2[i].from === this.transicionAutomata2.from && this.transicionesAutomata2[i].label === this.transicionAutomata2.label && this.transicionesAutomata2[i].to === this.transicionAutomata2.to) {
+            alert("la transición ya existe. Ingrese otra");
+            return;
+          }
+        }
+
+        this.addCaracterToAlfabeto();
+        this.transicionesAutomata2.push(this.transicionAutomata2);
+        this.transicionAutomata2 = {
+          from: '',
+          label: '',
+          to: '',
+          color: {
+            color: 'rgb(0,0,0)'
+          }
+        };
+
+        for (var i = 0; i < this.transicionesAutomata2.length; i++) {
+          console.log("from :", this.transicionesAutomata2[i].from);
+          console.log("label :", this.transicionesAutomata2[i].label);
+          console.log("to :", this.transicionesAutomata2[i].to);
+        }
       }
 
       this.drawAutomata();
@@ -94385,6 +94545,280 @@ var render = function() {
                             : _vm._e()
                         ])
                       ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.createTrans
+                    ? _c("div", { staticClass: "my-3" }, [
+                        _vm.selectAuto === 1
+                          ? _c(
+                              "form",
+                              {
+                                on: {
+                                  submit: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.crearTransicionAFND($event)
+                                  }
+                                }
+                              },
+                              [
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", [
+                                    _vm._v(
+                                      "Ingrese el id del estado inicial de la transición:"
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.transicionAutomata1.from,
+                                        expression: "transicionAutomata1.from"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { type: "number", min: "1" },
+                                    domProps: {
+                                      value: _vm.transicionAutomata1.from
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.transicionAutomata1,
+                                          "from",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", [
+                                    _vm._v(
+                                      "Ingrese el id del estado final de la transición:"
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.transicionAutomata1.to,
+                                        expression: "transicionAutomata1.to"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { type: "number", min: "1" },
+                                    domProps: {
+                                      value: _vm.transicionAutomata1.to
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.transicionAutomata1,
+                                          "to",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", [
+                                    _vm._v(
+                                      "Ingrese carácter de la transición: "
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.transicionAutomata1.label,
+                                        expression: "transicionAutomata1.label"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      minlength: "1",
+                                      maxlength: "1",
+                                      pattern: "[a-zA-Z]+"
+                                    },
+                                    domProps: {
+                                      value: _vm.transicionAutomata1.label
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.transicionAutomata1,
+                                          "label",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-success btn-sm",
+                                    attrs: { type: "submit" }
+                                  },
+                                  [_vm._v("Agregar")]
+                                )
+                              ]
+                            )
+                          : _c(
+                              "form",
+                              {
+                                on: {
+                                  submit: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.crearTransicionAFND($event)
+                                  }
+                                }
+                              },
+                              [
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", [
+                                    _vm._v(
+                                      "Ingrese el id del estado inicial de la transición:"
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.transicionAutomata2.from,
+                                        expression: "transicionAutomata2.from"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { type: "number", min: "1" },
+                                    domProps: {
+                                      value: _vm.transicionAutomata2.from
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.transicionAutomata2,
+                                          "from",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", [
+                                    _vm._v(
+                                      "Ingrese el id del estado final de la transición:"
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.transicionAutomata2.to,
+                                        expression: "transicionAutomata2.to"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { type: "number", min: "1" },
+                                    domProps: {
+                                      value: _vm.transicionAutomata2.to
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.transicionAutomata2,
+                                          "to",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "form-group" }, [
+                                  _c("label", [
+                                    _vm._v(
+                                      "Ingrese carácter de la transición: "
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.transicionAutomata2.label,
+                                        expression: "transicionAutomata2.label"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      minlength: "1",
+                                      maxlength: "1",
+                                      pattern: "[a-zA-Z]+"
+                                    },
+                                    domProps: {
+                                      value: _vm.transicionAutomata2.label
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.transicionAutomata2,
+                                          "label",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-success btn-sm",
+                                    attrs: { type: "submit" }
+                                  },
+                                  [_vm._v("Agregar")]
+                                )
+                              ]
+                            )
+                      ])
                     : _vm._e()
                 ])
               : _vm._e()
@@ -94398,47 +94832,101 @@ var render = function() {
             _c("hr"),
             _vm._v(" "),
             _c("div", [
-              _c("table", { staticClass: "table table-striped table-dark" }, [
-                _vm._m(5),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.estadosAutomata1, function(item, index) {
-                    return _c("tr", { key: index }, [
-                      _c("td", { attrs: { scope: "row" } }, [
-                        _vm._v(_vm._s(index))
-                      ]),
+              _vm.selectAuto === 1
+                ? _c(
+                    "table",
+                    { staticClass: "table table-striped table-dark" },
+                    [
+                      _vm._m(5),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.label))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("div", [
-                          _c("input", {
-                            attrs: {
-                              type: "checkbox",
-                              name: "state",
-                              id: "state"
-                            },
-                            domProps: {
-                              checked: _vm.estadosAutomata1[index].final
-                            },
-                            on: {
-                              click: function($event) {
-                                return _vm.marcarFinal(item.id)
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("label", { attrs: { for: "state" } }, [
-                            _vm._v("Estado Final")
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.estadosAutomata1, function(item, index) {
+                          return _c("tr", { key: index }, [
+                            _c("td", { attrs: { scope: "row" } }, [
+                              _vm._v(_vm._s(index))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(item.label))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c("div", [
+                                _c("input", {
+                                  attrs: {
+                                    type: "checkbox",
+                                    name: "state",
+                                    id: "state"
+                                  },
+                                  domProps: {
+                                    checked: _vm.estadosAutomata1[index].final
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.marcarFinal(item.id)
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("label", { attrs: { for: "state" } }, [
+                                  _vm._v("Estado Final")
+                                ])
+                              ])
+                            ])
                           ])
-                        ])
-                      ])
-                    ])
-                  }),
-                  0
-                )
-              ]),
+                        }),
+                        0
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.selectAuto === 2
+                ? _c(
+                    "table",
+                    { staticClass: "table table-striped table-dark" },
+                    [
+                      _vm._m(6),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.estadosAutomata2, function(item, index) {
+                          return _c("tr", { key: index }, [
+                            _c("td", { attrs: { scope: "row" } }, [
+                              _vm._v(_vm._s(index))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(item.label))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c("div", [
+                                _c("input", {
+                                  attrs: {
+                                    type: "checkbox",
+                                    name: "state",
+                                    id: "state"
+                                  },
+                                  domProps: {
+                                    checked: _vm.estadosAutomata2[index].final
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.marcarFinal(item.id)
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("label", { attrs: { for: "state" } }, [
+                                  _vm._v("Estado Final")
+                                ])
+                              ])
+                            ])
+                          ])
+                        }),
+                        0
+                      )
+                    ]
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _c(
                 "button",
@@ -94700,17 +95188,39 @@ var staticRenderFns = [
         _vm._v("Representación")
       ]),
       _vm._v(" "),
+      _c("h4", { staticClass: "text-center fredoka my-3" }, [
+        _vm._v("Autómata 1")
+      ]),
+      _vm._v(" "),
       _c("div", {
         staticClass: "mb-3",
         staticStyle: { border: "1px solid lightgray" },
         attrs: { id: "grafo" }
       }),
       _vm._v(" "),
+      _c("h4", { staticClass: "text-center fredoka my-3" }, [
+        _vm._v("Autómata 2")
+      ]),
+      _vm._v(" "),
       _c("div", {
         staticClass: "mb-3",
         staticStyle: { border: "1px solid lightgray" },
         attrs: { id: "grafo2" }
       })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Estado")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Final")])
+      ])
     ])
   },
   function() {
@@ -94868,7 +95378,7 @@ var staticRenderFns = [
                       _vm._v(" "),
                       _c("p", { staticClass: "textocolor lato" }, [
                         _vm._v(
-                          "\n                                Un autómata finito (AF) o máquina de estado finito es un modelo computacional que realiza cómputos en forma automática sobre una entrada para producir una salida.\n                                Este modelo está conformado por un alfabeto, un conjunto de estados finito, una función de transición, un estado inicial y un conjunto de estados finales. \n                                Su funcionamiento se basa en una función de transición, que recibe a partir de un estado inicial una cadena de caracteres pertenecientes al alfabeto (la entrada), y que va leyendo dicha cadena a medida que el autómata se desplaza de un estado a otro, para finalmente detenerse en un estado final o de aceptación, que representa la salida.\n                            "
+                          "\n                                Un autómata finito (AF) es un modelo computacional\n                                que realiza cómputos en forma automática sobre una entrada para producir una salida.\n                                Este modelo está conformado por un alfabeto, un conjunto de estados finito, una función de transición,\n                                un estado inicial y un conjunto de estados finales. \n                                Su funcionamiento se basa en una función de transición, que recibe a partir de un estado inicial\n                                una cadena de caracteres pertenecientes al alfabeto (la entrada), \n                                y que va leyendo dicha cadena a medida que el autómata se desplaza de un estado a otro, para finalmente\n                                detenerse en un estado final, que representa la salida.\n                            "
                         )
                       ]),
                       _vm._v(" "),
@@ -94876,7 +95386,10 @@ var staticRenderFns = [
                         _c("div", { staticClass: "image-parent" }, [
                           _c("img", {
                             staticClass: "img-fluid",
-                            attrs: { src: "" }
+                            attrs: {
+                              src:
+                                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/DFAexample.svg/500px-DFAexample.svg.png"
+                            }
                           })
                         ])
                       ])
@@ -94904,7 +95417,7 @@ var staticRenderFns = [
                       _vm._v(" "),
                       _c("p", { staticClass: "textocolor lato" }, [
                         _vm._v(
-                          "\n                                Un autómata finito determinista (abreviado AFD) es un autómata finito que además es un sistema determinista; es decir, para cada estado q ∈ Q en que se encuentre el autómata, y con cualquier símbolo a ∈ Σ del alfabeto leído, existe siempre a lo más una transición posible δ(q,a).\n                            "
+                          "\n                                Un autómata finito determinista (AFD) es un autómata finito que además es un sistema determinista;\n                                es decir, para cada estado q ∈ Q en que se encuentre el autómata, y con cualquier caracter a ∈ Σ del alfabeto leído,\n                                existe siempre a lo más una transición posible δ(q,a).\n                            "
                         )
                       ]),
                       _vm._v(" "),
@@ -94912,7 +95425,10 @@ var staticRenderFns = [
                         _c("div", { staticClass: "image-parent" }, [
                           _c("img", {
                             staticClass: "img-fluid",
-                            attrs: { src: "" }
+                            attrs: {
+                              src:
+                                "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/NFA-powerset-construction-example.svg/360px-NFA-powerset-construction-example.svg.png"
+                            }
                           })
                         ])
                       ])
@@ -94940,7 +95456,7 @@ var staticRenderFns = [
                       _vm._v(" "),
                       _c("p", { staticClass: "textocolor lato" }, [
                         _vm._v(
-                          " \n                                Un autómata finito no determinista (abreviado AFND) es aquel que, a diferencia de los autómatas finitos deterministas, posee al menos un estado q ∈ Q, tal que para un símbolo a ∈ Σ del alfabeto, existe más de una transición δ(q,a) posible.\n                            "
+                          " \n                                Un autómata finito no determinista (AFND) es aquel que, a diferencia de los autómatas finitos deterministas,\n                                posee al menos un estado q ∈ Q, tal que para un símbolo a ∈ Σ del alfabeto, existe más de una transición δ(q,a) posible.\n                            "
                         )
                       ]),
                       _vm._v(" "),
@@ -94948,7 +95464,10 @@ var staticRenderFns = [
                         _c("div", { staticClass: "image-parentmg" }, [
                           _c("img", {
                             staticClass: "img-fluid",
-                            attrs: { src: "" }
+                            attrs: {
+                              src:
+                                "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/NFAexample.svg/600px-NFAexample.svg.png"
+                            }
                           })
                         ])
                       ])
