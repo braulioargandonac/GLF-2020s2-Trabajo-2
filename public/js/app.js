@@ -2246,6 +2246,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2786,17 +2796,26 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
 
-    /*Arrgelar esto  */
+    /*Arreglar esto  */
     matrizAutomata: function matrizAutomata() {
       var matrix = matrix.newArray();
     },
-    crearMatriz: function crearMatriz() {
+    crearMatrizTransiciones: function crearMatrizTransiciones() {
       var res = [];
 
       for (var i = 0; i < 3; i++) {
-        res[i] = new Array(this.estados.length * this.transiciones.length);
+        res[i] = new Array(this.transicionAutomata1.length);
       }
 
+      for (var j = 0; j < 3; j++) {
+        for (var t = 0; t < this.transicionesAutomata1.length; t++) {
+          res[0] = this.transicionesAutomata1[t].from;
+          res[1] = this.transicionesAutomata1[t].label;
+          res[2] = this.transicionesAutomata1[t].to;
+        }
+      }
+
+      console.log("M", res);
       return res;
     },
 
@@ -2813,13 +2832,13 @@ __webpack_require__.r(__webpack_exports__);
         edges: this.transicionesAutomata2
       };
       var options = {
-        height: 520 + 'px',
+        height: 320 + 'px',
         edges: {
           arrows: 'to'
         }
       };
       var options2 = {
-        height: 520 + 'px',
+        height: 320 + 'px',
         edges: {
           arrows: 'to'
         }
@@ -93704,7 +93723,7 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "row justify-content-center" }, [
       _vm.representacion1 === false
-        ? _c("div", { staticClass: "grafo1 col-md-5 mx-3 card cardaux" }, [
+        ? _c("div", { staticClass: "grafo1 col-md-3 mx-4  card cardaux" }, [
             _c("div", { staticClass: "container-fluid mr-4" }, [
               !_vm.automataCreate
                 ? _c("div", { staticClass: "row justify-content-center" }, [
@@ -93800,7 +93819,7 @@ var render = function() {
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-success",
+                        staticClass: "btn btn-sm btn-success",
                         on: { click: _vm.back }
                       },
                       [_vm._v("Volver")]
@@ -93824,7 +93843,7 @@ var render = function() {
                       _c(
                         "button",
                         {
-                          staticClass: "btn btn-success",
+                          staticClass: "btn btn-sm btn-success",
                           on: { click: _vm.createEstado }
                         },
                         [_vm._v("Añadir Estado")]
@@ -93835,7 +93854,7 @@ var render = function() {
                       _c(
                         "button",
                         {
-                          staticClass: "btn btn-success",
+                          staticClass: "btn btn-sm btn-success",
                           attrs: { type: "button" },
                           on: { click: _vm.createTransicion }
                         },
@@ -93853,7 +93872,7 @@ var render = function() {
                       _c(
                         "button",
                         {
-                          staticClass: "btn btn-success",
+                          staticClass: "btn btn-sm btn-success",
                           on: { click: _vm.representacion }
                         },
                         [_vm._v("Modificar Estado Final")]
@@ -93864,7 +93883,7 @@ var render = function() {
                       _c(
                         "button",
                         {
-                          staticClass: "btn btn-danger",
+                          staticClass: "btn btn-sm btn-danger",
                           on: { click: _vm.delAndClear }
                         },
                         [_vm._v("Eliminar Estado")]
@@ -93872,58 +93891,6 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-2" })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-6 my-4" }, [
-                    _c(
-                      "form",
-                      {
-                        on: {
-                          submit: function($event) {
-                            $event.preventDefault()
-                            return _vm.consultarCadena($event)
-                          }
-                        }
-                      },
-                      [
-                        _c("div", { staticClass: "form-group" }, [
-                          _c("label", { attrs: { for: "" } }, [
-                            _vm._v("Ingrese la palabra: ")
-                          ]),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.cadena,
-                                expression: "cadena"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: { type: "text" },
-                            domProps: { value: _vm.cadena },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.cadena = $event.target.value
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success",
-                            attrs: { type: "submit" }
-                          },
-                          [_vm._v("Consultar Palabra")]
-                        )
-                      ]
-                    )
                   ]),
                   _vm._v(" "),
                   _vm.validador
@@ -94302,7 +94269,7 @@ var render = function() {
                                 _c(
                                   "button",
                                   {
-                                    staticClass: "btn btn-success btn-sm",
+                                    staticClass: "btn  btn-success btn-sm",
                                     attrs: { type: "submit" }
                                   },
                                   [_vm._v("Agregar")]
@@ -94310,74 +94277,7 @@ var render = function() {
                               ]
                             )
                       ])
-                    : _vm._e()
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.option === 2
-              ? _c("div", { staticClass: "container-fluid py-4 mr-4" }, [
-                  _c("h3", { staticClass: "mt-2" }, [
-                    _vm._v("Autómata Finito no Determinista (AFND)")
-                  ]),
-                  _vm._v(" "),
-                  _c("hr"),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "row text-center my-4" }, [
-                    _c("div", { staticClass: "col-md-2" }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-success",
-                          on: { click: _vm.createEstado }
-                        },
-                        [_vm._v("Añadir Estado")]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-success",
-                          attrs: { type: "button" },
-                          on: { click: _vm.createTransicion }
-                        },
-                        [_vm._v("Añadir Transición")]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-2" })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "row text-center" }, [
-                    _c("div", { staticClass: "col-md-2" }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-success",
-                          on: { click: _vm.representacion }
-                        },
-                        [_vm._v("Modificar Estado Final")]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-danger",
-                          on: { click: _vm.delAndClear }
-                        },
-                        [_vm._v("Eliminar Estado")]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-2" })
-                  ]),
+                    : _vm._e(),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-6 my-4" }, [
                     _c(
@@ -94422,13 +94322,80 @@ var render = function() {
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-success",
+                            staticClass: "btn btn-sm btn-success",
                             attrs: { type: "submit" }
                           },
                           [_vm._v("Consultar Palabra")]
                         )
                       ]
                     )
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.option === 2
+              ? _c("div", { staticClass: "container-fluid py-4 mr-4" }, [
+                  _c("h3", { staticClass: "mt-2" }, [
+                    _vm._v("Autómata Finito no Determinista (AFND)")
+                  ]),
+                  _vm._v(" "),
+                  _c("hr"),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row text-center my-4" }, [
+                    _c("div", { staticClass: "col-md-2" }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-success",
+                          on: { click: _vm.createEstado }
+                        },
+                        [_vm._v("Añadir Estado")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-success",
+                          attrs: { type: "button" },
+                          on: { click: _vm.createTransicion }
+                        },
+                        [_vm._v("Añadir Transición")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2" })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row text-center" }, [
+                    _c("div", { staticClass: "col-md-2" }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-success",
+                          on: { click: _vm.representacion }
+                        },
+                        [_vm._v("Modificar Estado Final")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-danger",
+                          on: { click: _vm.delAndClear }
+                        },
+                        [_vm._v("Eliminar Estado")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2" })
                   ]),
                   _vm._v(" "),
                   _vm.validador
@@ -94819,7 +94786,59 @@ var render = function() {
                               ]
                             )
                       ])
-                    : _vm._e()
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6 my-4" }, [
+                    _c(
+                      "form",
+                      {
+                        on: {
+                          submit: function($event) {
+                            $event.preventDefault()
+                            return _vm.consultarCadena($event)
+                          }
+                        }
+                      },
+                      [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c("label", { attrs: { for: "" } }, [
+                            _vm._v("Ingrese la palabra: ")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.cadena,
+                                expression: "cadena"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text" },
+                            domProps: { value: _vm.cadena },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.cadena = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-success",
+                            attrs: { type: "submit" }
+                          },
+                          [_vm._v("Consultar Palabra")]
+                        )
+                      ]
+                    )
+                  ])
                 ])
               : _vm._e()
           ])
@@ -95183,30 +95202,36 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "grafo1 col-md-5 mx-3 card cardaux" }, [
+    return _c("div", { staticClass: "grafo1 col-md-8  card cardaux" }, [
       _c("h3", { staticClass: "text-center fredoka my-2" }, [
         _vm._v("Representación")
       ]),
       _vm._v(" "),
-      _c("h4", { staticClass: "text-center fredoka my-3" }, [
-        _vm._v("Autómata 1")
-      ]),
-      _vm._v(" "),
-      _c("div", {
-        staticClass: "mb-3",
-        staticStyle: { border: "1px solid lightgray" },
-        attrs: { id: "grafo" }
-      }),
-      _vm._v(" "),
-      _c("h4", { staticClass: "text-center fredoka my-3" }, [
-        _vm._v("Autómata 2")
-      ]),
-      _vm._v(" "),
-      _c("div", {
-        staticClass: "mb-3",
-        staticStyle: { border: "1px solid lightgray" },
-        attrs: { id: "grafo2" }
-      })
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("h4", { staticClass: "text-center fredoka my-3" }, [
+            _vm._v("Autómata 1")
+          ]),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "mb-3",
+            staticStyle: { border: "1px solid lightgray" },
+            attrs: { id: "grafo" }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("h4", { staticClass: "text-center fredoka my-3" }, [
+            _vm._v("Autómata 2")
+          ]),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "mb-3",
+            staticStyle: { border: "1px solid lightgray" },
+            attrs: { id: "grafo2" }
+          })
+        ])
+      ])
     ])
   },
   function() {

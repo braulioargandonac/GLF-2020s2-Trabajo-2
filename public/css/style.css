@@ -134,3 +134,8 @@
     .list-group-item:hover {
         background-color: rgb(160, 166, 170);
     }
+
+    .img-fluid{
+        max-width: 250px;
+        max-height: 250px;
+    }

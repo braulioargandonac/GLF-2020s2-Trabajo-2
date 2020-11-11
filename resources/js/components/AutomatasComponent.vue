@@ -1,13 +1,9 @@
 <template>
     <div>
-        <!-- crear automata 1 crear automata 2 
-        crear 1 // afd afnd 
-        crear 2 // afd afnd 
-        automataCreate -->
         <h1 class="text-center textocolor fredoka mt-5 pt-4">Crear Autómata</h1> 
         
         <div class="row justify-content-center">
-            <div class="grafo1 col-md-5 mx-3 card cardaux" v-if="representacion1===false">
+            <div class="grafo1 col-md-3 mx-4  card cardaux" v-if="representacion1===false">
                 <div class="container-fluid mr-4">
                     <div class="row justify-content-center" v-if="!automataCreate">
                         <div class="row my-3">
@@ -24,7 +20,7 @@
                             <option :value="1">Autómata Finito Determinista (AFD)</option>
                             <option :value="2">Autómata Finito no Determinista (AFND)</option>
                         </select>
-                        <button class="btn btn-success" @click="back">Volver</button>   
+                        <button class="btn btn-sm btn-success" @click="back">Volver</button>   
                     </div>         
                 </div>
                 <div class="container-fluid py-4 mr-4" v-if="option===1">
@@ -33,32 +29,24 @@
                     <div class="row text-center my-4">
                         <div class="col-md-2"></div>
                         <div class="col-md-4">
-                            <button class="btn btn-success" @click="createEstado">Añadir Estado</button>
+                            <button class="btn btn-sm btn-success" @click="createEstado">Añadir Estado</button>
                         </div>
                         <div class="col-md-4">
-                            <button type="button" class="btn btn-success" @click="createTransicion">Añadir Transición</button>
+                            <button type="button" class="btn btn-sm btn-success" @click="createTransicion">Añadir Transición</button>
                         </div>
                         <div class="col-md-2"></div>
                     </div>
                     <div class="row text-center">
                         <div class="col-md-2"></div>
                         <div class="col-md-4">
-                            <button class="btn btn-success" @click="representacion">Modificar Estado Final</button>
+                            <button class="btn btn-sm btn-success" @click="representacion">Modificar Estado Final</button>
                         </div>
                         <div class="col-md-4">
-                            <button class="btn btn-danger" @click="delAndClear">Eliminar Estado</button>
+                            <button class="btn btn-sm btn-danger" @click="delAndClear">Eliminar Estado</button>
                         </div>
                         <div class="col-md-2"></div>
                     </div>
-                    <div class="col-md-6 my-4">
-                        <form @submit.prevent="consultarCadena">
-                            <div class="form-group">
-                                <label for="">Ingrese la palabra: </label>
-                                <input type="text" class="form-control" v-model="cadena">
-                            </div>
-                         <button class="btn btn-success" type="submit" >Consultar Palabra</button>
-                        </form>
-                    </div>
+                    
                     <div class="my-4" v-if="validador">
                         <div>
                             <form @submit.prevent="agregarEstado" v-if="selectAuto===1">
@@ -115,32 +103,8 @@
                                 <input type="text" minlength="1" maxlength="1" pattern="[a-zA-Z]+" v-model="transicionAutomata2.label" class="form-control">
                             </div>
                     
-                            <button class="btn btn-success btn-sm" type="submit" >Agregar</button>
+                            <button class="btn  btn-success btn-sm" type="submit" >Agregar</button>
                         </form>
-                    </div>
-                </div>
-                <div class="container-fluid py-4 mr-4" v-if="option===2">
-                    <h3 class="mt-2">Autómata Finito no Determinista (AFND)</h3>
-                    <hr>
-                     <div class="row text-center my-4">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-4">
-                            <button class="btn btn-success" @click="createEstado">Añadir Estado</button>
-                        </div>
-                        <div class="col-md-4">
-                            <button type="button" class="btn btn-success" @click="createTransicion">Añadir Transición</button>
-                        </div>
-                        <div class="col-md-2"></div>
-                    </div>
-                    <div class="row text-center">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-4">
-                            <button class="btn btn-success" @click="representacion">Modificar Estado Final</button>
-                        </div>
-                        <div class="col-md-4">
-                            <button class="btn btn-danger" @click="delAndClear">Eliminar Estado</button>
-                        </div>
-                        <div class="col-md-2"></div>
                     </div>
 
                     <div class="col-md-6 my-4">
@@ -149,9 +113,37 @@
                                 <label for="">Ingrese la palabra: </label>
                                 <input type="text" class="form-control" v-model="cadena">
                             </div>
-                         <button class="btn btn-success" type="submit">Consultar Palabra</button>
+                         <button class="btn btn-sm btn-success" type="submit" >Consultar Palabra</button>
                         </form>
                     </div>
+
+
+                </div>
+                <div class="container-fluid py-4 mr-4" v-if="option===2">
+                    <h3 class="mt-2">Autómata Finito no Determinista (AFND)</h3>
+                    <hr>
+                     <div class="row text-center my-4">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <button class="btn btn-sm btn-success" @click="createEstado">Añadir Estado</button>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-sm btn-success" @click="createTransicion">Añadir Transición</button>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <button class="btn btn-sm btn-success" @click="representacion">Modificar Estado Final</button>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-sm btn-danger" @click="delAndClear">Eliminar Estado</button>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+
+                   
                     <div class="my-4" v-if="validador">
                         <div>
                             <form @submit.prevent="agregarEstado" v-if="selectAuto===1">
@@ -211,14 +203,32 @@
                                 <button class="btn btn-success btn-sm" type="submit" >Agregar</button>
                         </form>
                     </div>
+
+                    <div class="col-md-6 my-4">
+                        <form @submit.prevent="consultarCadena">
+                            <div class="form-group">
+                                <label for="">Ingrese la palabra: </label>
+                                <input type="text" class="form-control" v-model="cadena">
+                            </div>
+                         <button class="btn btn-sm btn-success" type="submit">Consultar Palabra</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <div class="grafo1 col-md-5 mx-3 card cardaux">
+            <div class="grafo1 col-md-8  card cardaux">
                 <h3 class="text-center fredoka my-2">Representación</h3>
-                <h4 class="text-center fredoka my-3">Autómata 1</h4>
-                <div id="grafo" class="mb-3" style="border: 1px solid lightgray;"></div>
-                <h4 class="text-center fredoka my-3">Autómata 2</h4>
-                <div id="grafo2" class="mb-3" style="border: 1px solid lightgray;"></div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4 class="text-center fredoka my-3">Autómata 1</h4>
+                        <div id="grafo" class="mb-3" style="border: 1px solid lightgray;"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="text-center fredoka my-3">Autómata 2</h4>
+                        <div id="grafo2" class="mb-3" style="border: 1px solid lightgray;"></div>
+                    </div>
+                </div>
+                
             </div>
             <div class="grafo1 col-md-5 mx-3 card cardaux" v-if="representacion1===true">
                 <hr>
@@ -887,19 +897,28 @@ export default {
             
         },
         
-        /*Arrgelar esto  */
+        /*Arreglar esto  */
         matrizAutomata(){
             var matrix = matrix.newArray()
         },
 
-        crearMatriz(){
+        crearMatrizTransiciones(){
             var res = [];
             for(var i=0; i<3;i++){
-                res[i]= new Array(this.estados.length*this.transiciones.length);
+                res[i]= new Array(this.transicionAutomata1.length);
             }
+            for(var j=0; j<3;j++){
+                for(var t=0; t<this.transicionesAutomata1.length;t++){
+                    res[0]=this.transicionesAutomata1[t].from
+                    res[1]=this.transicionesAutomata1[t].label
+                    res[2]=this.transicionesAutomata1[t].to
+                }
+            }
+            console.log("M",res);
             return res;
         },
         /**hasta acá  */
+
         drawAutomata(){
             var container= document.getElementById("grafo");
             var container2= document.getElementById("grafo2");
@@ -909,14 +928,15 @@ export default {
             var data2={nodes:this.estadosAutomata2,
                        edges:this.transicionesAutomata2};
             var options = {
-                height: 520 + 'px',
+                height: 320 + 'px',
+                
                 edges:{
                     
                     arrows:'to',
                 },
             };
               var options2 = {
-                height: 520 + 'px',
+                height: 320 + 'px',
                 edges:{
                     
                     arrows:'to',
