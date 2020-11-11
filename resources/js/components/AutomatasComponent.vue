@@ -309,7 +309,7 @@
             </div>
             <div id="afd-equivalente" class="card cardaux3 col-md-10 rounded-bottom mb-3" v-if="operacion===2">
                 <div class="container">
-                    Inter cambiar estados finales por no finales
+                    Esta propiedad es solo para AFD, intercambia los estados finales por no finales.
                 </div>
             </div>
 
@@ -319,7 +319,7 @@
             </div>
             <div id="afd-equivalente" class="card cardaux3 col-md-10 rounded-bottom mb-3" v-if="operacion===3">
                 <div class="container">
-                    aaaaaaa
+                    La unión de dos lenguajes regulares es otro lenguaje regular, donde se utiliza la operación de unión de conjuntos, de manera que, Σ = {x,y} si L1 = {x,xy} y L2 = {yx,yy} la unión es L1UL2 = {x,xy,yx,yy}.
                 </div>
             </div>
 
@@ -329,7 +329,7 @@
             </div>
             <div id="afd-equivalente" class="card cardaux3 col-md-10 rounded-bottom mb-3" v-if="operacion===4">
                 <div class="container">
-                    aaaaaaa
+                    Se concatena una una cadena del primer lenguaje y una cadena del segundo lenguaje.
                 </div>
             </div>
 
@@ -339,7 +339,7 @@
             </div>
             <div id="afd-equivalente" class="card cardaux3 col-md-10 rounded-bottom mb-3" v-if="operacion===5">
                 <div class="container">
-                    aaaaaaaa
+                    La intersección de ambos lenguajes utiliza la operación de interseccion de conjuntos, Automata1 ∩ Automata2: 
                 </div>
             </div>
         </div>
