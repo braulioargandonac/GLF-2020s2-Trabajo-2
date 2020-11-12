@@ -2260,6 +2260,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2327,6 +2341,66 @@ __webpack_require__.r(__webpack_exports__);
         }
       },
       transicionesUnion: [],
+      automataConcatenacion: [{
+        id: 'inicio',
+        label: 'inicio',
+        color: '#75616b47',
+        "final": false
+      }],
+      transicionConcatenacion: {
+        from: '',
+        label: '',
+        to: '',
+        color: {
+          color: 'rgb(0,0,0)'
+        }
+      },
+      transicionesConcatenacion: [],
+      automataComplemento: [{
+        id: 'inicio',
+        label: 'inicio',
+        color: '#75616b47',
+        "final": false
+      }],
+      transicionComplemento: {
+        from: '',
+        label: '',
+        to: '',
+        color: {
+          color: 'rgb(0,0,0)'
+        }
+      },
+      transicionesComplemento: [],
+      automataInterseccion: [{
+        id: 'inicio',
+        label: 'inicio',
+        color: '#75616b47',
+        "final": false
+      }],
+      transicionInterseccion: {
+        from: '',
+        label: '',
+        to: '',
+        color: {
+          color: 'rgb(0,0,0)'
+        }
+      },
+      transicionesInterseccion: [],
+      automataEquivalente: [{
+        id: 'inicio',
+        label: 'inicio',
+        color: '#75616b47',
+        "final": false
+      }],
+      transicionEquivalente: {
+        from: '',
+        label: '',
+        to: '',
+        color: {
+          color: 'rgb(0,0,0)'
+        }
+      },
+      transicionesEquivalente: [],
       cadena: '',
       option: 0,
       operacion: '',
@@ -2635,24 +2709,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     delAndClear: function delAndClear() {
       if (this.selectAuto === 1) {
-        var ultimo = this.estadosAutomata1.pop();
-
-        for (var i = 0; i < this.transicionesAutomata1.length; i++) {
-          if (this.transicionesAutomata1[i].from === ultimo.id || this.transicionesAutomata1[i].to === ultimo.id) {
-            this.transicionesAutomata1.splice(i, 1);
-          }
-        }
+        this.estadosAutomata1 = [];
+        this.transicionesAutomata1 = [];
       } else {
-        var ultimo = this.estadosAutomata2.pop();
-
-        for (var i = 0; i < this.transicionesAutomata2.length; i++) {
-          if (this.transicionesAutomata2[i].from === ultimo.id || this.transicionesAutomata2[i].to === ultimo.id) {
-            this.transicionesAutomata2.splice(i, 1);
-          }
-        }
+        this.estadosAutomata2 = [];
+        this.transicionesAutomata2 = [];
       }
 
-      console.log("Estado Eliminado");
+      console.log("Automata Eliminado");
       this.drawAutomata();
     },
     marcarFinal: function marcarFinal(id) {
@@ -2869,11 +2933,6 @@ __webpack_require__.r(__webpack_exports__);
         console.log("alfabeto2: ", this.alfabeto2);
       }
     },
-
-    /*Arreglar esto  */
-    matrizAutomata: function matrizAutomata() {
-      var matrix = matrix.newArray();
-    },
     crearMatrizTransiciones: function crearMatrizTransiciones(transiciones) {
       var res = [];
 
@@ -2887,7 +2946,7 @@ __webpack_require__.r(__webpack_exports__);
         res[2][t] = transiciones[t].to;
       }
 
-      console.log("M", res);
+      console.log("Matriz ", res);
       return res;
     },
     matrizTransicionesUnion: function matrizTransicionesUnion() {
@@ -2912,55 +2971,117 @@ __webpack_require__.r(__webpack_exports__);
         strId = this.automataUnion[i].id.split(',');
 
         for (var j = 1; j <= matAuto1.length; j++) {
-          console.log("geraud chupala 2");
-          console.log("str", strId[0]);
-          /* 13 13 14 14 23 23 24 24 */
-
-          console.log("mat", matAuto1[0][j]);
-          /* 1 1 2 1 1 2 1 1 2 1 1 2 */
-
           if (strId[0] === matAuto1[0][j]) {
-            console.log("geraud chupala 3");
-            transicion = matAuto1[1][j]; //a b ab
-
+            transicion = matAuto1[1][j];
             to1 = matAuto1[2][j];
             var arraytransicion = transicion.split(',');
 
             if (arraytransicion.length > 1) {
-              console.log("transicion: ", transicion);
-
               for (var m = 0; m < arraytransicion.length; m++) {
-                console.log("caracter", arraytransicion[m]);
                 transicion = arraytransicion[m];
-                to1 = matAuto1[2][j];
-                console.log('to1', to1);
 
                 for (var k = 1; k <= matAuto2.length; k++) {
                   transicion2 = matAuto2[1][k];
                   var arraytransicion2 = transicion2.split(',');
 
                   if (arraytransicion2.length > 1) {
+                    //a,b - a,b
                     for (var o = 0; o < arraytransicion2.length; o++) {
                       transicion2 = arraytransicion2[o];
 
                       if (strId[1] === matAuto2[0][k] && transicion2 == transicion) {
                         to2 = matAuto2[2][k];
-                        console.log("to2", to2);
-                        union.from = strId[0] + strId[1];
+                        union.from = strId[0] + ',' + strId[1];
                         union.label = transicion;
-                        union.to = to1 + to2;
-                        console.log("union", union);
+                        union.to = to1 + ',' + to2;
+                        console.log("union 1", union);
+                        matrix.push(union);
+                        union = {
+                          from: '',
+                          label: '',
+                          to: '',
+                          color: {
+                            color: 'rgb(0,0,0)'
+                          }
+                        };
                       }
+                    }
+                  } else {
+                    //a,b - a
+                    if (strId[1] === matAuto2[0][k] && transicion2 == transicion) {
+                      to2 = matAuto2[2][k];
+                      union.from = strId[0] + ',' + strId[1];
+                      union.label = transicion;
+                      union.to = to1 + ',' + to2;
+                      console.log("union 2", union);
+                      matrix.push(union);
+                      union = {
+                        from: '',
+                        label: '',
+                        to: '',
+                        color: {
+                          color: 'rgb(0,0,0)'
+                        }
+                      };
                     }
                   }
                 }
               }
-            } else {}
+            } else {
+              //a - a, b      y a - a
+              for (var k = 1; k <= matAuto2.length; k++) {
+                transicion2 = matAuto2[1][k];
+                var arraytransicion2 = transicion2.split(',');
+
+                if (arraytransicion2.length > 1) {
+                  //a,b - a,b
+                  for (var o = 0; o < arraytransicion2.length; o++) {
+                    transicion2 = arraytransicion2[o];
+
+                    if (strId[1] === matAuto2[0][k] && transicion2 == transicion) {
+                      to2 = matAuto2[2][k];
+                      union.from = strId[0] + ',' + strId[1];
+                      union.label = transicion;
+                      union.to = to1 + ',' + to2;
+                      console.log("union 3", union);
+                      matrix.push(union);
+                      union = {
+                        from: '',
+                        label: '',
+                        to: '',
+                        color: {
+                          color: 'rgb(0,0,0)'
+                        }
+                      };
+                    }
+                  }
+                } else {
+                  //a,b - a
+                  if (strId[1] === matAuto2[0][k] && transicion2 == transicion) {
+                    to2 = matAuto2[2][k];
+                    union.from = strId[0] + ',' + strId[1];
+                    union.label = transicion;
+                    union.to = to1 + ',' + to2;
+                    console.log("union 4", union);
+                    matrix.push(union);
+                    union = {
+                      from: '',
+                      label: '',
+                      to: '',
+                      color: {
+                        color: 'rgb(0,0,0)'
+                      }
+                    };
+                  }
+                }
+              }
+            }
           }
         }
       }
 
-      console.log("fin funcion matriz transiciones union");
+      console.log(matrix);
+      this.transicionesUnion = matrix;
     },
     compararAlfabetos: function compararAlfabetos() {
       var cont = 0;
@@ -2992,6 +3113,8 @@ __webpack_require__.r(__webpack_exports__);
         "final": false,
         shape: 'ellipse'
       };
+      this.alfabeto1 = this.simplificarAlfabeto(this.alfabeto1);
+      this.alfabeto2 = this.simplificarAlfabeto(this.alfabeto2);
 
       if (this.compararAlfabetos()) {
         var nuevoAlfabeto = this.alfabeto1;
@@ -3003,10 +3126,28 @@ __webpack_require__.r(__webpack_exports__);
 
             if (this.estadosAutomata1[i]["final"] == true || this.estadosAutomata2[k]["final"] == true) {
               autoaux["final"] = true;
+              autoaux.shape = 'diamond';
+              autoaux.color = '#5cb85c';
             }
 
             this.automataUnion.push(autoaux);
             console.log(this.automataUnion);
+
+            if (i === 1 && k === 1) {
+              this.transicionUnion.from = 'inicio';
+              this.transicionUnion.to = autoaux.id;
+              this.transicionUnion.label = '';
+              this.transicionesUnion.push(this.transicionUnion);
+              this.transicionUnion = {
+                from: '',
+                label: '',
+                to: '',
+                color: {
+                  color: 'rgb(0,0,0)'
+                }
+              };
+            }
+
             autoaux = {
               id: '',
               label: '',
@@ -3018,15 +3159,38 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         this.matrizTransicionesUnion();
+        console.log(this.transicionesUnion);
       } else {
         var nuevoAlfabeto = this.alfabeto1.concat(this.alfabeto2);
-        console.log(nuevoAlfabeto);
+        var purgado = this.simplificarAlfabeto(nuevoAlfabeto);
+        nuevoAlfabeto = purgado;
+        console.log("nuevo Alfabeto:", nuevoAlfabeto);
+
+        for (var i = 1; i < this.estadosAutomata1.length; i++) {
+          for (j = 1; j < this.estadosAutomata2.length; j++) {}
+        }
       }
+    },
+    simplificarAlfabeto: function simplificarAlfabeto(alfabeto) {
+      var newArr = [];
+      var myObj = {};
+      alfabeto.forEach(function (el) {
+        if (!(el in myObj)) {
+          myObj[el] = true;
+          newArr.push(el);
+        }
+      });
+      console.log(newArr);
+      return newArr;
     },
     drawAutomata: function drawAutomata() {
       var container = document.getElementById("grafo");
       var container2 = document.getElementById("grafo2");
       var containerUnion = document.getElementById("union");
+      var containerInterseccion = document.getElementById("interseccion");
+      var containerComplemento = document.getElementById("complemento");
+      var containerConcatenacion = document.getElementById("concatenacion");
+      var containerEquivalente = document.getElementById("equivalente");
       var data = {
         nodes: this.estadosAutomata1,
         edges: this.transicionesAutomata1
@@ -3039,33 +3203,61 @@ __webpack_require__.r(__webpack_exports__);
         nodes: this.automataUnion,
         edges: this.transicionesUnion
       };
+      var dataInterseccion = {
+        nodes: this.automataInterseccion,
+        edges: this.transicionesInterseccion
+      };
+      var dataComplemento = {
+        nodes: this.automataComplemento,
+        edges: this.transicionesComplemento
+      };
+      var dataConcatenacion = {
+        nodes: this.automataConcatenacion,
+        edges: this.transicionesConcatenacion
+      };
+      var dataEquivalente = {
+        nodes: this.automataEquivalente,
+        edges: this.transicionesEquivalente
+      };
       var options = {
         height: 320 + 'px',
         edges: {
           arrows: 'to'
         }
       };
-      var options2 = {
-        height: 320 + 'px',
-        edges: {
-          arrows: 'to'
-        }
-      };
-      var optionsUnion = {
-        height: 320 + 'px',
-        edges: {
-          arrows: 'to'
-        }
-      };
       var network = new vis.Network(container, data, options);
-      var network2 = new vis.Network(container2, data2, options2);
-      var networkUnion = new vis.Network(containerUnion, dataUnion, optionsUnion);
+      var network2 = new vis.Network(container2, data2, options);
+      var networkUnion = new vis.Network(containerUnion, dataUnion, options);
+      var networkInterseccion = new vis.Network(containerInterseccion, dataInterseccion, options);
+      var networkConcatenacion = new vis.Network(containerConcatenacion, dataConcatenacion, options);
+      var networkComplemento = new vis.Network(containerComplemento, dataComplemento, options);
+      var networkEquivalente = new vis.Network(containerEquivalente, dataEquivalente, options);
     },
     afdEquivalente: function afdEquivalente() {},
     complemento: function complemento() {},
     concatenacion: function concatenacion() {},
     interseccion: function interseccion() {},
-    simplificar: function simplificar() {}
+    simplificarAFD: function simplificarAFD(estados) {
+      var res = []; // Se crea la matriz
+
+      for (var i = 0; i < estados.length; i++) {
+        res[i] = new Array(estados.length);
+      } //Se marcan con x todos los estados que no pueden simplificar entre si y con 0 la diagonal
+
+
+      for (var n = 0; n < estados.length; n++) {
+        for (var m = 0; m < estados.length; m++) {
+          if (n = m) {
+            res[n][m] = 0;
+          }
+
+          if (estados[n]["final"] != estados["final"][m]) {
+            res[n][m] = 'x';
+            res[m][n] = 'x';
+          }
+        }
+      }
+    }
   }
 });
 
@@ -94100,7 +94292,7 @@ var render = function() {
                           staticClass: "btn btn-sm btn-danger",
                           on: { click: _vm.delAndClear }
                         },
-                        [_vm._v("Eliminar Estado")]
+                        [_vm._v("Eliminar Autómata")]
                       )
                     ]),
                     _vm._v(" "),
@@ -94604,7 +94796,7 @@ var render = function() {
                           staticClass: "btn btn-sm btn-danger",
                           on: { click: _vm.delAndClear }
                         },
-                        [_vm._v("Eliminar Estado")]
+                        [_vm._v("Eliminar Autómata")]
                       )
                     ]),
                     _vm._v(" "),
@@ -95288,8 +95480,24 @@ var render = function() {
             [
               _c("div", { staticClass: "container my-3" }, [
                 _vm._v(
-                  "\n                Esta propiedad es solo para AFD, intercambia los estados finales por no finales.\n            "
-                )
+                  "\n                Esta propiedad es solo para AFD, intercambia los estados finales por no finales.\n                "
+                ),
+                _c("div", { staticClass: "my-3 text-center" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: { click: _vm.drawAutomata }
+                    },
+                    [_vm._v("Mostrar AFD equivalente")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", {
+                  staticClass: "mb-3",
+                  staticStyle: { border: "1px solid lightgray" },
+                  attrs: { id: "equivalente" }
+                })
               ])
             ]
           )
@@ -95354,8 +95562,24 @@ var render = function() {
             [
               _c("div", { staticClass: "container my-3" }, [
                 _vm._v(
-                  "\n                Se concatena una una cadena del primer lenguaje y una cadena del segundo lenguaje.\n            "
-                )
+                  "\n                Se concatena una una cadena del primer lenguaje y una cadena del segundo lenguaje.\n                "
+                ),
+                _c("div", { staticClass: "my-3 text-center" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: { click: _vm.drawAutomata }
+                    },
+                    [_vm._v("Mostrar concatenación")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", {
+                  staticClass: "mb-3",
+                  staticStyle: { border: "1px solid lightgray" },
+                  attrs: { id: "concatenacion" }
+                })
               ])
             ]
           )
@@ -95380,6 +95604,36 @@ var render = function() {
               _c("div", { staticClass: "container my-3" }, [
                 _vm._v(
                   "\n                La intersección de ambos lenguajes utiliza la operación de interseccion de conjuntos, Automata1 ∩ Automata2: \n            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "text-center" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-success",
+                    on: {
+                      click: function($event) {
+                        return _vm.simplificarAFD(_vm.estadosAutomata1)
+                      }
+                    }
+                  },
+                  [_vm._v("SIMPLIFICA LA WEA 1")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "text-center" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-success",
+                    on: {
+                      click: function($event) {
+                        return _vm.simplificarAFD(_vm.estadosAutomata2)
+                      }
+                    }
+                  },
+                  [_vm._v("SIMPLIFICA LA WEA 2")]
                 )
               ])
             ]

@@ -42,7 +42,7 @@
                             <button class="btn btn-sm btn-success" @click="representacion">Modificar Estado Final</button>
                         </div>
                         <div class="col-md-4">
-                            <button class="btn btn-sm btn-danger" @click="delAndClear">Eliminar Estado</button>
+                            <button class="btn btn-sm btn-danger" @click="delAndClear">Eliminar Autómata</button>
                         </div>
                         <div class="col-md-2"></div>
                     </div>
@@ -138,7 +138,7 @@
                             <button class="btn btn-sm btn-success" @click="representacion">Modificar Estado Final</button>
                         </div>
                         <div class="col-md-4">
-                            <button class="btn btn-sm btn-danger" @click="delAndClear">Eliminar Estado</button>
+                            <button class="btn btn-sm btn-danger" @click="delAndClear">Eliminar Autómata</button>
                         </div>
                         <div class="col-md-2"></div>
                     </div>
@@ -310,6 +310,10 @@
             <div id="afd-equivalente" class="card cardaux3 col-md-10 rounded-bottom mb-3" v-if="operacion===2">
                 <div class="container my-3">
                     Esta propiedad es solo para AFD, intercambia los estados finales por no finales.
+                    <div class="my-3 text-center">
+                        <button class="btn btn-success" @click="drawAutomata">Mostrar AFD equivalente</button>
+                    </div>      
+                    <div id="equivalente" class="mb-3" style="border: 1px solid lightgray;"></div>
                 </div>
             </div>
 
@@ -334,6 +338,10 @@
             <div id="afd-equivalente" class="card cardaux3 col-md-10 rounded-bottom mb-3" v-if="operacion===4">
                 <div class="container my-3">
                     Se concatena una una cadena del primer lenguaje y una cadena del segundo lenguaje.
+                    <div class="my-3 text-center">
+                        <button class="btn btn-success" @click="drawAutomata">Mostrar concatenación</button>
+                    </div>      
+                    <div id="concatenacion" class="mb-3" style="border: 1px solid lightgray;"></div>
                 </div>
             </div>
 
@@ -344,6 +352,12 @@
             <div id="afd-equivalente" class="card cardaux3 col-md-10 rounded-bottom mb-3" v-if="operacion===5">
                 <div class="container my-3">
                     La intersección de ambos lenguajes utiliza la operación de interseccion de conjuntos, Automata1 ∩ Automata2: 
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-success" @click="simplificarAFD(estadosAutomata1)">SIMPLIFICA LA WEA 1</button>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-success" @click="simplificarAFD(estadosAutomata2)">SIMPLIFICA LA WEA 2</button>
                 </div>
             </div>
         </div>
@@ -373,6 +387,22 @@ export default {
             automataUnion: [{id:'inicio', label:'inicio',color:'#75616b47', final:false}],
             transicionUnion:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
             transicionesUnion:[],
+
+            automataConcatenacion:[{id:'inicio', label:'inicio',color:'#75616b47', final:false}],
+            transicionConcatenacion:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
+            transicionesConcatenacion:[],
+
+            automataComplemento:[{id:'inicio', label:'inicio',color:'#75616b47', final:false}],
+            transicionComplemento:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
+            transicionesComplemento:[],
+
+            automataInterseccion:[{id:'inicio', label:'inicio',color:'#75616b47', final:false}],
+            transicionInterseccion:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
+            transicionesInterseccion:[],
+            
+            automataEquivalente:[{id:'inicio', label:'inicio',color:'#75616b47', final:false}],
+            transicionEquivalente:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
+            transicionesEquivalente:[],
 
             cadena:'',
 
@@ -700,28 +730,16 @@ export default {
 
             if(this.selectAuto===1)
             {
-                var ultimo= this.estadosAutomata1.pop();
-                for(var i=0; i< this.transicionesAutomata1.length;i++)
-                {
-                    if(this.transicionesAutomata1[i].from===ultimo.id || this.transicionesAutomata1[i].to===ultimo.id)
-                    {
-                        this.transicionesAutomata1.splice(i,1);
-                    }
-                } 
+                this.estadosAutomata1=[]
+                this.transicionesAutomata1=[]
 
             }
             else{
-                var ultimo= this.estadosAutomata2.pop();
-                for(var i=0; i< this.transicionesAutomata2.length;i++)
-                {
-                    if(this.transicionesAutomata2[i].from===ultimo.id || this.transicionesAutomata2[i].to===ultimo.id)
-                    {
-                        this.transicionesAutomata2.splice(i,1);
-                    }
-                } 
+                this.estadosAutomata2=[]
+                this.transicionesAutomata2=[]   
             }
                
-            console.log("Estado Eliminado");
+            console.log("Automata Eliminado");
             this.drawAutomata();
         },
 
@@ -957,10 +975,6 @@ export default {
             
         },
         
-        /*Arreglar esto  */
-        matrizAutomata(){
-            var matrix = matrix.newArray()
-        },
 
         crearMatrizTransiciones(transiciones){
             var res = [];
@@ -973,7 +987,7 @@ export default {
                 res[2][t]=transiciones[t].to
             }
         
-            console.log("M",res);
+            console.log("Matriz ",res);
             return res;
         },
 
@@ -992,48 +1006,81 @@ export default {
                 strId = this.automataUnion[i].id.split(','); 
                 for(var j=1; j<=matAuto1.length;j++)
                 {
-                    console.log("geraud chupala 2");
-                    console.log("str", strId[0]); /* 13 13 14 14 23 23 24 24 */
-                    console.log("mat", matAuto1[0][j]); /* 1 1 2 1 1 2 1 1 2 1 1 2 */
                     if(strId[0]===matAuto1[0][j])
                     {
-                        console.log("geraud chupala 3");
-                        transicion=matAuto1[1][j]; //a b ab
+                        transicion=matAuto1[1][j];
                         to1=matAuto1[2][j];
                         var arraytransicion= transicion.split(',');
                         if (arraytransicion.length>1){
-                            console.log("transicion: " , transicion);
                             for(var m=0; m<arraytransicion.length; m++){
-                                console.log("caracter",arraytransicion[m]);
                                 transicion= arraytransicion[m]
-                                to1=matAuto1[2][j];
-                                console.log('to1',to1);
                                 for(var k=1; k<=matAuto2.length;k++){
                                     transicion2=matAuto2[1][k];
                                     var arraytransicion2= transicion2.split(',');
-                                    if(arraytransicion2.length>1){
+                                    if(arraytransicion2.length>1){   //a,b - a,b
                                         for(var o=0; o<arraytransicion2.length; o++){
                                             transicion2= arraytransicion2[o];
                                             if(strId[1]===matAuto2[0][k] && transicion2==transicion){
                                                 to2=matAuto2[2][k];
-                                                console.log("to2",to2);
-                                                union.from=strId[0]+strId[1];
+                                                union.from=strId[0]+','+strId[1];
                                                 union.label=transicion;
-                                                union.to=to1+to2;
-                                                console.log("union",union);
+                                                union.to=to1+','+to2;
+                                                console.log("union 1",union);
+                                                matrix.push(union);
+                                                union = {from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
                                             }
+                                        }
+                                    }else{                              //a,b - a
+                                        if(strId[1]===matAuto2[0][k] && transicion2==transicion){
+                                            to2=matAuto2[2][k];
+                                            union.from=strId[0]+','+strId[1];
+                                            union.label=transicion;
+                                            union.to=to1+','+to2;
+                                            console.log("union 2",union);
+                                            matrix.push(union);
+                                            union = {from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
                                         }
                                     }
                                 }
                             }
-                        }else{
-
+                            
+                        }else{ //a - a, b      y a - a
+                            for(var k=1; k<=matAuto2.length;k++){
+                                transicion2=matAuto2[1][k];
+                                var arraytransicion2= transicion2.split(',');
+                                if(arraytransicion2.length>1){   //a,b - a,b
+                                    for(var o=0; o<arraytransicion2.length; o++){
+                                        transicion2= arraytransicion2[o];
+                                        if(strId[1]===matAuto2[0][k] && transicion2==transicion){
+                                            to2=matAuto2[2][k];
+                                            union.from=strId[0]+','+strId[1];
+                                            union.label=transicion;
+                                            union.to=to1+','+to2;
+                                            console.log("union 3",union);
+                                            matrix.push(union);
+                                            union = {from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
+                                        }
+                                    }
+                                }else{                              //a,b - a
+                                    if(strId[1]===matAuto2[0][k] && transicion2==transicion){
+                                        to2=matAuto2[2][k];
+                                        union.from=strId[0]+','+strId[1];
+                                        union.label=transicion;
+                                        union.to=to1+','+to2;
+                                        console.log("union 4",union);
+                                        matrix.push(union);
+                                        union = {from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
+                                    }
+                                }
+                            }
                         }
                     }
                 }           
             }
-            console.log("fin funcion matriz transiciones union");
+            console.log(matrix);
+            this.transicionesUnion=matrix;
         },
+        
 
         compararAlfabetos()
         {
@@ -1062,6 +1109,8 @@ export default {
             console.log("alfabeto 2", this.alfabeto2);
             var autoUnion = '';
             var autoaux = {id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'}
+            this.alfabeto1=this.simplificarAlfabeto(this.alfabeto1);
+            this.alfabeto2=this.simplificarAlfabeto(this.alfabeto2);
             if(this.compararAlfabetos()){
                 var nuevoAlfabeto = this.alfabeto1;
                 for(var i=1 ; i<this.estadosAutomata1.length ;i++){
@@ -1070,24 +1119,63 @@ export default {
                         autoaux.id=this.estadosAutomata1[i].label+','+this.estadosAutomata2[k].label;
                         if(this.estadosAutomata1[i].final==true || this.estadosAutomata2[k].final==true){
                             autoaux.final=true;
+                            autoaux.shape='diamond';
+                            autoaux.color='#5cb85c';
                         }
                         this.automataUnion.push(autoaux);
                         console.log(this.automataUnion);  
+                        if(i===1 && k===1)
+                        {
+                            this.transicionUnion.from='inicio';
+                            this.transicionUnion.to=autoaux.id;
+                            this.transicionUnion.label='';
+                            this.transicionesUnion.push(this.transicionUnion);
+                            this.transicionUnion={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
+                        }
                         autoaux = {id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'};
                     }
-                }
+                }        
                 this.matrizTransicionesUnion();
+                console.log(this.transicionesUnion);
             }
             else{
                 var nuevoAlfabeto = this.alfabeto1.concat(this.alfabeto2);
-                console.log(nuevoAlfabeto);
+                var purgado= this.simplificarAlfabeto(nuevoAlfabeto);
+                nuevoAlfabeto=purgado;
+                console.log("nuevo Alfabeto:",nuevoAlfabeto);
+                for(var i=1; i<this.estadosAutomata1.length; i++)
+                {
+                    for(j=1;j<this.estadosAutomata2.length;j++)
+                    {
+                        
+                    }
+                }
             }
         },
 
+        simplificarAlfabeto(alfabeto){
+            
+            var newArr = [];
+            var myObj = {};
+            alfabeto.forEach(el => {      
+                if (!(el in myObj)) { 
+                    myObj[el] = true
+                    newArr.push(el)
+                }
+            });
+                        
+            console.log(newArr);
+            return newArr;
+        },
+        
         drawAutomata(){
             var container= document.getElementById("grafo");
             var container2= document.getElementById("grafo2");
             var containerUnion= document.getElementById("union");
+            var containerInterseccion= document.getElementById("interseccion");
+            var containerComplemento= document.getElementById("complemento");
+            var containerConcatenacion= document.getElementById("concatenacion");
+            var containerEquivalente= document.getElementById("equivalente");
 
             var data={nodes:this.estadosAutomata1,
                       edges:this.transicionesAutomata1};
@@ -1097,6 +1185,18 @@ export default {
             
             var dataUnion={nodes:this.automataUnion,
                            edges:this.transicionesUnion};
+            
+            var dataInterseccion={nodes:this.automataInterseccion,
+                                  edges:this.transicionesInterseccion};
+            
+            var dataComplemento={nodes:this.automataComplemento,
+                                 edges:this.transicionesComplemento};
+
+            var dataConcatenacion={nodes:this.automataConcatenacion,
+                                   edges:this.transicionesConcatenacion};
+            
+            var dataEquivalente={nodes:this.automataEquivalente,
+                                 edges:this.transicionesEquivalente};
 
             var options = {
                 height: 320 + 'px',
@@ -1107,27 +1207,17 @@ export default {
                 },
             };
 
-            var options2 = {
-                height: 320 + 'px',
-                edges:{
-                    
-                    arrows:'to',
-                },
-            };
-
-            var optionsUnion= {
-                height:320 + 'px',
-                edges:{
-                    arrows:'to',
-                }
-            };
+    
 
             var network= new vis.Network(container,data,options);
-            var network2= new vis.Network(container2,data2,options2);
-            var networkUnion= new vis.Network(containerUnion,dataUnion,optionsUnion);
+            var network2= new vis.Network(container2,data2,options);
+            var networkUnion= new vis.Network(containerUnion,dataUnion,options);
+            var networkInterseccion= new vis.Network(containerInterseccion,dataInterseccion,options);
+            var networkConcatenacion= new vis.Network(containerConcatenacion,dataConcatenacion,options);
+            var networkComplemento= new vis.Network(containerComplemento,dataComplemento,options);
+            var networkEquivalente= new vis.Network(containerEquivalente,dataEquivalente,options);
             
         },
-
 
         afdEquivalente(){
 
@@ -1145,7 +1235,26 @@ export default {
 
         },
 
-        simplificar(){
+        simplificarAFD(estados){
+            var res = [];
+            // Se crea la matriz
+            for(var i=0; i<estados.length;i++){
+                res[i]= new Array(estados.length);
+            }
+            
+            //Se marcan con x todos los estados que no pueden simplificar entre si y con 0 la diagonal
+            for(var n=0; n<estados.length; n++){
+                for(var m=0; m<estados.length; m++){
+                    if(n=m){
+                        res[n][m]=0;
+                    }
+                    if(estados[n].final!=estados.final[m]){
+                        res[n][m]='x';
+                        res[m][n]='x';
+                    }
+                }
+            }
+
             
 
         },
