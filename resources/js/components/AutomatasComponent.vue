@@ -100,7 +100,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Ingrese carácter de la transición: </label>
-                                <input type="text" minlength="1" maxlength="1" pattern="[a-zA-Z]+" v-model="transicionAutomata2.label" class="form-control">
+                                <input type="text" minlength="1" maxlength="1" v-model="transicionAutomata2.label" class="form-control">
                             </div>
                     
                             <button class="btn  btn-success btn-sm" type="submit" >Agregar</button>
@@ -298,7 +298,7 @@
                 <h3 class="text-center fredoka textocolor my-3">AFD equivalente</h3>
             </div>
             <div id="afd-equivalente" class="card cardaux3 col-md-10 rounded-bottom mb-3" v-if="operacion===1">
-                <div class="container">
+                <div class="container my-3">
                     La conversión implica pasar por un AFD intermedio con estados y transiciones redundantes, luego se eliminan los estados inaccesibles o inalcanzables, es decir, aquellos a los que no se puede acceder a partir del estado inicial. Luego de este procedimiento, se obtiene el AFD equivalente.
                 </div>
             </div>
@@ -308,7 +308,7 @@
                 <h3 class="text-center fredoka textocolor my-3">Complemento</h3>
             </div>
             <div id="afd-equivalente" class="card cardaux3 col-md-10 rounded-bottom mb-3" v-if="operacion===2">
-                <div class="container">
+                <div class="container my-3">
                     Esta propiedad es solo para AFD, intercambia los estados finales por no finales.
                 </div>
             </div>
@@ -318,8 +318,11 @@
                 <h3 class="text-center fredoka textocolor my-3">Unión</h3>
             </div>
             <div id="afd-equivalente" class="card cardaux3 col-md-10 rounded-bottom mb-3" v-if="operacion===3">
-                <div class="container">
+                <div class="container my-3">
                     La unión de dos lenguajes regulares es otro lenguaje regular, donde se utiliza la operación de unión de conjuntos, de manera que, Σ = {x,y} si L1 = {x,xy} y L2 = {yx,yy} la unión es L1UL2 = {x,xy,yx,yy}.
+                    <div class="my-3 text-center">
+                        <button class="btn btn-success" @click="drawAutomata">Mostrar unión</button>
+                    </div>      
                     <div id="union" class="mb-3" style="border: 1px solid lightgray;"></div>
                 </div>
             </div>
@@ -329,7 +332,7 @@
                 <h3 class="text-center fredoka textocolor my-3">Concatenación</h3>
             </div>
             <div id="afd-equivalente" class="card cardaux3 col-md-10 rounded-bottom mb-3" v-if="operacion===4">
-                <div class="container">
+                <div class="container my-3">
                     Se concatena una una cadena del primer lenguaje y una cadena del segundo lenguaje.
                 </div>
             </div>
@@ -339,7 +342,7 @@
                 <h3 class="text-center fredoka textocolor my-3">Intersección</h3>
             </div>
             <div id="afd-equivalente" class="card cardaux3 col-md-10 rounded-bottom mb-3" v-if="operacion===5">
-                <div class="container">
+                <div class="container my-3">
                     La intersección de ambos lenguajes utiliza la operación de interseccion de conjuntos, Automata1 ∩ Automata2: 
                 </div>
             </div>
@@ -387,7 +390,7 @@ export default {
     
 
     created(){
-        
+       
     },
 
     methods:{
@@ -433,7 +436,8 @@ export default {
         mostrarOp3(){
             this.operacion=3;
             this.union();
-            this.drawAutomata();
+            this.crearMatrizTransiciones(this.transicionesAutomata2);
+            this.crearMatrizTransiciones(this.transicionesAutomata1);
             return;
         },
 
@@ -582,14 +586,27 @@ export default {
         },
 
         agregarEstado(){
-            var cont = this.contadorEstados
-            
+            var aux= {id:'inicio', label:'inicio',color:'#75616b47', final:false}
+
             if(this.selectAuto===1)
             {
+                if(this.estadoAutomata1.id==='')
+                {
+                    alert("Por favor, ingrese un id.");
+                    return;
+                }
+                if(this.existeEstado(this.estadosAutomata1,this.estadoAutomata1))
+                {
+                    alert("El estado ya existe. Ingrese un estado con otro id.");
+                    return;
+                }
+                if(this.estadosAutomata1.length===0)
+                {
+                    this.estadosAutomata1.push(aux);
+                }
                 this.estadoAutomata1.label=this.estadoAutomata1.id
                 if(this.estadosAutomata1.length===1)
                 {
-                    console.log('entro')
                     this.estadosAutomata1.push(this.estadoAutomata1);
                     this.transicionAutomata1.from='inicio'
                     this.transicionAutomata1.to=this.estadoAutomata1.id
@@ -601,7 +618,6 @@ export default {
                     return;
                 }
                 else{
-                    console.log("tay en el else")
                     this.estadosAutomata1.push(this.estadoAutomata1)
                     this.estadoAutomata1= {id:'', label:'',color:'#C52C0B' ,final:false}
                     this.drawAutomata()
@@ -609,10 +625,18 @@ export default {
 
             }
             else{
+                if(this.estadoAutomata2.id==='') //VldwS1YyVldiRmxXYlhSS1UwVmFlbGxXWkVka2EyeElWRzA1YTFkRlNtOVphMk0wVUZFOVBRPT0=
+                {
+                    alert("Por favor, ingrese un id.");
+                    return;
+                }
+                if(this.estadosAutomata2.length===0)
+                {
+                    this.estadosAutomata2.push(aux);
+                }
                 this.estadoAutomata2.label=this.estadoAutomata2.id
                 if(this.estadosAutomata2.length===1)
                 {
-                    console.log('entro')
                     this.estadosAutomata2.push(this.estadoAutomata2);
                     this.transicionAutomata2.from='inicio'
                     this.transicionAutomata2.to=this.estadoAutomata2.id
@@ -624,7 +648,6 @@ export default {
                     return;
                 }
                 else{
-                    console.log("tay en el else")
                     this.estadosAutomata2.push(this.estadoAutomata2)
                     this.estadoAutomata2= {id:'', label:'',color:'#C52C0B' ,final:false}
                     this.drawAutomata()
@@ -633,6 +656,18 @@ export default {
             }
             
             
+        },
+
+        existeEstado(estados,estado)
+        {
+            for(var i=0; i<estados.length;i++)
+            {
+                if(estados[i].id===estado.id)
+                {
+                    return true;
+                }
+            }
+            return false;
         },
 
         createEstado(){
@@ -666,7 +701,6 @@ export default {
             if(this.selectAuto===1)
             {
                 var ultimo= this.estadosAutomata1.pop();
-                this.estadosAutomata1.pop()
                 for(var i=0; i< this.transicionesAutomata1.length;i++)
                 {
                     if(this.transicionesAutomata1[i].from===ultimo.id || this.transicionesAutomata1[i].to===ultimo.id)
@@ -678,7 +712,6 @@ export default {
             }
             else{
                 var ultimo= this.estadosAutomata2.pop();
-                this.estadosAutomata2.pop()
                 for(var i=0; i< this.transicionesAutomata2.length;i++)
                 {
                     if(this.transicionesAutomata2[i].from===ultimo.id || this.transicionesAutomata2[i].to===ultimo.id)
@@ -892,11 +925,12 @@ export default {
                     this.alfabeto1.push(this.transicionAutomata1.label);
                 }
 
-                console.log(this.alfabeto1);
+                console.log("alfabeto1",this.alfabeto1);
             }
             else{
-                for (var i=0; i<this.transicionesAutomata2.length;i++)
+                for (var i=0; i<this.transicionesAutomata2.length;i++) // a, b, b, a
                 {
+                    
                     if(existe===true && this.transicionAutomata2.label!= this.transicionesAutomata2[i].label)
                     {
                         existe=true
@@ -914,8 +948,9 @@ export default {
                 
                 if(!existe)
                 {
-                    this.alfabeto1.push(this.transicionAutomata2.label);
+                    this.alfabeto2.push(this.transicionAutomata2.label);
                 }
+                
 
                 console.log("alfabeto2: ",this.alfabeto2);
             }
@@ -927,22 +962,127 @@ export default {
             var matrix = matrix.newArray()
         },
 
-        crearMatrizTransiciones(){
+        crearMatrizTransiciones(transiciones){
             var res = [];
             for(var i=0; i<3;i++){
-                res[i]= new Array(this.transicionAutomata1.length);
+                res[i]= new Array(transiciones.length);
             }
-            for(var j=0; j<3;j++){
-                for(var t=0; t<this.transicionesAutomata1.length;t++){
-                    res[0]=this.transicionesAutomata1[t].from
-                    res[1]=this.transicionesAutomata1[t].label
-                    res[2]=this.transicionesAutomata1[t].to
-                }
+            for(var t=1; t<transiciones.length;t++){
+                res[0][t]=transiciones[t].from
+                res[1][t]=transiciones[t].label
+                res[2][t]=transiciones[t].to
             }
+        
             console.log("M",res);
             return res;
         },
-        /**hasta acá  */
+
+        matrizTransicionesUnion()
+        {
+            console.log("funcion matriz transiciones union");
+            var matAuto1= this.crearMatrizTransiciones(this.transicionesAutomata1);
+            var matAuto2= this.crearMatrizTransiciones(this.transicionesAutomata2); 
+            var strId;
+            var matrix=[];
+            var union = {from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
+            var transicion, transicion2;
+            var to1, to2;
+            console.log(this.automataUnion);
+            for(let i=1;i<this.automataUnion.length; i++){
+                strId = this.automataUnion[i].id.split(','); 
+                for(var j=1; j<=matAuto1.length;j++)
+                {
+                    console.log("geraud chupala 2");
+                    console.log("str", strId[0]); /* 13 13 14 14 23 23 24 24 */
+                    console.log("mat", matAuto1[0][j]); /* 1 1 2 1 1 2 1 1 2 1 1 2 */
+                    if(strId[0]===matAuto1[0][j])
+                    {
+                        console.log("geraud chupala 3");
+                        transicion=matAuto1[1][j]; //a b ab
+                        to1=matAuto1[2][j];
+                        var arraytransicion= transicion.split(',');
+                        if (arraytransicion.length>1){
+                            console.log("transicion: " , transicion);
+                            for(var m=0; m<arraytransicion.length; m++){
+                                console.log("caracter",arraytransicion[m]);
+                                transicion= arraytransicion[m]
+                                to1=matAuto1[2][j];
+                                console.log('to1',to1);
+                                for(var k=1; k<=matAuto2.length;k++){
+                                    transicion2=matAuto2[1][k];
+                                    var arraytransicion2= transicion2.split(',');
+                                    if(arraytransicion2.length>1){
+                                        for(var o=0; o<arraytransicion2.length; o++){
+                                            transicion2= arraytransicion2[o];
+                                            if(strId[1]===matAuto2[0][k] && transicion2==transicion){
+                                                to2=matAuto2[2][k];
+                                                console.log("to2",to2);
+                                                union.from=strId[0]+strId[1];
+                                                union.label=transicion;
+                                                union.to=to1+to2;
+                                                console.log("union",union);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }else{
+
+                        }
+                    }
+                }           
+            }
+            console.log("fin funcion matriz transiciones union");
+        },
+
+        compararAlfabetos()
+        {
+            var cont=0;
+            for(var i=0; i< this.alfabeto1.length; i++)
+            {
+                for(var j=0; j< this.alfabeto2.length; j++)
+                {
+                    if(this.alfabeto1[i]==this.alfabeto2[j])
+                    {
+                        cont++;
+                    }
+                }
+            }
+            if(cont== this.alfabeto1.length && cont== this.alfabeto2.length)
+            {
+                return true;
+            }
+            return false;
+        },
+
+        union(){
+            var auto1= this.transicionesAutomata1
+            var auto2 =this.transicionesAutomata2
+            console.log("alfabeto 1", this.alfabeto1);
+            console.log("alfabeto 2", this.alfabeto2);
+            var autoUnion = '';
+            var autoaux = {id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'}
+            if(this.compararAlfabetos()){
+                var nuevoAlfabeto = this.alfabeto1;
+                for(var i=1 ; i<this.estadosAutomata1.length ;i++){
+                    for(var k=1; k<this.estadosAutomata2.length; k++){
+                        autoaux.label=this.estadosAutomata1[i].label+this.estadosAutomata2[k].label;
+                        autoaux.id=this.estadosAutomata1[i].label+','+this.estadosAutomata2[k].label;
+                        if(this.estadosAutomata1[i].final==true || this.estadosAutomata2[k].final==true){
+                            autoaux.final=true;
+                        }
+                        this.automataUnion.push(autoaux);
+                        console.log(this.automataUnion);  
+                        autoaux = {id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'};
+                    }
+                }
+                this.matrizTransicionesUnion();
+            }
+            else{
+                var nuevoAlfabeto = this.alfabeto1.concat(this.alfabeto2);
+                console.log(nuevoAlfabeto);
+            }
+        },
 
         drawAutomata(){
             var container= document.getElementById("grafo");
@@ -966,7 +1106,8 @@ export default {
                     arrows:'to',
                 },
             };
-              var options2 = {
+
+            var options2 = {
                 height: 320 + 'px',
                 edges:{
                     
@@ -994,35 +1135,6 @@ export default {
 
         complemento(){
 
-        },
-
-        union(){
-            var auto1= this.transicionesAutomata1
-            var auto2 =this.transicionesAutomata2
-            var autoUnion = ''
-            var autoaux = {id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'}
-            var nuevoAlfabeto = this.alfabeto1 + this.alfabeto2 //union alfabetos simplificar 
-            //console.log(nuevoAlfabeto); 
- 
-            for(var i=1 ; i<this.estadosAutomata1.length ;i++){
-                
-                // if(auto1[i].from==='inicio' && auto2[i].from==='inicio' && auto1[i].to!='' && auto2[i].to!='' ){
-                //     autoUnion = auto1[i].to + auto2[i].to 
-                // }
-                /* transicionUnion:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
-                transicionesUnion:[], */
-                for(var k =1; k<this.estadosAutomata2.length; k++){
-                    autoaux.label=this.estadosAutomata1[i].label+this.estadosAutomata2[k].label;
-                    autoaux.id=autoaux.label;
-                    if(this.estadosAutomata1[i].final==true || this.estadosAutomata2[k].final==true){
-                        autoaux.final=true;
-                    }
-                    this.automataUnion.push(autoaux);
-                    console.log(this.automataUnion);  
-                    autoaux = {id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'}
-                }
-                // console.log("union",autoUnion);
-            }
         },
 
         concatenacion(){
