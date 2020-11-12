@@ -6,7 +6,7 @@
 
         <title>GLF SEM2 T1</title>
 
-        <link href="{{ mix('css/app.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="{{asset('css/style.css')}}">
         
         

@@ -95500,21 +95500,6 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Final")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _vm._v(
-        "\n                La unión de dos lenguajes regulares es otro lenguaje regular, donde se utiliza la operación de unión de conjuntos, de manera que, Σ = {x,y} si L1 = {x,xy} y L2 = {yx,yy} la unión es L1UL2 = {x,xy,yx,yy}.\n                "
-      ),
-      _c("div", {
-        staticClass: "mb-3",
-        staticStyle: { border: "1px solid lightgray" },
-        attrs: { id: "union" }
-      })
-    ])
   }
 ]
 render._withStripped = true
@@ -108544,8 +108529,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /opt/lampp/htdocs/GLF-2020s2-Trabajo-2/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /opt/lampp/htdocs/GLF-2020s2-Trabajo-2/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
