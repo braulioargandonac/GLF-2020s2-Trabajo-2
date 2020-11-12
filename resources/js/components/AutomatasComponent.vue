@@ -313,7 +313,7 @@
                     <div class="my-3 text-center">
                         <button class="btn btn-success" @click="drawAutomata">Mostrar AFD equivalente</button>
                     </div>      
-                    <div id="equivalente" class="mb-3" style="border: 1px solid lightgray;"></div>
+                    <div id="complemento" class="mb-3" style="border: 1px solid lightgray;"></div>
                 </div>
             </div>
 
@@ -454,31 +454,66 @@ export default {
             return;
         },
         mostrarOp1(){
-            this.operacion=1;
-            return;
+            if(this.existeFinales())
+            {
+                this.operacion=1;
+                return;               
+            }
+            else{
+                alert("Para proseguir debe marcar como final un estado final en los dos autómatas");
+                return;
+            }
         },
         
         mostrarOp2(){
-            this.operacion=2;
-            return;
+            if(this.existeFinales())
+            {
+                this.operacion=2;
+                return;
+            }
+            else{
+                alert("Para proseguir debe marcar como final un estado final en los dos autómatas");
+                return;
+            }
         },
 
         mostrarOp3(){
-            this.operacion=3;
-            this.union();
-            this.crearMatrizTransiciones(this.transicionesAutomata2);
-            this.crearMatrizTransiciones(this.transicionesAutomata1);
-            return;
+            if(this.existeFinales())
+            {
+                this.operacion=3;
+                this.union();
+                this.crearMatrizTransiciones(this.transicionesAutomata2);
+                this.crearMatrizTransiciones(this.transicionesAutomata1);
+                return;
+            }
+            else{
+                alert("Para proseguir debe marcar como final un estado final en los dos autómatas");
+                return;
+            }
         },
 
         mostrarOp4(){
-            this.operacion=4;
-            return;
+            if(this.existeFinales())
+            {
+                this.operacion=4;
+                return;
+            }
+            else{
+                alert("Para proseguir debe marcar como final un estado final en los dos autómatas");
+                return;
+            }
         },
 
         mostrarOp5(){
-            this.operacion=5;
-            return;
+            if(this.existeFinales())
+            {
+                this.operacion=5;
+                return;
+            }
+            else{
+                alert("Para proseguir debe marcar como final un estado final en los dos autómatas");
+                return;
+            }
         },
         mostrartabla(){
 
@@ -655,7 +690,7 @@ export default {
 
             }
             else{
-                if(this.estadoAutomata2.id==='') //VldwS1YyVldiRmxXYlhSS1UwVmFlbGxXWkVka2EyeElWRzA1YTFkRlNtOVphMk0wVUZFOVBRPT0=
+                if(this.estadoAutomata2.id==='') 
                 {
                     alert("Por favor, ingrese un id.");
                     return;
@@ -696,6 +731,58 @@ export default {
                 {
                     return true;
                 }
+            }
+            return false;
+        },
+
+        existeFinales(){
+            var existe1=false;
+            var existe2=false;
+
+            for(var i=0; i<this.estadosAutomata1.length;i++)
+            {
+                if(this.estadosAutomata1[i].
+                final===true)
+                {
+                    existe1=true;
+                }
+                else{
+                    if(this.estadosAutomata1[i].final===false && existe1===true)
+                    {
+                        existe1=true;
+                    }
+                    else{
+                        if(this.estadosAutomata1[i].final===false && existe1===false)
+                        {
+                            existe1=false;
+                        }
+                    }
+                }
+            }
+
+            for(var j=0; j<this.estadosAutomata2.length;j++)
+            {
+                if(this.estadosAutomata2[j].final===true)
+                {
+                    existe2=true;
+                }
+                else{
+                    if(this.estadosAutomata2[j].final===false && existe2===true)
+                    {
+                        existe2=true;
+                    }
+                    else{
+                        if(this.estadosAutomata2[j].final===false && existe2===false)
+                        {
+                            existe2=false;
+                        }
+                    }
+                }
+            }
+
+            if(existe1 && existe2)
+            {
+                return true;
             }
             return false;
         },
@@ -1124,18 +1211,15 @@ export default {
                         }
                         this.automataUnion.push(autoaux);
                         console.log(this.automataUnion);  
-                        if(i===1 && k===1)
-                        {
-                            this.transicionUnion.from='inicio';
-                            this.transicionUnion.to=autoaux.id;
-                            this.transicionUnion.label='';
-                            this.transicionesUnion.push(this.transicionUnion);
-                            this.transicionUnion={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
-                        }
+                        
                         autoaux = {id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'};
                     }
                 }        
                 this.matrizTransicionesUnion();
+                this.transicionUnion.from='inicio';
+                this.transicionUnion.label='';
+                this.transicionUnion.to=this.automataUnion[1].id;
+                this.transicionesUnion.push(this.transicionUnion);
                 console.log(this.transicionesUnion);
             }
             else{
@@ -1219,11 +1303,84 @@ export default {
             
         },
 
+        matrizAFND(){
+            var alfabeto= ['a','b']
+            var matAuto1= this.crearMatrizTransiciones(this.transicionesAutomata1);
+            var matAuto2= this.crearMatrizTransiciones(this.transicionesAutomata2); 
+            var est1 = this.estadosAutomata1
+            var est2 = this.estadosAutomata2
+            var estadosaux = [] // [ inicio, aux]  [1, [[a],[1,2,3]]]
+            var aux = [];       // transicion, fin  [a], [1,2,3]
+            var fin= [];        //finales [ 1,2,3 ]
+            var matriz = [];       //largo estados * Largo Alfabeto
+            console.log("M",matAuto1);
+            
+            for(var i=1; i<est1.length;i++){ //inicio
+                console.log("est",est1[i].id);
+                estadosaux.push(est1[i].id);
+                for(var j=0; j<alfabeto.length; j++){ //alfabeto
+                    aux.push(alfabeto[j]);
+                    for(var k=1; k<matAuto1[0].length; k++){  //fin
+                        if(est1[i].id == matAuto1[0][k] && matAuto1[1][k] == alfabeto[j]){
+                            fin.push(matAuto1[2][k]);
+                        }
+                    }
+                    aux.push(fin);
+                    fin=[];
+                    estadosaux.push(aux);
+                    aux=[];
+
+                
+                }
+                matriz.push(estadosaux)
+                estadosaux = []
+            }
+            console.log(matriz);
+        },
+
+
         afdEquivalente(){
 
         },
 
         complemento(){
+            if(this.selectAuto===1)
+            {
+                this.automataComplemento=this.estadosAutomata1;
+                this.transicionesComplemento=this.transicionesAutomata1;
+                for(var i=0; i<this.automataComplemento.length; i++)
+                {
+                    if(this.automataComplemento[i].final===true)
+                    {
+                        this.automataComplemento[i].final=false;
+                        this.automataComplemento[i].shape='ellipse';
+                        this.automataComplemento[i].color='#C52C0B';
+                    }
+                    else{
+                        this.automataComplemento[i].final=true;
+                        this.automataComplemento[i].shape='diamond';
+                        this.automataComplemento[i].color='#5cb85c';
+                    }
+                }
+            }
+            else{
+                this.automataComplemento=this.estadosAutomata2;
+                this.transicionesComplemento=this.transicionesAutomata2;
+                for(var i=0; i<this.automataComplemento.length; i++)
+                {
+                    if(this.automataComplemento[i].final===true)
+                    {
+                        this.automataComplemento[i].final=false;
+                        this.automataComplemento[i].shape='ellipse';
+                        this.automataComplemento[i].color='#C52C0B';
+                    }
+                    else{
+                        this.automataComplemento[i].final=true;
+                        this.automataComplemento[i].shape='diamond';
+                        this.automataComplemento[i].color='#5cb85c';
+                    }
+                }
+            }
 
         },
 
@@ -1246,7 +1403,7 @@ export default {
             for(var n=0; n<estados.length; n++){
                 for(var m=0; m<estados.length; m++){
                     if(n=m){
-                        res[n][m]=0;
+                        res[n][m]='x';
                     }
                     if(estados[n].final!=estados.final[m]){
                         res[n][m]='x';
@@ -1255,6 +1412,13 @@ export default {
                 }
             }
 
+            for(var k=0; k<estados.length; k++){
+                for(var l=0; l<estados.length; l++){
+                    if(res[k][l]!='x'){
+                        
+                    }
+                }
+            }
             
 
         },
