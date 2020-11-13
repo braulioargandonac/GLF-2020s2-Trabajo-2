@@ -10,6 +10,11 @@
         z-index: 1;
     }
     
+    html,
+    body {
+        overflow-y: hidden;
+    }
+    
     @font-face {
         font-family: "FredokaOne";
         src: url("../fonts/FredokaOne-Regular.ttf");
@@ -134,22 +139,20 @@
     .list-group-item:hover {
         background-color: rgb(160, 166, 170);
     }
-
-    .img-fluid{
+    
+    .img-fluid {
         max-width: 250px;
         max-height: 250px;
     }
-
-    .alertas{
+    
+    .alertas {
         background-color: rgba(108, 117, 125, 0.75);
     }
-
-    .swal-text{
-        color: white ;
-    }
-
-    .swal-title{
-        color:white
-    }
-
     
+    .swal-text {
+        color: white;
+    }
+    
+    .swal-title {
+        color: white
+    }

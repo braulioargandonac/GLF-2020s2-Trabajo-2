@@ -2415,6 +2415,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       transicionesEquivalente: [],
       cadena: '',
+      matriz1AFND: [],
       option: 0,
       operacion: '',
       validador: false,
@@ -3343,7 +3344,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     matrizAFND: function matrizAFND() {
-      var alfabeto = this.simplificarAlfabeto(this.alfabeto1);
+      var alfabeto = this.simplificarAlfabeto(this.alfabeto1); //['a','b','c']
+
       var matAuto1 = this.crearMatrizTransiciones(this.transicionesAutomata1);
       var matAuto2 = this.crearMatrizTransiciones(this.transicionesAutomata2);
       var est1 = this.estadosAutomata1;
@@ -3355,8 +3357,7 @@ __webpack_require__.r(__webpack_exports__);
       var fin = []; //finales [ 1,2,3 ]
 
       var matriz = []; //largo estados * Largo Alfabeto
-
-      console.log("ALFABETOOO", alfabeto);
+      //console.log("ALFABETOOO",alfabeto);
 
       for (var i = 1; i < est1.length; i++) {
         //inicio
@@ -3392,45 +3393,59 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       console.log(matriz);
-      return matriz;
+      this.matriz1AFND = matriz;
     },
     afdEquivalente: function afdEquivalente() {
-      var matriz1 = this.matrizAFND();
-      var matriz2;
+      this.matrizAFND();
+      console.log(this.matriz1AFND);
+      var matriz1 = this.matriz1AFND;
+      var matriz2 = [];
       var estadoaux = []; // [ inicio, aux]  [1, [[a],[1,2,3]]]
 
       var transicionaux = []; // transicion, fin  [a], [1,2,3]
 
-      var trans;
+      var trans = [];
       var finaux = []; // [1,2,3]
 
+      var finaux2 = [];
       var abc = this.simplificarAlfabeto(this.alfabeto1);
       matriz2.push(matriz1[0]);
       console.log("formato de la wea", matriz1);
 
       if (matriz2[0][1][1].length > 1) {
-        transicionaux.push(matriz2[0][1][1]);
+        //[1,[a,[[2,3]]] ]
+        trans = matriz2[0][1][1];
+        transicionaux.push(trans);
 
-        for (var p = 0; p < matriz2[0][1][1].length; p++) {
-          for (var t = 0; t < matriz1.length; t++) {
-            if (matriz2[0][1][1][p] == matriz1[t][0]) {
-              trans = matriz2[0][1][0];
+        for (var l = 1; l <= abc.length; l++) {
+          trans = matriz2[0][l][0];
+          console.log("trans", trans);
+          finaux.push(trans);
 
-              for (var y = 1; y <= abc.length; y++) {
-                if (trans == matriz1[t][y][0]) {
-                  for (var h = 0; h < matriz1[0][1][1].length; h++) {
-                    finaux.push(matriz1[0][1][1][h]);
+          for (var p = 0; p < matriz2[0][1][1].length; p++) {
+            for (var t = 0; t < matriz1.length; t++) {
+              if (matriz2[0][1][1][p] == matriz1[t][0]) {
+                for (var y = 1; y <= abc.length; y++) {
+                  console.log("Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+                  if (trans == matriz1[t][y][0]) {
+                    console.log("valores: ", matriz1[0][1][1][p]);
+                    finaux2.push(matriz1[0][1][1][p]);
                   }
                 }
               }
             }
           }
+
+          finaux.push(finaux2);
+          finaux2 = [];
+          transicionaux.push(finaux);
+          finaux = [];
         }
 
-        transicionaux.push(finaux);
+        estadoaux.push(transicionaux);
       }
 
-      estadoaux.push(transicionaux);
       console.log("la wea que explota", estadoaux);
     },
     complemento: function complemento() {
@@ -109274,8 +109289,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /opt/lampp/htdocs/GLF-2020s2-Trabajo-2/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /opt/lampp/htdocs/GLF-2020s2-Trabajo-2/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
