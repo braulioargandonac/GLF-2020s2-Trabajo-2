@@ -312,7 +312,9 @@
                     Esta propiedad es solo para AFD, intercambia los estados finales por no finales.
                     <div class="my-3 text-center">
                         <button class="btn btn-success" @click="drawAutomata">Mostrar Complemento</button>
-                    </div>      
+                    </div> 
+                    <h4 class="text-center fredoka textocolor my-3" v-if="selectAuto===1">Complemento Autómata 1</h4>   
+                    <h4 class="text-center fredoka textocolor my-3" v-else>Complemento Autómata 2</h4>
                     <div id="complemento" class="mb-3" style="border: 1px solid lightgray;"></div>
                 </div>
             </div>
@@ -468,7 +470,11 @@ export default {
                 return;               
             }
             else{
-                alert("Para proseguir debe marcar como final un estado final en los dos autómatas");
+                swal("Para proseguir debe marcar como final un estado final en los dos autómatas",{
+                    className: "alertas",
+                    button:'Aceptar',
+                    title:"Aviso",
+                });
                 return;
             }
         },
@@ -481,7 +487,11 @@ export default {
                 return;
             }
             else{
-                alert("Para proseguir debe marcar como final un estado final en los dos autómatas");
+                swal("Para proseguir debe marcar como final un estado final en los dos autómatas",{
+                    className: "alertas",
+                    button:'Aceptar',
+                    title:"Aviso",
+                });
                 return;
             }
         },
@@ -556,13 +566,37 @@ export default {
             console.log(word);
             if(this.selectAuto===1)
             {
+                if(this.estadosAutomata1.length===1)
+                {
+                    swal("Debe ingresar el autómata antes de analizar la palabra",{
+                        className: "alertas",
+                        button: "Aceptar",
+                        title: "Error"
+                    });
+                    return;
+                }
+                else{
+                    if(!this.existeFinal(this.estadosAutomata1))
+                    {
+                        swal("Para analizar la palabra debe marcar como final un estado final en el autómata seleccionado",{
+                            className: "alertas",
+                            button:'Aceptar',
+                            title:"Aviso"
+                        });
+                        return;
+                    }
+                }
                 estadoActual=this.estadosAutomata1[1].id;
                 console.log(estadoActual);
                 for(var i=0;i<word.length;i++)
                 {
                     if(!this.existeCaracter(word[i]))
                     {
-                        alert('La palabra no pertenence al lenguaje');
+                        swal("La palabra no pertenence al lenguaje",{
+                            className: "alertas",
+                            button: "Aceptar",
+                            title: "Análisis de palabra"
+                        });
                         return;
                     }
                     //llena con las transiciones que corresponden del estado actual
@@ -591,25 +625,57 @@ export default {
                     {
                         if(this.estadosAutomata1[l].final==true)
                         {
-                            alert('la palabra pertenece al lenguaje');
-                            return
+                            swal("La palabra pertenence al lenguaje",{
+                            className: "alertas",
+                            button: "Aceptar",
+                            title: "Análisis de palabra"
+                            });
+                            return;
                         }
                         else
                         {
-                            alert('la palabra no pertenece al lenguaje')
-                            return
+                            swal("La palabra no pertenence al lenguaje",{
+                            className: "alertas",
+                            button: "Aceptar",
+                            title: "Análisis de palabra"
+                            });
+                            return;
                         }  
                     }
                 }                        
             }  
             else{
+                if(this.estadosAutomata2.length===1)
+                {
+                    swal("Debe ingresar el autómata antes de analizar la palabra",{
+                        className: "alertas",
+                        button: "Aceptar",
+                        title: "Error"
+                    });
+                    return;
+                }
+                else{
+                    if(!this.existeFinal(this.estadosAutomata2))
+                    {
+                        swal("Para analizar la palabra debe marcar como final un estado final en el autómata seleccionado",{
+                            className: "alertas",
+                            button:'Aceptar',
+                            title:"Aviso"
+                        });
+                        return;
+                    }
+                }
                 estadoActual=this.estadosAutomata2[1].id;
                 console.log(estadoActual);
                 for(var i=0;i<word.length;i++)
                 {
                     if(!this.existeCaracter(word[i]))
                     {
-                        alert('La palabra no pertenence al lenguaje');
+                        swal("La palabra no pertenence al lenguaje",{
+                            className: "alertas",
+                            button: "Aceptar",
+                            title: "Análisis de palabra"
+                        });
                         return;
                     }
                     //llena con las transiciones que corresponden del estado actual
@@ -638,13 +704,21 @@ export default {
                     {
                         if(this.estadosAutomata2[l].final==true)
                         {
-                            alert('la palabra pertenece al lenguaje');
+                            swal("La palabra  pertenence al lenguaje",{
+                            className: "alertas",
+                            button: "Aceptar",
+                            title: "Análisis de palabra"
+                            });
                             return
                         }
                         else
                         {
-                            alert('la palabra no pertenece al lenguaje')
-                            return
+                            swal("La palabra no pertenence al lenguaje",{
+                            className: "alertas",
+                            button: "Aceptar",
+                            title: "Análisis de palabra"
+                            });
+                            return;
                         }  
                     }
                 } 
@@ -683,66 +757,87 @@ export default {
             {
                 if(this.estadoAutomata1.id==='')
                 {
-                    alert("Por favor, ingrese un id.");
+                    swal("Por favor, ingrese un id.",{
+                        className: "alertas",
+                        button: "Aceptar",
+                        title: "Error"
+                    });
                     return;
                 }
                 if(this.existeEstado(this.estadosAutomata1,this.estadoAutomata1))
                 {
-                    alert("El estado ya existe. Ingrese un estado con otro id.");
+                    swal("El estado ya existe. Ingrese un estado con otro id.",{
+                        className: "alertas",
+                        button: "Aceptar",
+                        title: "Error"
+                    });
                     return;
                 }
                 if(this.estadosAutomata1.length===0)
                 {
                     this.estadosAutomata1.push(aux);
                 }
-                this.estadoAutomata1.label=this.estadoAutomata1.id
+                this.estadoAutomata1.label=this.estadoAutomata1.id;
                 if(this.estadosAutomata1.length===1)
                 {
                     this.estadosAutomata1.push(this.estadoAutomata1);
-                    this.transicionAutomata1.from='inicio'
-                    this.transicionAutomata1.to=this.estadoAutomata1.id
-                    this.transicionAutomata1.label=''
-                    this.transicionesAutomata1.push(this.transicionAutomata1)
-                    this.transicionAutomata1={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}}
-                    this.estadoAutomata1= {id:'', label:'',color:'#C52C0B' ,final:false}
-                    this.drawAutomata()
+                    this.transicionAutomata1.from='inicio';
+                    this.transicionAutomata1.to=this.estadoAutomata1.id;
+                    this.transicionAutomata1.label='';
+                    this.transicionesAutomata1.push(this.transicionAutomata1);
+                    this.transicionAutomata1={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
+                    this.estadoAutomata1= {id:'', label:'',color:'#C52C0B' ,final:false};
+                    this.drawAutomata();
                     return;
                 }
                 else{
-                    this.estadosAutomata1.push(this.estadoAutomata1)
-                    this.estadoAutomata1= {id:'', label:'',color:'#C52C0B' ,final:false}
-                    this.drawAutomata()
+                    this.estadosAutomata1.push(this.estadoAutomata1);
+                    this.estadoAutomata1= {id:'', label:'',color:'#C52C0B' ,final:false};
+                    this.drawAutomata();
                 }
 
             }
             else{
                 if(this.estadoAutomata2.id==='') 
                 {
-                    alert("Por favor, ingrese un id.");
+                    swal("Por favor, ingrese un id.",{
+                        className: "alertas",
+                        button: "Aceptar",
+                        title: "Error"
+                    });
+                    return;
+                }
+                if(this.existeEstado(this.estadosAutomata2,this.estadoAutomata2))
+                {
+                    swal("El estado ya existe. Ingrese un estado con otro id.",{
+                        className: "alertas",
+                        button: "Aceptar",
+                        title: "Error"
+                    });
                     return;
                 }
                 if(this.estadosAutomata2.length===0)
                 {
                     this.estadosAutomata2.push(aux);
                 }
-                this.estadoAutomata2.label=this.estadoAutomata2.id
+                this.estadoAutomata2.label=this.estadoAutomata2.id;
                 if(this.estadosAutomata2.length===1)
                 {
                     this.estadosAutomata2.push(this.estadoAutomata2);
-                    this.transicionAutomata2.from='inicio'
-                    this.transicionAutomata2.to=this.estadoAutomata2.id
-                    this.transicionAutomata2.label=''
-                    this.transicionesAutomata2.push(this.transicionAutomata2)
-                    this.transicionAutomata2={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}}
-                    this.estadoAutomata2= {id:'', label:'',color:'#C52C0B' ,final:false}
-                    this.drawAutomata()
+                    this.transicionAutomata2.from='inicio';
+                    this.transicionAutomata2.to=this.estadoAutomata2.id;
+                    this.transicionAutomata2.label='';
+                    this.transicionesAutomata2.push(this.transicionAutomata2);
+                    this.transicionAutomata2={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
+                    this.estadoAutomata2= {id:'', label:'',color:'#C52C0B' ,final:false};
+                    this.drawAutomata();
                     return;
                 }
                 else{
-                    this.estadosAutomata2.push(this.estadoAutomata2)
-                    this.estadoAutomata2= {id:'', label:'',color:'#C52C0B' ,final:false}
-                    this.drawAutomata()
-                    return
+                    this.estadosAutomata2.push(this.estadoAutomata2);
+                    this.estadoAutomata2= {id:'', label:'',color:'#C52C0B' ,final:false};
+                    this.drawAutomata();
+                    return;
                 }
             }
             
@@ -761,14 +856,41 @@ export default {
             return false;
         },
 
+        existeFinal(estados){
+            var existe= false;
+            for(var i=0; i<estados.length;i++)
+            {
+                if(estados[i].final===true)
+                {
+                    existe=true;
+                }
+                else{
+                    if(estados[i].final===false && existe===true)
+                    {
+                        existe=true;
+                    }
+                    else{
+                        if(estados[i].final===false && existe===false)
+                        {
+                            existe=false;
+                        }
+                    }
+                }
+            }
+            if(existe)
+            {
+                return true;
+            }
+            return false;
+        },
+
         existeFinales(){
             var existe1=false;
             var existe2=false;
 
             for(var i=0; i<this.estadosAutomata1.length;i++)
             {
-                if(this.estadosAutomata1[i].
-                final===true)
+                if(this.estadosAutomata1[i].final===true)
                 {
                     existe1=true;
                 }
@@ -910,7 +1032,11 @@ export default {
             if(this.selectAuto===1){
                 if(this.transicionAutomata1.from==='' || this.transicionAutomata1.to==='' )
                 {
-                    alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
+                    swal("Estados o caracter no ingresados . Rellene todos los campos antes de continuar",{
+                        className: "alertas",
+                        button: "Aceptar",
+                        title: "Error"
+                    });
                     return;
                 }
                 
@@ -918,7 +1044,11 @@ export default {
                 {
                     if(this.transicionesAutomata1[i].from===this.transicionAutomata1.from && this.transicionesAutomata1[i].label===this.transicionAutomata1.label)
                     {
-                        alert("la transición ya existe. Ingrese otra");
+                        swal("la transición ya existe. Ingrese otra",{
+                            className: "alertas",
+                            button: "Aceptar",
+                            title: "Error"
+                        });
                         return;
                     }
                     
@@ -930,7 +1060,11 @@ export default {
             else{
                 if(this.transicionAutomata2.from==='' || this.transicionAutomata2.to==='' )
                 {
-                    alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
+                    swal("Estados o caracter no ingresados . Rellene todos los campos antes de continuar",{
+                        className: "alertas",
+                        buton: "Aceptar",
+                        title: "Error"
+                    });
                     return;
                 }
                 
@@ -938,7 +1072,11 @@ export default {
                 {
                     if(this.transicionesAutomata2[i].from===this.transicionAutomata2.from && this.transicionesAutomata2[i].label===this.transicionAutomata2.label)
                     {
-                        alert("la transición ya existe. Ingrese otra");
+                        swal("la transición ya existe. Ingrese otra",{
+                            className: "alertas",
+                            button: "Aceptar",
+                            title: "Error"
+                        });
                         return;
                     }
                     
@@ -955,12 +1093,20 @@ export default {
             if(this.selectAuto===1){
                 if(this.transicionAutomata1.from==='' || this.transicionAutomata1.to==='' )
                 {
-                    alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
+                    swal("Estados o caracter no ingresados . Rellene todos los campos antes de continuar",{
+                        className: "alertas",
+                        button: "Aceptar",
+                        title: "Error"
+                    });
                     return;
                 }
                 if(this.existeTransicion(this.transicionesAutomata1,this.transicionAutomata1))
                 {
-                   alert("la transición ya existe. Ingrese otra");
+                   swal("la transición ya existe. Ingrese otra",{
+                       className: "alertas",
+                       button: "Aceptar",
+                       title: "Error"
+                   });
                    return;
                 }
                 else{
@@ -984,13 +1130,21 @@ export default {
             else{
                 if(this.transicionAutomata2.from==='' || this.transicionAutomata2.to==='' )
                 {
-                    alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
+                    swal("Estados o caracter no ingresados . Rellene todos los campos antes de continuar",{
+                        className: "alertas",
+                        button: "Aceptar",
+                        title: "Error"
+                    });
                     return;
                 }
 
                 if(this.existeTransicion(this.transicionesAutomata2,this.transicionAutomata2))
                 {
-                   alert("la transición ya existe. Ingrese otra");
+                   swal("la transición ya existe. Ingrese otra",{
+                       className: "alertas",
+                       button: "Aceptar",
+                       title: "Error"
+                   });
                    return;
                 }
                 else{
@@ -1435,7 +1589,7 @@ export default {
             {
                 this.automataComplemento=this.estadosAutomata1;
                 this.transicionesComplemento=this.transicionesAutomata1;
-                for(var i=0; i<this.automataComplemento.length; i++)
+                for(var i=1; i<this.automataComplemento.length; i++)
                 {
                     if(this.automataComplemento[i].final===true)
                     {
@@ -1453,7 +1607,7 @@ export default {
             else{
                 this.automataComplemento=this.estadosAutomata2;
                 this.transicionesComplemento=this.transicionesAutomata2;
-                for(var i=0; i<this.automataComplemento.length; i++)
+                for(var i=1; i<this.automataComplemento.length; i++)
                 {
                     if(this.automataComplemento[i].final===true)
                     {

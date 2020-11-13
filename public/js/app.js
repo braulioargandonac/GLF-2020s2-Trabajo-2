@@ -2278,6 +2278,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2460,7 +2462,11 @@ __webpack_require__.r(__webpack_exports__);
         this.afdEquivalente();
         return;
       } else {
-        alert("Para proseguir debe marcar como final un estado final en los dos autómatas");
+        swal("Para proseguir debe marcar como final un estado final en los dos autómatas", {
+          className: "alertas",
+          button: 'Aceptar',
+          title: "Aviso"
+        });
         return;
       }
     },
@@ -2470,7 +2476,11 @@ __webpack_require__.r(__webpack_exports__);
         this.complemento();
         return;
       } else {
-        alert("Para proseguir debe marcar como final un estado final en los dos autómatas");
+        swal("Para proseguir debe marcar como final un estado final en los dos autómatas", {
+          className: "alertas",
+          button: 'Aceptar',
+          title: "Aviso"
+        });
         return;
       }
     },
@@ -2545,12 +2555,34 @@ __webpack_require__.r(__webpack_exports__);
       console.log(word);
 
       if (this.selectAuto === 1) {
+        if (this.estadosAutomata1.length === 1) {
+          swal("Debe ingresar el autómata antes de analizar la palabra", {
+            className: "alertas",
+            button: "Aceptar",
+            title: "Error"
+          });
+          return;
+        } else {
+          if (!this.existeFinal(this.estadosAutomata1)) {
+            swal("Para analizar la palabra debe marcar como final un estado final en el autómata seleccionado", {
+              className: "alertas",
+              button: 'Aceptar',
+              title: "Aviso"
+            });
+            return;
+          }
+        }
+
         estadoActual = this.estadosAutomata1[1].id;
         console.log(estadoActual);
 
         for (var i = 0; i < word.length; i++) {
           if (!this.existeCaracter(word[i])) {
-            alert('La palabra no pertenence al lenguaje');
+            swal("La palabra no pertenence al lenguaje", {
+              className: "alertas",
+              button: "Aceptar",
+              title: "Análisis de palabra"
+            });
             return;
           } //llena con las transiciones que corresponden del estado actual
 
@@ -2575,21 +2607,51 @@ __webpack_require__.r(__webpack_exports__);
         for (var l = 0; l < this.estadosAutomata1.length; l++) {
           if (estadoActual === this.estadosAutomata1[l].id) {
             if (this.estadosAutomata1[l]["final"] == true) {
-              alert('la palabra pertenece al lenguaje');
+              swal("La palabra pertenence al lenguaje", {
+                className: "alertas",
+                button: "Aceptar",
+                title: "Análisis de palabra"
+              });
               return;
             } else {
-              alert('la palabra no pertenece al lenguaje');
+              swal("La palabra no pertenence al lenguaje", {
+                className: "alertas",
+                button: "Aceptar",
+                title: "Análisis de palabra"
+              });
               return;
             }
           }
         }
       } else {
+        if (this.estadosAutomata2.length === 1) {
+          swal("Debe ingresar el autómata antes de analizar la palabra", {
+            className: "alertas",
+            button: "Aceptar",
+            title: "Error"
+          });
+          return;
+        } else {
+          if (!this.existeFinal(this.estadosAutomata2)) {
+            swal("Para analizar la palabra debe marcar como final un estado final en el autómata seleccionado", {
+              className: "alertas",
+              button: 'Aceptar',
+              title: "Aviso"
+            });
+            return;
+          }
+        }
+
         estadoActual = this.estadosAutomata2[1].id;
         console.log(estadoActual);
 
         for (var i = 0; i < word.length; i++) {
           if (!this.existeCaracter(word[i])) {
-            alert('La palabra no pertenence al lenguaje');
+            swal("La palabra no pertenence al lenguaje", {
+              className: "alertas",
+              button: "Aceptar",
+              title: "Análisis de palabra"
+            });
             return;
           } //llena con las transiciones que corresponden del estado actual
 
@@ -2614,10 +2676,18 @@ __webpack_require__.r(__webpack_exports__);
         for (var l = 0; l < this.estadosAutomata2.length; l++) {
           if (estadoActual === this.estadosAutomata2[l].id) {
             if (this.estadosAutomata2[l]["final"] == true) {
-              alert('la palabra pertenece al lenguaje');
+              swal("La palabra  pertenence al lenguaje", {
+                className: "alertas",
+                button: "Aceptar",
+                title: "Análisis de palabra"
+              });
               return;
             } else {
-              alert('la palabra no pertenece al lenguaje');
+              swal("La palabra no pertenence al lenguaje", {
+                className: "alertas",
+                button: "Aceptar",
+                title: "Análisis de palabra"
+              });
               return;
             }
           }
@@ -2653,12 +2723,20 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.selectAuto === 1) {
         if (this.estadoAutomata1.id === '') {
-          alert("Por favor, ingrese un id.");
+          swal("Por favor, ingrese un id.", {
+            className: "alertas",
+            button: "Aceptar",
+            title: "Error"
+          });
           return;
         }
 
         if (this.existeEstado(this.estadosAutomata1, this.estadoAutomata1)) {
-          alert("El estado ya existe. Ingrese un estado con otro id.");
+          swal("El estado ya existe. Ingrese un estado con otro id.", {
+            className: "alertas",
+            button: "Aceptar",
+            title: "Error"
+          });
           return;
         }
 
@@ -2702,7 +2780,20 @@ __webpack_require__.r(__webpack_exports__);
         }
       } else {
         if (this.estadoAutomata2.id === '') {
-          alert("Por favor, ingrese un id.");
+          swal("Por favor, ingrese un id.", {
+            className: "alertas",
+            button: "Aceptar",
+            title: "Error"
+          });
+          return;
+        }
+
+        if (this.existeEstado(this.estadosAutomata2, this.estadoAutomata2)) {
+          swal("El estado ya existe. Ingrese un estado con otro id.", {
+            className: "alertas",
+            button: "Aceptar",
+            title: "Error"
+          });
           return;
         }
 
@@ -2752,6 +2843,29 @@ __webpack_require__.r(__webpack_exports__);
         if (estados[i].id === estado.id) {
           return true;
         }
+      }
+
+      return false;
+    },
+    existeFinal: function existeFinal(estados) {
+      var existe = false;
+
+      for (var i = 0; i < estados.length; i++) {
+        if (estados[i]["final"] === true) {
+          existe = true;
+        } else {
+          if (estados[i]["final"] === false && existe === true) {
+            existe = true;
+          } else {
+            if (estados[i]["final"] === false && existe === false) {
+              existe = false;
+            }
+          }
+        }
+      }
+
+      if (existe) {
+        return true;
       }
 
       return false;
@@ -2870,13 +2984,21 @@ __webpack_require__.r(__webpack_exports__);
     crearTransicion: function crearTransicion() {
       if (this.selectAuto === 1) {
         if (this.transicionAutomata1.from === '' || this.transicionAutomata1.to === '') {
-          alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
+          swal("Estados o caracter no ingresados . Rellene todos los campos antes de continuar", {
+            className: "alertas",
+            button: "Aceptar",
+            title: "Error"
+          });
           return;
         }
 
         for (var i = 0; i < this.transicionesAutomata1.length; i++) {
           if (this.transicionesAutomata1[i].from === this.transicionAutomata1.from && this.transicionesAutomata1[i].label === this.transicionAutomata1.label) {
-            alert("la transición ya existe. Ingrese otra");
+            swal("la transición ya existe. Ingrese otra", {
+              className: "alertas",
+              button: "Aceptar",
+              title: "Error"
+            });
             return;
           }
         }
@@ -2893,13 +3015,21 @@ __webpack_require__.r(__webpack_exports__);
         };
       } else {
         if (this.transicionAutomata2.from === '' || this.transicionAutomata2.to === '') {
-          alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
+          swal("Estados o caracter no ingresados . Rellene todos los campos antes de continuar", {
+            className: "alertas",
+            buton: "Aceptar",
+            title: "Error"
+          });
           return;
         }
 
         for (var i = 0; i < this.transicionesAutomata2.length; i++) {
           if (this.transicionesAutomata2[i].from === this.transicionAutomata2.from && this.transicionesAutomata2[i].label === this.transicionAutomata2.label) {
-            alert("la transición ya existe. Ingrese otra");
+            swal("la transición ya existe. Ingrese otra", {
+              className: "alertas",
+              button: "Aceptar",
+              title: "Error"
+            });
             return;
           }
         }
@@ -2921,12 +3051,20 @@ __webpack_require__.r(__webpack_exports__);
     crearTransicionAFND: function crearTransicionAFND() {
       if (this.selectAuto === 1) {
         if (this.transicionAutomata1.from === '' || this.transicionAutomata1.to === '') {
-          alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
+          swal("Estados o caracter no ingresados . Rellene todos los campos antes de continuar", {
+            className: "alertas",
+            button: "Aceptar",
+            title: "Error"
+          });
           return;
         }
 
         if (this.existeTransicion(this.transicionesAutomata1, this.transicionAutomata1)) {
-          alert("la transición ya existe. Ingrese otra");
+          swal("la transición ya existe. Ingrese otra", {
+            className: "alertas",
+            button: "Aceptar",
+            title: "Error"
+          });
           return;
         } else {
           for (var i = 0; i < this.transicionesAutomata1.length; i++) {
@@ -2954,12 +3092,20 @@ __webpack_require__.r(__webpack_exports__);
         };
       } else {
         if (this.transicionAutomata2.from === '' || this.transicionAutomata2.to === '') {
-          alert("Estados o caracter no ingresados . Rellene todos los campos antes de continuar");
+          swal("Estados o caracter no ingresados . Rellene todos los campos antes de continuar", {
+            className: "alertas",
+            button: "Aceptar",
+            title: "Error"
+          });
           return;
         }
 
         if (this.existeTransicion(this.transicionesAutomata2, this.transicionAutomata2)) {
-          alert("la transición ya existe. Ingrese otra");
+          swal("la transición ya existe. Ingrese otra", {
+            className: "alertas",
+            button: "Aceptar",
+            title: "Error"
+          });
           return;
         } else {
           for (var i = 0; i < this.transicionesAutomata2.length; i++) {
@@ -3453,7 +3599,7 @@ __webpack_require__.r(__webpack_exports__);
         this.automataComplemento = this.estadosAutomata1;
         this.transicionesComplemento = this.transicionesAutomata1;
 
-        for (var i = 0; i < this.automataComplemento.length; i++) {
+        for (var i = 1; i < this.automataComplemento.length; i++) {
           if (this.automataComplemento[i]["final"] === true) {
             this.automataComplemento[i]["final"] = false;
             this.automataComplemento[i].shape = 'ellipse';
@@ -3468,7 +3614,7 @@ __webpack_require__.r(__webpack_exports__);
         this.automataComplemento = this.estadosAutomata2;
         this.transicionesComplemento = this.transicionesAutomata2;
 
-        for (var i = 0; i < this.automataComplemento.length; i++) {
+        for (var i = 1; i < this.automataComplemento.length; i++) {
           if (this.automataComplemento[i]["final"] === true) {
             this.automataComplemento[i]["final"] = false;
             this.automataComplemento[i].shape = 'ellipse';
@@ -95980,6 +96126,18 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
+                _vm.selectAuto === 1
+                  ? _c(
+                      "h4",
+                      { staticClass: "text-center fredoka textocolor my-3" },
+                      [_vm._v("Complemento Autómata 1")]
+                    )
+                  : _c(
+                      "h4",
+                      { staticClass: "text-center fredoka textocolor my-3" },
+                      [_vm._v("Complemento Autómata 2")]
+                    ),
+                _vm._v(" "),
                 _c("div", {
                   staticClass: "mb-3",
                   staticStyle: { border: "1px solid lightgray" },
@@ -109289,8 +109447,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /opt/lampp/htdocs/GLF-2020s2-Trabajo-2/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /opt/lampp/htdocs/GLF-2020s2-Trabajo-2/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
