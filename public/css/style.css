@@ -139,3 +139,17 @@
         max-width: 250px;
         max-height: 250px;
     }
+
+    .alertas{
+        background-color: rgba(108, 117, 125, 0.75);
+    }
+
+    .swal-text{
+        color: white ;
+    }
+
+    .swal-title{
+        color:white
+    }
+
+    
