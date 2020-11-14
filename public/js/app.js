@@ -3779,7 +3779,7 @@ __webpack_require__.r(__webpack_exports__);
     interseccion: function interseccion() {
       var auto1 = this.transicionesAutomata1;
       var auto2 = this.transicionesAutomata2;
-      contsole.log("alfabeto 1", this.alfabeto1);
+      console.log("alfabeto 1", this.alfabeto1);
       console.log("alfabeto 2", this.alfabeto2);
       var autoUnion = '';
       var autoaux = {
@@ -3836,9 +3836,11 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     matrizTransicionesInterseccion: function matrizTransicionesInterseccion() {
-      console.log("funcion matriz transiciones union");
+      console.log("funcion matriz transiciones intersección");
       var matAuto1 = this.crearMatrizTransiciones(this.transicionesAutomata1);
       var matAuto2 = this.crearMatrizTransiciones(this.transicionesAutomata2);
+      console.log("matAuto1", matAuto1);
+      console.log("matAuto2", matAuto2);
       var strId;
       var matrix = [];
       var union = {
@@ -3851,27 +3853,35 @@ __webpack_require__.r(__webpack_exports__);
       };
       var transicion, transicion2;
       var to1, to2;
-      console.log(this.automataInterseccion);
+      console.log("automata intersección", this.automataInterseccion);
 
       for (var i = 1; i < this.automataInterseccion.length; i++) {
         strId = this.automataInterseccion[i].id.split(',');
+        console.log("id automata interseccion", this.automataInterseccion[i].id);
 
-        for (var j = 1; j <= matAuto1.length; j++) {
+        for (var j = 1; j < matAuto1[0].length; j++) {
+          console.log("Compara", strId[0], " con ", matAuto1[0][j]);
+
           if (strId[0] === matAuto1[0][j]) {
+            console.log("strId", strId[0], strId[1]);
             transicion = matAuto1[1][j];
+            console.log("transicion de la wea", transicion);
             to1 = matAuto1[2][j];
-            var arraytransicion = transicion.split(',');
 
-            if (arraytransicion.length > 1) {
+            if (this.encontrarComa(transicion)) {
+              var arraytransicion = transicion.split(',');
+
               for (var m = 0; m < arraytransicion.length; m++) {
                 transicion = arraytransicion[m];
 
-                for (var k = 1; k <= matAuto2.length; k++) {
+                for (var k = 1; k < matAuto2[2].length; k++) {
                   transicion2 = matAuto2[1][k];
-                  var arraytransicion2 = transicion2.split(',');
+                  console.log("transicion de la wea", transicion2);
 
-                  if (arraytransicion2.length > 1) {
+                  if (this.encontrarComa(transicion2)) {
                     //a,b - a,b
+                    var arraytransicion2 = transicion2.split(',');
+
                     for (var o = 0; o < arraytransicion2.length; o++) {
                       transicion2 = arraytransicion2[o];
 
@@ -3880,7 +3890,9 @@ __webpack_require__.r(__webpack_exports__);
                         union.from = strId[0] + ',' + strId[1];
                         union.label = transicion;
                         union.to = to1 + ',' + to2;
-                        console.log("union 1", union);
+                        console.log("union 1 from", union.from);
+                        console.log("union 1 transicion", union.label);
+                        console.log("union 1 to", union.to);
                         matrix.push(union);
                         union = {
                           from: '',
@@ -3899,7 +3911,9 @@ __webpack_require__.r(__webpack_exports__);
                       union.from = strId[0] + ',' + strId[1];
                       union.label = transicion;
                       union.to = to1 + ',' + to2;
-                      console.log("union 2", union);
+                      console.log("union 2 from", union.from);
+                      console.log("union 2 transicion", union.label);
+                      console.log("union 2 to", union.to);
                       matrix.push(union);
                       union = {
                         from: '',
@@ -3911,16 +3925,22 @@ __webpack_require__.r(__webpack_exports__);
                       };
                     }
                   }
+
+                  transicion2 = null;
                 }
+
+                transicion = null;
               }
             } else {
               //a - a, b      y a - a
-              for (var k = 1; k <= matAuto2.length; k++) {
+              for (var k = 1; k < matAuto2[2].length; k++) {
                 transicion2 = matAuto2[1][k];
-                var arraytransicion2 = transicion2.split(',');
+                console.log("transicion de la wea", transicion2);
 
-                if (arraytransicion2.length > 1) {
-                  //a,b - a,b
+                if (this.encontrarComa(transicion2)) {
+                  //a - a,b
+                  var arraytransicion2 = transicion2.split(',');
+
                   for (var o = 0; o < arraytransicion2.length; o++) {
                     transicion2 = arraytransicion2[o];
 
@@ -3929,7 +3949,9 @@ __webpack_require__.r(__webpack_exports__);
                       union.from = strId[0] + ',' + strId[1];
                       union.label = transicion;
                       union.to = to1 + ',' + to2;
-                      console.log("union 3", union);
+                      console.log("union 3 from", union.from);
+                      console.log("union 3 transicion", union.label);
+                      console.log("union 3 to", union.to);
                       matrix.push(union);
                       union = {
                         from: '',
@@ -3942,13 +3964,15 @@ __webpack_require__.r(__webpack_exports__);
                     }
                   }
                 } else {
-                  //a,b - a
+                  //a - a
                   if (strId[1] === matAuto2[0][k] && transicion2 == transicion) {
                     to2 = matAuto2[2][k];
                     union.from = strId[0] + ',' + strId[1];
                     union.label = transicion;
                     union.to = to1 + ',' + to2;
-                    console.log("union 4", union);
+                    console.log("union 4 from", union.from);
+                    console.log("union 4 transicion", union.label);
+                    console.log("union 4 to", union.to);
                     matrix.push(union);
                     union = {
                       from: '',
@@ -3960,13 +3984,15 @@ __webpack_require__.r(__webpack_exports__);
                     };
                   }
                 }
+
+                transicion2 = null;
               }
             }
           }
         }
       }
 
-      console.log(matrix);
+      console.log("matrix", matrix);
       this.transicionesInterseccion = matrix;
     },
     simplificarAFD: function simplificarAFD(estados) {
