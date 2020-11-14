@@ -394,7 +394,7 @@ export default {
             transicionUnion:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
             transicionesUnion:[],
 
-            automataConcatenacion:[{id:'inicio', label:'inicio',color:'#75616b47', final:false}],
+            automataConcatenacion:[],
             estadoConcatenacion:{id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'},
             transicionConcatenacion:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
             transicionesConcatenacion:[],
@@ -1584,11 +1584,34 @@ export default {
             console.log("la wea que explota",estadoaux);
         },
 
+        copiarAutomata(estadosIn,transicionesIn, estadosOut,transicionesOut)
+        {
+            var estado={id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'};
+            var transiciones={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
+            for(var i=0; i<estadosIn.length;i++)
+            {
+                estado.id= estadosIn[i].id;
+                estado.label= estadosIn[i].label;
+                estado.color= estadosIn[i].color;
+                estado.final= estadosIn[i].final;
+                estado.shape= estadosIn[i].shape;
+                estadosOut.push(estado);
+                estado={id:'', label:'',color:'#C52C0B', final:false, shape:'ellipse'};
+            }
+            for(var j=0; j<transicionesIn.length; j++)
+            {
+                transiciones.from= transicionesIn[j].from;
+                transiciones.label= transicionesIn[j].label;
+                transiciones.to= transicionesIn[j].to;
+                transicionesOut.push(transiciones);
+                transiciones={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
+            }
+        },
+
         complemento(){
             if(this.selectAuto===1)
             {
-                this.automataComplemento=this.estadosAutomata1;
-                this.transicionesComplemento=this.transicionesAutomata1;
+                this.copiarAutomata(this.estadosAutomata1,this.transicionesAutomata1,this.automataComplemento,this.transicionesComplemento);
                 for(var i=1; i<this.automataComplemento.length; i++)
                 {
                     if(this.automataComplemento[i].final===true)
@@ -1605,8 +1628,7 @@ export default {
                 }
             }
             else{
-                this.automataComplemento=this.estadosAutomata2;
-                this.transicionesComplemento=this.transicionesAutomata2;
+                this.copiarAutomata(this.estadosAutomata2,this.transicionesAutomata2,this.automataComplemento,this.transicionesComplemento);
                 for(var i=1; i<this.automataComplemento.length; i++)
                 {
                     if(this.automataComplemento[i].final===true)
@@ -1624,38 +1646,38 @@ export default {
             }
         },
 
+        
+
         concatenacion(){
             if(this.selectAuto==1){
-                for(var i=0; i<this.estadosAutomata1.length;i++)
+                var automataAux=[];
+                var transicionesAux=[];
+                var trans= {from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
+                this.copiarAutomata(this.estadosAutomata1,this.transicionesAutomata1,this.automataConcatenacion,this.transicionesConcatenacion);
+                this.copiarAutomata(this.estadosAutomata2,this.transicionesAutomata2,automataAux,transicionesAux);
+                automataAux.splice(0,1); // con esto saco el inicio y transicion inicio del segundo automata
+                transicionesAux.splice(0,1);
+                for(var i=0; i<this.automataConcatenacion.length;i++)
                 {
-                    if(this.estadosAutomata1[i].final===true)
+                    if(this.automataConcatenacion[i].final===true)
                     {
-                        this.estadosAutomata1[i].final=false;
-                        this.estadosAutomata1[i].shape='ellipse';
-                        this.estadosAutomata1[i].color='#C52C0B';
-                        this.automataConcatenacion=this.estadosAutomata1.concat(this.estadosAutomata2);
-                        this.transicionesConcatenacion=this.transicionesAutomata1.concat(this.transicionesAutomata2);
-                        this.transicionConcatenacion.from=this.estadosAutomata1[i].id;
-                        this.transicionConcatenacion.label='';
-                        this.transicionConcatenacion.to=this.estadosAutomata2[1].id;
+                        this.automataConcatenacion[i].final=false;
+                        this.automataConcatenacion[i].shape='ellipse';
+                        this.automataConcatenacion[i].color='#C52C0B';
+                        trans.from=this.automataConcatenacion[i].id;
+                        trans.label='ε';
+                        trans.to= automataAux[0].id;
+                        this.transicionesConcatenacion.push(trans);
                     }
-                }      
+                }
+                
+                this.automataConcatenacion=this.automataConcatenacion.concat(automataAux);
+                this.transicionesConcatenacion=this.transicionesConcatenacion.concat(transicionesAux);
+                console.log("estados de la wea concatenada: ",this.automataConcatenacion);  
+                console.log("transiciones de la wea concatenada: ",this.transicionesConcatenacion);      
             }
             else{ 
-                for(var i=0; i<this.estadosAutomata2.length;i++)
-                {
-                    if(this.estadosAutomata2[i].final===true)
-                    {
-                        this.estadosAutomata2[i].final=false;
-                        this.estadosAutomata2[i].shape='ellipse';
-                        this.estadosAutomata2[i].color='#C52C0B';
-                        this.automataConcatenacion=this.estadosAutomata2.concat(this.estadosAutomata1);
-                        this.transicionesConcatenacion=this.transicionesAutomata2.concat(this.transicionesAutomata1);
-                        this.transicionConcatenacion.from=this.estadosAutomata2[i].id;
-                        this.transicionConcatenacion.label='';
-                        this.transicionConcatenacion.to=this.estadosAutomata1[1].id;
-                    } 
-                }   
+                
             }
             console.log("estados concat", this.automataConcatenacion);
             console.log("transiciones concat: ", this.transicionesConcatenacion);
