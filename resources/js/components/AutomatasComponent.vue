@@ -300,6 +300,10 @@
             <div id="afd-equivalente" class="card cardaux3 col-md-10 rounded-bottom mb-3" v-if="operacion===1">
                 <div class="container my-3">
                     La conversión implica pasar por un AFD intermedio con estados y transiciones redundantes, luego se eliminan los estados inaccesibles o inalcanzables, es decir, aquellos a los que no se puede acceder a partir del estado inicial. Luego de este procedimiento, se obtiene el AFD equivalente.
+                     <div class="my-3 text-center">
+                        <button class="btn btn-success" @click="drawAutomata">Mostrar AFD Equivalente</button>
+                    </div>      
+                    <div id="equivalente" class="mb-3" style="border: 1px solid lightgray;"></div>
                 </div>
             </div>
 
@@ -311,11 +315,18 @@
                 <div class="container my-3">
                     Esta propiedad es solo para AFD, intercambia los estados finales por no finales.
                     <div class="my-3 text-center">
-                        <button class="btn btn-success" @click="drawAutomata">Mostrar Complemento</button>
+                        <button class="btn btn-success" @click="showComplemento(1)">Mostrar Complemento Autómata 1</button>
+                        <button class="btn btn-success" @click="showComplemento(2)">Mostrar Complemento Autómata 2</button>
                     </div> 
                     <h4 class="text-center fredoka textocolor my-3" v-if="selectAuto===1">Complemento Autómata 1</h4>   
                     <h4 class="text-center fredoka textocolor my-3" v-else>Complemento Autómata 2</h4>
                     <div id="complemento" class="mb-3" style="border: 1px solid lightgray;"></div>
+                    <div class="my-3 text-center" v-if="showSimplificado">
+                        <h4 class="text-center fredoka textocolor my-3">AFD equivalente simplificado</h4>
+                        <button class="btn btn-success">Mostrar Autómata</button>
+                        <div id="afdSimplificado" class="mb-3" style="border: 1px solid lightgray;"></div>
+                    </div>
+
                 </div>
             </div>
 
@@ -412,11 +423,16 @@ export default {
             transicionEquivalente:{from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}},
             transicionesEquivalente:[],
 
+            automataSimplificado:[],
+            transicionesSimplificado:[],
+            transicionSimplificado:{from:'', label: '',to:'',color:{color:'rgb(0,0,0)'}},
+
             cadena:'',
 
             matriz1AFND: [],
             option:0,
             operacion:'', 
+            showSimplificado:false,
             validador:false,
             inicial:0,
             createTrans: false,
@@ -479,6 +495,21 @@ export default {
             }
         },
         
+        showComplemento(opcion){
+            if(opcion===1)
+            {
+                this.selectAuto=1;
+                this.complemento();
+                this.drawAutomata();
+                this.showSimplificado=true;
+            }
+            else{
+                this.selectAuto=2;
+                this.complemento();
+                this.drawAutomata();
+            }
+        },
+
         mostrarOp2(){
             if(this.existeFinales())
             {
@@ -500,9 +531,6 @@ export default {
             if(this.existeFinales())
             {
                 this.operacion=3;
-                this.automataUnion= [{id:'inicio', label:'inicio',color:'#75616b47', final:false}];
-                this.transicionUnion= {from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
-                this.transicionesUnion= [];
                 this.union();
                 this.crearMatrizTransiciones(this.transicionesAutomata2);
                 this.crearMatrizTransiciones(this.transicionesAutomata1);
@@ -566,7 +594,7 @@ export default {
             console.log(word);
             if(this.selectAuto===1)
             {
-                if(this.estadosAutomata1.length===1)
+                if(this.estadosAutomata1.length===1 || this.estadosAutomata1.length===0)
                 {
                     swal("Debe ingresar el autómata antes de analizar la palabra",{
                         className: "alertas",
@@ -645,7 +673,7 @@ export default {
                 }                        
             }  
             else{
-                if(this.estadosAutomata2.length===1)
+                if(this.estadosAutomata2.length===1 || this.estadosAutomata2.length===0)
                 {
                     swal("Debe ingresar el autómata antes de analizar la palabra",{
                         className: "alertas",
@@ -1292,7 +1320,7 @@ export default {
                     {
                         console.log("strId", strId[0], strId[1]);
                         transicion=matAuto1[1][j];
-                        console.log("transicion de la wea",transicion);
+                        console.log("transicion",transicion);
                         to1=matAuto1[2][j];
                         if (this.encontrarComa(transicion)){ 
                             var arraytransicion= transicion.split(',');
@@ -1300,7 +1328,7 @@ export default {
                                 transicion= arraytransicion[m];
                                 for(var k=1; k<matAuto2[2].length;k++){
                                     transicion2=matAuto2[1][k];
-                                    console.log("transicion de la wea",transicion2);
+                                    console.log("transicion",transicion2);
                                     if(this.encontrarComa(transicion2)){   //a,b - a,b
                                         var arraytransicion2= transicion2.split(',');
                                         for(var o=0; o<arraytransicion2.length; o++){
@@ -1338,7 +1366,7 @@ export default {
                         }else{ //a - a, b      y a - a
                             for(var k=1; k<matAuto2[2].length;k++){
                                 transicion2=matAuto2[1][k];
-                                console.log("transicion de la wea",transicion2);
+                                console.log("transicion",transicion2);
                                 if(this.encontrarComa(transicion2)){   //a - a,b
                                     var arraytransicion2= transicion2.split(',');
                                     for(var o=0; o<arraytransicion2.length; o++){
@@ -1400,6 +1428,9 @@ export default {
         },
 
         union(){
+            this.automataUnion= [{id:'inicio', label:'inicio',color:'#75616b47', final:false}];
+            this.transicionUnion= {from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
+            this.transicionesUnion= [];
             var auto1= this.transicionesAutomata1
             var auto2 =this.transicionesAutomata2
             console.log("alfabeto 1", this.alfabeto1);
@@ -1470,6 +1501,7 @@ export default {
             var containerComplemento= document.getElementById("complemento");
             var containerConcatenacion= document.getElementById("concatenacion");
             var containerEquivalente= document.getElementById("equivalente");
+            var containerSimplificado= document.getElementById("afdSimplificado");
 
             var data={nodes:this.estadosAutomata1,
                       edges:this.transicionesAutomata1};
@@ -1491,6 +1523,9 @@ export default {
             
             var dataEquivalente={nodes:this.automataEquivalente,
                                  edges:this.transicionesEquivalente};
+            
+            var dataSimplificado={nodes:this.automataSimplificado,
+                                  edges:this.transicionesSimplificado};
 
             var options = {
                 height: 320 + 'px',
@@ -1509,22 +1544,43 @@ export default {
             if(this.operacion===1)
             {
                 var networkEquivalente= new vis.Network(containerEquivalente,dataEquivalente,options);
+                if(this.showSimplificado===true)
+                {
+                    var networkSimplificado= new vis.Network(containerSimplificado,dataSimplificado,options);
+                }
             }
             if(this.operacion===2)
             {
                 var networkComplemento= new vis.Network(containerComplemento,dataComplemento,options);
+                if(this.showSimplificado===true)
+                {
+                    var networkSimplificado= new vis.Network(containerSimplificado,dataSimplificado,options);
+                }
+                
             }
             if(this.operacion===3)
             {
                 var networkUnion= new vis.Network(containerUnion,dataUnion,options);
+                if(this.showSimplificado===true)
+                {
+                    var networkSimplificado= new vis.Network(containerSimplificado,dataSimplificado,options);
+                }
             }
             if(this.operacion===4)
             {
                 var networkConcatenacion= new vis.Network(containerConcatenacion,dataConcatenacion,options);
+                if(this.showSimplificado===true)
+                {
+                    var networkSimplificado= new vis.Network(containerSimplificado,dataSimplificado,options);
+                }
             }
             if(this.operacion===5)
             {
                 var networkInterseccion= new vis.Network(containerInterseccion,dataInterseccion,options);
+                if(this.showSimplificado===true)
+                {
+                    var networkSimplificado= new vis.Network(containerSimplificado,dataSimplificado,options);
+                }
             }
             
         },
@@ -1533,12 +1589,12 @@ export default {
             var alfabeto= this.simplificarAlfabeto(this.alfabeto1); //['a','b','c']
             var matAuto1= this.crearMatrizTransiciones(this.transicionesAutomata1); 
             var matAuto2= this.crearMatrizTransiciones(this.transicionesAutomata2); 
-            var est1 = this.estadosAutomata1
-            var est2 = this.estadosAutomata2
+            var est1 = this.estadosAutomata1;
+            var est2 = this.estadosAutomata2;
             var estadosaux = [] // [ inicio, aux]  [1, [[a],[1,2,3]]]
             var aux = [];       // transicion, fin  [a], [1,2,3]
             var fin= [];        //finales [ 1,2,3 ]
-            var matriz = [];       //largo estados * Largo Alfabeto
+            var matriz = [];     //largo estados * Largo Alfabeto
             //console.log("ALFABETOOO",alfabeto);
             
             for(var i=1; i<est1.length;i++){ //inicio
@@ -1570,48 +1626,157 @@ export default {
             this.matriz1AFND=matriz;
         },
 
-
-        afdEquivalente(){
-            this.matrizAFND();
-            console.log(this.matriz1AFND);
-            var matriz1=this.matriz1AFND;
-            var matriz2=[];
-            var estadoaux = []; // [ inicio, aux]  [1, [[a],[1,2,3]]]
-            var transicionaux = [];    // transicion, fin  [a], [1,2,3]
-            var trans=[];
-            var finaux= [];        // [1,2,3]
-            var finaux2= []; 
-            var abc = this.simplificarAlfabeto(this.alfabeto1);
-            matriz2.push(matriz1[0]);
-            console.log("formato de la wea", matriz1);
-            if(matriz2[0][1][1].length>1){ //[1,[a,[[2,3]]] ]
-                trans=matriz2[0][1][1];
-                transicionaux.push(trans);
-                for(var l=1; l<=abc.length; l++){
-                    trans=matriz2[0][l][0];
-                    console.log("trans", trans);
-                    finaux.push(trans);
-                    for(var p=0;p<matriz2[0][1][1].length;p++){
-                        for(var t=0; t<matriz1.length; t++){
-                            if(matriz2[0][1][1][p]==matriz1[t][0]){
-                                for(var y=1; y<=abc.length; y++){
-                                    console.log("Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                                    if(trans==matriz1[t][y][0]){
-                                        console.log("valores: ",matriz1[0][1][1][p]);
-                                        finaux2.push(matriz1[0][1][1][p]);
-                                    }
-                                }
+        estadoSiguiente(matriz2, abc){
+            console.log("inicio funcion estadoSiguiente");
+            var inicio=[];
+            var cond=false;
+            var estaux=[];
+            var matriz3=matriz2;
+            var largo=matriz2.length;
+            var arrayaux=[];
+            for(let j=0; j<largo; j++){
+                for(let i=1; i<=abc.length; i++){
+                    if(matriz2[j].length>1){
+                        inicio=matriz2[j][i][1];
+                        for( let k=0; k<matriz2.length; k++){
+                            if(this.compararArray(inicio, matriz2[k][0])){
+                                cond=true;
+                            }else{
+                                arrayaux=arrayaux.concat(inicio);
                             }
                         }
                     }
-                    finaux.push(finaux2);
-                    finaux2= [];
-                    transicionaux.push(finaux);
-                    finaux= [];
                 }
-                estadoaux.push(transicionaux);
+                for(var z=0; z<arrayaux.length;z++)
+                {
+                    if(arrayaux[z].length>1)
+                    {
+                        arrayaux[z]=arrayaux[z].sort();
+                    }
+                }
+
+                arrayaux=this.simplificarArray(arrayaux);
+                for(let y=0; y<arrayaux.length; y++){
+                    if(!cond){
+                        estaux.push(arrayaux[y]);
+                    }
+                }
+                console.log("matriz3: ",matriz3);
+                matriz3.push(estaux);
+                cond=false;
+                inicio=[];
             }
-            console.log("la wea que explota",estadoaux);
+            console.log("fin estadoSiguiente");
+            return matriz3;
+        },
+
+        compararArray(array1, array2){
+            console.log("inicio compararArry");
+            array1=this.simplificarArray(array1);
+            array2=this.simplificarArray(array2);
+            var largo1=array1.length;
+            var largo2;
+            for(let i=0;i<array1.length;i++){
+                for(let j=0; j<array2.length;j++){
+                    if(array1[i]==array2[j]){
+                        largo2++;
+                    }
+                }
+            }
+            if(largo2==largo1){
+                console.log("fin compararArray");
+                return true;
+            }else{
+                console.log("fin compararArray");
+                return false;
+            }
+        },
+ 
+        buscarTransicion(matriz1, matriz2, abc){
+            console.log("inicio buscarTRansicion");
+            var transicion=[];
+            for(let i=0; i<matriz2.length; i++){
+                if(matriz2[i].length==1){   //aca revisar
+                    if(matriz2[i][0].length>1){  // o aca jej 
+                        for(let k=1; k<=abc.length; k++){
+                            for(let j=0; j<matriz2[i][0].length; j++){
+                                for(let h=0; h<matriz1.length; h++){
+                                    if(matriz2[i][0][j]==matriz1[h][0]){
+                                        console.log("matriz1[h][k][1]: ", matriz1[h][k][1]);
+                                        transicion=transicion.concat(matriz1[h][k][1]);
+                                        console.log("transicion 1: ",transicion);
+                                    }
+                                }
+                            }
+                            transicion=this.simplificarArray(transicion);
+                            matriz2[i].push(transicion);
+                            transicion=[];
+                            console.log("matriz2[i] 1", matriz2[i]);
+                        }
+                    }else{
+                        for(let k=1; k<=abc.length; k++){
+                            for(let h=0; h<matriz1.length; h++){
+                                if(matriz2[i][0]==matriz1[h][0]){
+                                    transicion=transicion.concat(matriz1[h][k][1]);
+                                    console.log("transicion 2: ",transicion);
+                                }
+                            }
+                            transicion=this.simplificarArray(transicion);
+                            matriz2[i].push(transicion);
+                            console.log("matriz2[i] 2", matriz2[i]);
+                            transicion=[];
+                        }
+                    }
+                }
+            }
+            console.log("matriz2 final", matriz2);
+            console.log("fin funcion buscarTRansicion");
+            return matriz2;
+        },
+
+        afdEquivalente(){
+            console.log("inicio afdEquivalente");
+            this.matrizAFND();
+            var matriz1=this.matriz1AFND;
+            var matriz2=[];
+            var estadoaux = [];
+            var abc = this.simplificarAlfabeto(this.alfabeto1);
+            matriz2.push(matriz1[0]);
+            matriz2=this.estadoSiguiente(matriz2, abc);
+            matriz2=this.buscarTransicion(matriz1, matriz2, abc);
+            console.log("matriz2", matriz2);
+            console.log("fin afdEquivalente");
+        },
+
+        simplificarArray(array){
+            console.log("inicio simplificarArray");
+            console.log(array);
+            if(array.length>1)
+            {
+
+                var newArray=[];
+                array=array.sort();
+                for(var j=0; j<array.length-1; j++)
+                {
+                    if(array[j] != array[j+1])
+                    {
+                        newArray.push(array[j]);
+                    }
+                }
+                if(array[array.length-1] != array[array.length-2]){
+                    newArray.push(array[array.length-1]);
+                }
+                
+                
+
+                console.log("fin simplificarArray", newArray);
+                return newArray;
+            }
+            else{
+                console.log("fin simplificarArray");
+                return array;
+            }
+            
         },
 
         copiarAutomata(estadosIn,transicionesIn, estadosOut,transicionesOut)
@@ -1639,6 +1804,8 @@ export default {
         },
 
         complemento(){
+            this.automataComplemento=[];
+            this.transicionesComplemento=[];
             if(this.selectAuto===1)
             {
                 this.copiarAutomata(this.estadosAutomata1,this.transicionesAutomata1,this.automataComplemento,this.transicionesComplemento);
@@ -1679,6 +1846,8 @@ export default {
         
 
         concatenacion(){
+            this.automataConcatenacion=[];
+            this.transicionesConcatenacion=[];
             if(this.selectAuto==1){
                 var automataAux=[];
                 var transicionesAux=[];
@@ -1687,7 +1856,7 @@ export default {
                 var trans= {from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
                 this.copiarAutomata(this.estadosAutomata1,this.transicionesAutomata1,this.automataConcatenacion,this.transicionesConcatenacion);
                 this.copiarAutomata(this.estadosAutomata2,this.transicionesAutomata2,automataAux,transicionesAux);
-                automataAux.splice(0,1); // con esto saco el inicio y transicion inicio del segundo automata
+                automataAux.splice(0,1); 
                 transicionesAux.splice(0,1);
                 for(var i=0; i<this.automataConcatenacion.length;i++)
                 {
@@ -1698,7 +1867,7 @@ export default {
                         this.automataConcatenacion[i].color='#C52C0B';
                         trans.from=this.automataConcatenacion[i].id;
                         trans.label='ε';
-                        trans.color={color:'rgb(197,44,11)'}
+                        trans.color={color:'rgb(197,44,11)'};
                         trans.to= automataAux[0].id;
                         this.transicionesConcatenacion.push(trans);
                     }
@@ -1711,9 +1880,9 @@ export default {
                 var automataAux=[];
                 var transicionesAux=[];
                 var trans= {from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
-                this.copiarAutomata(this.estadosAutomata1,this.transicionesAutomata2,this.automataConcatenacion,this.transicionesConcatenacion);
-                this.copiarAutomata(this.estadosAutomata2,this.transicionesAutomata1,automataAux,transicionesAux);
-                automataAux.splice(0,1); // con esto saco el inicio y transicion inicio del segundo automata
+                this.copiarAutomata(this.estadosAutomata2,this.transicionesAutomata2,this.automataConcatenacion,this.transicionesConcatenacion);
+                this.copiarAutomata(this.estadosAutomata1,this.transicionesAutomata1,automataAux,transicionesAux);
+                automataAux.splice(0,1); 
                 transicionesAux.splice(0,1);
                 for(var i=0; i<this.automataConcatenacion.length;i++)
                 {
@@ -1724,6 +1893,7 @@ export default {
                         this.automataConcatenacion[i].color='#C52C0B';
                         trans.from=this.automataConcatenacion[i].id;
                         trans.label='ε';
+                        trans.color={color:'rgb(197,44,11)'};
                         trans.to= automataAux[0].id;
                         this.transicionesConcatenacion.push(trans);
                     }
@@ -1807,7 +1977,7 @@ export default {
                     {
                         console.log("strId", strId[0], strId[1]);
                         transicion=matAuto1[1][j];
-                        console.log("transicion de la wea",transicion);
+                        console.log("transicion",transicion);
                         to1=matAuto1[2][j];
                         if (this.encontrarComa(transicion)){ 
                             var arraytransicion= transicion.split(',');
@@ -1815,7 +1985,7 @@ export default {
                                 transicion= arraytransicion[m];
                                 for(var k=1; k<matAuto2[2].length;k++){
                                     transicion2=matAuto2[1][k];
-                                    console.log("transicion de la wea",transicion2);
+                                    console.log("transicion",transicion2);
                                     if(this.encontrarComa(transicion2)){   //a,b - a,b
                                         var arraytransicion2= transicion2.split(',');
                                         for(var o=0; o<arraytransicion2.length; o++){
@@ -1853,7 +2023,7 @@ export default {
                         }else{ //a - a, b      y a - a
                             for(var k=1; k<matAuto2[2].length;k++){
                                 transicion2=matAuto2[1][k];
-                                console.log("transicion de la wea",transicion2);
+                                console.log("transicion",transicion2);
                                 if(this.encontrarComa(transicion2)){   //a - a,b
                                     var arraytransicion2= transicion2.split(',');
                                     for(var o=0; o<arraytransicion2.length; o++){
