@@ -2477,20 +2477,28 @@ __webpack_require__.r(__webpack_exports__);
       return;
     },
     mostrarOp1: function mostrarOp1() {
-      this.dibujarSimplificado = false;
-
-      if (this.existeFinales()) {
-        this.operacion = 1;
-        this.afdEquivalente();
-        return;
-      } else {
-        swal("Para proseguir debe marcar como final un estado final en los dos autómatas", {
-          className: "alertas",
-          button: 'Aceptar',
-          title: "Aviso"
-        });
-        return;
+      /*
+      this.dibujarSimplificado=false;
+      if(this.existeFinales())
+      {
+          this.operacion=1;
+          this.afdEquivalente();
+          return;               
       }
+      else{
+          swal("Para proseguir debe marcar como final un estado final en los dos autómatas",{
+              className: "alertas",
+              button:'Aceptar',
+              title:"Aviso",
+          });
+          return;
+      }*/
+      swal("Función en mantenimiento, Lo sentimos... :(", {
+        className: "alertas",
+        button: "Aceptar",
+        title: "¡OOPS!"
+      });
+      return;
     },
     mostrarSimplificado: function mostrarSimplificado() {
       this.dibujarSimplificado = true;
@@ -2745,6 +2753,15 @@ __webpack_require__.r(__webpack_exports__);
         return false;
       }
     },
+    estadosDistintos: function estadosDistintos(estados1, estado) {
+      for (var i = 0; i < estados1.length; i++) {
+        if (estados1[i].id === estado.id) {
+          return false;
+        }
+      }
+
+      return true;
+    },
     agregarEstado: function agregarEstado() {
       var aux = {
         id: 'inicio',
@@ -2779,6 +2796,15 @@ __webpack_require__.r(__webpack_exports__);
         this.estadoAutomata1.label = this.estadoAutomata1.id;
 
         if (this.estadosAutomata1.length === 1) {
+          if (!this.estadosDistintos(this.estadosAutomata2, this.estadoAutomata1)) {
+            swal("El id debe ser distinto al/los estado(s) del otro automata", {
+              className: "alertas",
+              button: "Aceptar",
+              title: "Alerta"
+            });
+            return;
+          }
+
           this.estadosAutomata1.push(this.estadoAutomata1);
           this.transicionAutomata1.from = 'inicio';
           this.transicionAutomata1.to = this.estadoAutomata1.id;
@@ -2801,6 +2827,15 @@ __webpack_require__.r(__webpack_exports__);
           this.drawAutomata();
           return;
         } else {
+          if (!this.estadosDistintos(this.estadosAutomata2, this.estadoAutomata1)) {
+            swal("El id debe ser distinto al/los estado(s) del otro automata", {
+              className: "alertas",
+              button: "Aceptar",
+              title: "Alerta"
+            });
+            return;
+          }
+
           this.estadosAutomata1.push(this.estadoAutomata1);
           this.estadoAutomata1 = {
             id: '',
@@ -2836,6 +2871,15 @@ __webpack_require__.r(__webpack_exports__);
         this.estadoAutomata2.label = this.estadoAutomata2.id;
 
         if (this.estadosAutomata2.length === 1) {
+          if (!this.estadosDistintos(this.estadosAutomata1, this.estadoAutomata2)) {
+            swal("El id debe ser distinto al/los estado(s) del otro automata", {
+              className: "alertas",
+              button: "Aceptar",
+              title: "Alerta"
+            });
+            return;
+          }
+
           this.estadosAutomata2.push(this.estadoAutomata2);
           this.transicionAutomata2.from = 'inicio';
           this.transicionAutomata2.to = this.estadoAutomata2.id;
@@ -2858,6 +2902,15 @@ __webpack_require__.r(__webpack_exports__);
           this.drawAutomata();
           return;
         } else {
+          if (!this.estadosDistintos(this.estadosAutomata1, this.estadoAutomata2)) {
+            swal("El id debe ser distinto al/los estado(s) del otro automata", {
+              className: "alertas",
+              button: "Aceptar",
+              title: "Alerta"
+            });
+            return;
+          }
+
           this.estadosAutomata2.push(this.estadoAutomata2);
           this.estadoAutomata2 = {
             id: '',
@@ -3613,7 +3666,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log("nuevo Alfabeto:", nuevoAlfabeto);
 
         for (var i = 1; i < this.estadosAutomata1.length; i++) {
-          for (j = 1; j < this.estadosAutomata2.length; j++) {}
+          for (var j = 1; j < this.estadosAutomata2.length; j++) {}
         }
       }
     },
@@ -4178,15 +4231,15 @@ __webpack_require__.r(__webpack_exports__);
       console.log("transiciones concat: ", this.transicionesConcatenacion);
     },
     interseccion: function interseccion() {
-      /*if(!this.compararAlfabetos())
-      {
-          swal("Los alfabetos de ambos automatas deben ser iguales",{
-              className: "alertas",
-              button: "Aceptar",
-              title:"Error"
-          });
-          return;
-      }*/
+      if (!this.compararAlfabetos()) {
+        swal("Los alfabetos de ambos automatas deben ser iguales", {
+          className: "alertas",
+          button: "Aceptar",
+          title: "Error"
+        });
+        return;
+      }
+
       var auto1 = this.transicionesAutomata1;
       var auto2 = this.transicionesAutomata2;
       console.log("alfabeto 1", this.alfabeto1);
@@ -4406,6 +4459,11 @@ __webpack_require__.r(__webpack_exports__);
       this.transicionesInterseccion = matrix;
     },
     simplificarAFD: function simplificarAFD(estadaux, transaux) {
+      swal("Función en mantenimiento. Lo sentimos... :( \n Para más detalles abra la consola", {
+        className: "alertas",
+        button: "Aceptar",
+        title: "¡OOPS!"
+      });
       this.automataSimplificado = [];
       this.transicionesSimplificado = []; //var estados=[{id:'inicio', label:'inicio',color:'#75616b47', final:false},{id:'1', label:'1',color:'#75616b47', final:false},{id:'2', label:'2',color:'#75616b47', final:true},{id:'3', label:'3',color:'#75616b47', final:true},{id:'4', label:'4',color:'#75616b47', final:true},{id:'5', label:'5',color:'#75616b47', final:true}]
       //var transiciones = [{from:'inicio',label: '',to:'5',color:{color:'rgb(0,0,0)'}},{from:'5',label: 'a',to:'4',color:{color:'rgb(0,0,0)'}},{from:'5',label: 'b',to:'3',color:{color:'rgb(0,0,0)'}},{from:'4',label: 'a',to:'4',color:{color:'rgb(0,0,0)'}},{from:'4',label: 'b',to:'2',color:{color:'rgb(0,0,0)'}},{from:'3',label: 'a',to:'4',color:{color:'rgb(0,0,0)'}},{from:'3',label: 'b',to:'1',color:{color:'rgb(0,0,0)'}},{from:'2',label: 'a',to:'4',color:{color:'rgb(0,0,0)'}},{from:'2',label: 'b',to:'1',color:{color:'rgb(0,0,0)'}},{from:'1',label: 'a',to:'1',color:{color:'rgb(0,0,0)'}},{from:'1',label: 'b',to:'1',color:{color:'rgb(0,0,0)'}}]
@@ -4624,7 +4682,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      controlvista: 2
+      controlvista: 1
     };
   },
   mounted: function mounted() {
@@ -96574,7 +96632,10 @@ var render = function() {
               _vm.selectAuto === 1
                 ? _c(
                     "table",
-                    { staticClass: "table table-striped table-dark" },
+                    {
+                      staticClass: "table table-striped table-dark",
+                      attrs: { "aria-describedby": "estados1" }
+                    },
                     [
                       _vm._m(5),
                       _vm._v(" "),
@@ -96636,7 +96697,10 @@ var render = function() {
               _vm.selectAuto === 2
                 ? _c(
                     "table",
-                    { staticClass: "table table-striped table-dark" },
+                    {
+                      staticClass: "table table-striped table-dark",
+                      attrs: { "aria-describedby": "estados2" }
+                    },
                     [
                       _vm._m(6),
                       _vm._v(" "),
@@ -97347,7 +97411,8 @@ var staticRenderFns = [
                             staticClass: "img-fluid",
                             attrs: {
                               src:
-                                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/DFAexample.svg/500px-DFAexample.svg.png"
+                                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/DFAexample.svg/500px-DFAexample.svg.png",
+                              alt: "AF"
                             }
                           })
                         ])
@@ -97386,7 +97451,8 @@ var staticRenderFns = [
                             staticClass: "img-fluid",
                             attrs: {
                               src:
-                                "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/NFA-powerset-construction-example.svg/360px-NFA-powerset-construction-example.svg.png"
+                                "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/NFA-powerset-construction-example.svg/360px-NFA-powerset-construction-example.svg.png",
+                              alt: "AFD"
                             }
                           })
                         ])
@@ -97425,7 +97491,8 @@ var staticRenderFns = [
                             staticClass: "img-fluid",
                             attrs: {
                               src:
-                                "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/NFAexample.svg/600px-NFAexample.svg.png"
+                                "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/NFAexample.svg/600px-NFAexample.svg.png",
+                              alt: "AFND"
                             }
                           })
                         ])
@@ -109951,15 +110018,14 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*!********************************************************!*\
   !*** ./resources/js/components/AutomatasComponent.vue ***!
   \********************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AutomatasComponent_vue_vue_type_template_id_06dab8b6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AutomatasComponent.vue?vue&type=template&id=06dab8b6& */ "./resources/js/components/AutomatasComponent.vue?vue&type=template&id=06dab8b6&");
 /* harmony import */ var _AutomatasComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AutomatasComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/AutomatasComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _AutomatasComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _AutomatasComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -109989,7 +110055,7 @@ component.options.__file = "resources/js/components/AutomatasComponent.vue"
 /*!*********************************************************************************!*\
   !*** ./resources/js/components/AutomatasComponent.vue?vue&type=script&lang=js& ***!
   \*********************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -110228,8 +110294,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /opt/lampp/htdocs/GLF-2020s2-Trabajo-2/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /opt/lampp/htdocs/GLF-2020s2-Trabajo-2/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -37,7 +37,7 @@
                                 </p>
                                 <div class="row justify-content-center">
                                     <div class="image-parent">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/DFAexample.svg/500px-DFAexample.svg.png" class="img-fluid">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/DFAexample.svg/500px-DFAexample.svg.png" class="img-fluid" alt="AF">
                                     </div>
                                 </div>
                             </div>
@@ -55,7 +55,7 @@
                                 </p>
                                 <div class="row justify-content-center">
                                     <div class="image-parent">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/NFA-powerset-construction-example.svg/360px-NFA-powerset-construction-example.svg.png" class="img-fluid">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/NFA-powerset-construction-example.svg/360px-NFA-powerset-construction-example.svg.png" class="img-fluid" alt="AFD">
                                     </div>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                                 </p>
                                 <div class="row justify-content-center">
                                     <div class="image-parentmg">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/NFAexample.svg/600px-NFAexample.svg.png" class="img-fluid">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/NFAexample.svg/600px-NFAexample.svg.png" class="img-fluid" alt="AFND">
                                     </div>
                                 </div>
                             </div>

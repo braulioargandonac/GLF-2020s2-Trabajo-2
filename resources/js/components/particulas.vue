@@ -45,7 +45,7 @@
 export default {
     data() {
         return {
-            controlvista: 2,
+            controlvista: 1,
         }
     },
     mounted(){

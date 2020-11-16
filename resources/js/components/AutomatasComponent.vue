@@ -233,7 +233,7 @@
             <div class="grafo1 col-md-5 mx-3 card cardaux" v-if="representacion1===true">
                 <hr>
                 <div>
-                    <table class="table table-striped table-dark" v-if="selectAuto===1">
+                    <table class="table table-striped table-dark" v-if="selectAuto===1" aria-describedby="estados1">
                         <thead>
                             <tr>
                             <th scope="col">#</th>
@@ -255,7 +255,7 @@
                         </tbody>    
                     </table> 
 
-                    <table class="table table-striped table-dark" v-if="selectAuto===2">
+                    <table class="table table-striped table-dark" v-if="selectAuto===2" aria-describedby="estados2">
                         <thead>
                             <tr>
                             <th scope="col">#</th>
@@ -483,6 +483,7 @@ export default {
             return;
         },
         mostrarOp1(){
+            /*
             this.dibujarSimplificado=false;
             if(this.existeFinales())
             {
@@ -497,7 +498,14 @@ export default {
                     title:"Aviso",
                 });
                 return;
-            }
+            }*/
+
+            swal("Función en mantenimiento, Lo sentimos... :(",{
+                className:"alertas",
+                button:"Aceptar",
+                title:"¡OOPS!"
+            });
+            return;
         },
         mostrarSimplificado(){
             this.dibujarSimplificado=true;
@@ -793,6 +801,18 @@ export default {
             }
         },
 
+        estadosDistintos(estados1,estado){
+            for(var i=0; i<estados1.length; i++)
+            {
+                if(estados1[i].id===estado.id)
+                {
+                    
+                    return false;
+                }
+            }
+            return true;
+        },
+
         agregarEstado(){
             var aux= {id:'inicio', label:'inicio',color:'#75616b47', final:false}
 
@@ -823,6 +843,15 @@ export default {
                 this.estadoAutomata1.label=this.estadoAutomata1.id;
                 if(this.estadosAutomata1.length===1)
                 {
+                    if(!this.estadosDistintos(this.estadosAutomata2,this.estadoAutomata1))
+                    {
+                        swal("El id debe ser distinto al/los estado(s) del otro automata",{
+                        className: "alertas",
+                        button: "Aceptar",
+                        title: "Alerta"
+                        });
+                        return;
+                    }
                     this.estadosAutomata1.push(this.estadoAutomata1);
                     this.transicionAutomata1.from='inicio';
                     this.transicionAutomata1.to=this.estadoAutomata1.id;
@@ -834,6 +863,15 @@ export default {
                     return;
                 }
                 else{
+                    if(!this.estadosDistintos(this.estadosAutomata2,this.estadoAutomata1))
+                    {
+                        swal("El id debe ser distinto al/los estado(s) del otro automata",{
+                        className: "alertas",
+                        button: "Aceptar",
+                        title: "Alerta"
+                        });
+                        return;
+                    }
                     this.estadosAutomata1.push(this.estadoAutomata1);
                     this.estadoAutomata1= {id:'', label:'',color:'#C52C0B' ,final:false};
                     this.drawAutomata();
@@ -866,6 +904,15 @@ export default {
                 this.estadoAutomata2.label=this.estadoAutomata2.id;
                 if(this.estadosAutomata2.length===1)
                 {
+                    if(!this.estadosDistintos(this.estadosAutomata1,this.estadoAutomata2))
+                    {
+                        swal("El id debe ser distinto al/los estado(s) del otro automata",{
+                        className: "alertas",
+                        button: "Aceptar",
+                        title: "Alerta"
+                        });
+                        return;
+                    }
                     this.estadosAutomata2.push(this.estadoAutomata2);
                     this.transicionAutomata2.from='inicio';
                     this.transicionAutomata2.to=this.estadoAutomata2.id;
@@ -877,6 +924,15 @@ export default {
                     return;
                 }
                 else{
+                    if(!this.estadosDistintos(this.estadosAutomata1,this.estadoAutomata2))
+                    {
+                        swal("El id debe ser distinto al/los estado(s) del otro automata",{
+                        className: "alertas",
+                        button: "Aceptar",
+                        title: "Alerta"
+                        });
+                        return;
+                    }
                     this.estadosAutomata2.push(this.estadoAutomata2);
                     this.estadoAutomata2= {id:'', label:'',color:'#C52C0B' ,final:false};
                     this.drawAutomata();
@@ -1629,7 +1685,7 @@ export default {
                 console.log("nuevo Alfabeto:",nuevoAlfabeto);
                 for(var i=1; i<this.estadosAutomata1.length; i++)
                 {
-                    for(j=1;j<this.estadosAutomata2.length;j++)
+                    for(var j=1;j<this.estadosAutomata2.length;j++)
                     {
                         
                     }
@@ -2131,7 +2187,7 @@ export default {
         },
 
         interseccion(){
-            /*if(!this.compararAlfabetos())
+            if(!this.compararAlfabetos())
             {
                 swal("Los alfabetos de ambos automatas deben ser iguales",{
                     className: "alertas",
@@ -2139,7 +2195,7 @@ export default {
                     title:"Error"
                 });
                 return;
-            }*/
+            }
             var auto1= this.transicionesAutomata1;
             var auto2 =this.transicionesAutomata2;
             console.log("alfabeto 1", this.alfabeto1);
@@ -2297,6 +2353,11 @@ export default {
         },
 
         simplificarAFD(estadaux,transaux){
+            swal("Función en mantenimiento. Lo sentimos... :( \n Para más detalles abra la consola",{
+                className:"alertas",
+                button:"Aceptar",
+                title:"¡OOPS!"
+            });
             this.automataSimplificado=[];
             this.transicionesSimplificado=[];
             //var estados=[{id:'inicio', label:'inicio',color:'#75616b47', final:false},{id:'1', label:'1',color:'#75616b47', final:false},{id:'2', label:'2',color:'#75616b47', final:true},{id:'3', label:'3',color:'#75616b47', final:true},{id:'4', label:'4',color:'#75616b47', final:true},{id:'5', label:'5',color:'#75616b47', final:true}]
@@ -2452,7 +2513,8 @@ export default {
             this.dibujarSimplificado=true;
             this.drawAutomata();
         },
-    
+
+
     },
 
 }
