@@ -52,7 +52,7 @@
                             <form @submit.prevent="agregarEstado" v-if="selectAuto===1">
                                 <div class="form-group">
                                     <label for="id">Ingrese el id: </label> 
-                                    <input type="number" min="1" v-model="estadoAutomata1.id" name="id" class="form-control"> 
+                                    <input type="number" min="0" v-model="estadoAutomata1.id" name="id" class="form-control"> 
                                 </div>
                                 <div class="text-center">
                                     <button class="btn btn-success btn-sm" type="submit">Agregar</button>
@@ -62,7 +62,7 @@
                             <form @submit.prevent="agregarEstado" v-else>
                                 <div class="form-group">
                                     <label for="id">Ingrese el id: </label> 
-                                    <input type="number" min="1" v-model="estadoAutomata2.id" name="id" class="form-control"> 
+                                    <input type="number" min="0" v-model="estadoAutomata2.id" name="id" class="form-control"> 
                                 </div>
                                 <div class="text-center">
                                     <button class="btn btn-success btn-sm" type="submit">Agregar</button>
@@ -75,15 +75,15 @@
                         <form @submit.prevent="crearTransicion" v-if="selectAuto===1">
                             <div class="form-group">
                                 <label>Ingrese el id del estado inicial de la transición:</label>
-                                <input type="number" min="1" v-model="transicionAutomata1.from" class="form-control"> 
+                                <input type="number" min="0" v-model="transicionAutomata1.from" class="form-control"> 
                             </div>
                             <div class="form-group">
                                 <label>Ingrese el id del estado final de la transición:</label>
-                                <input type="number" min="1" v-model="transicionAutomata1.to" class="form-control"> 
+                                <input type="number" min="0" v-model="transicionAutomata1.to" class="form-control"> 
                             </div>
                             <div class="form-group">
                                 <label>Ingrese carácter de la transición: </label>
-                                <input type="text" minlength="1" maxlength="1" pattern="[a-zA-Z]+" v-model="transicionAutomata1.label" class="form-control">
+                                <input type="text" minlength="1" maxlength="1"  v-model="transicionAutomata1.label" class="form-control">
                             </div>
                     
                             <button class="btn btn-success btn-sm" type="submit" >Agregar</button>
@@ -92,11 +92,11 @@
                         <form @submit.prevent="crearTransicion" v-else>
                             <div class="form-group">
                                 <label>Ingrese el id del estado inicial de la transición:</label>
-                                <input type="number" min="1" v-model="transicionAutomata2.from" class="form-control"> 
+                                <input type="number" min="0" v-model="transicionAutomata2.from" class="form-control"> 
                             </div>
                             <div class="form-group">
                                 <label>Ingrese el id del estado final de la transición:</label>
-                                <input type="number" min="1" v-model="transicionAutomata2.to" class="form-control"> 
+                                <input type="number" min="0" v-model="transicionAutomata2.to" class="form-control"> 
                             </div>
                             <div class="form-group">
                                 <label>Ingrese carácter de la transición: </label>
@@ -149,7 +149,7 @@
                             <form @submit.prevent="agregarEstado" v-if="selectAuto===1">
                                 <div class="form-group">
                                     <label for="id">Ingrese el id: </label> 
-                                    <input type="number" min="1" v-model="estadoAutomata1.id" name="id" class="form-control"> 
+                                    <input type="number" min="0" v-model="estadoAutomata1.id" name="id" class="form-control"> 
                                 </div>
                                 <div class="text-center">
                                     <button class="btn btn-success btn-sm" type="submit">Agregar</button>
@@ -159,7 +159,7 @@
                             <form @submit.prevent="agregarEstado" v-if="selectAuto===2">
                                 <div class="form-group">
                                     <label for="id">Ingrese el id: </label> 
-                                    <input type="number" min="1" v-model="estadoAutomata2.id" name="id" class="form-control"> 
+                                    <input type="number" min="0" v-model="estadoAutomata2.id" name="id" class="form-control"> 
                                 </div>
                                 <div class="text-center">
                                     <button class="btn btn-success btn-sm" type="submit">Agregar</button>
@@ -172,15 +172,15 @@
                         <form @submit.prevent="crearTransicionAFND" v-if="selectAuto===1">
                                 <div class="form-group">
                                     <label>Ingrese el id del estado inicial de la transición:</label>
-                                    <input type="number" min="1" v-model="transicionAutomata1.from" class="form-control"> 
+                                    <input type="number" min="0" v-model="transicionAutomata1.from" class="form-control"> 
                                 </div>
                                 <div class="form-group">
                                     <label>Ingrese el id del estado final de la transición:</label>
-                                    <input type="number" min="1" v-model="transicionAutomata1.to" class="form-control"> 
+                                    <input type="number" min="0" v-model="transicionAutomata1.to" class="form-control"> 
                                 </div>
                                 <div class="form-group">
                                     <label>Ingrese carácter de la transición: </label>
-                                    <input type="text" minlength="1" maxlength="1" pattern="[a-zA-Z]+" v-model="transicionAutomata1.label" class="form-control">
+                                    <input type="text" minlength="1" maxlength="1"  v-model="transicionAutomata1.label" class="form-control">
                                 </div>
                         
                                 <button class="btn btn-success btn-sm" type="submit" >Agregar</button>
@@ -189,15 +189,15 @@
                         <form @submit.prevent="crearTransicionAFND" v-else>
                                 <div class="form-group">
                                     <label>Ingrese el id del estado inicial de la transición:</label>
-                                    <input type="number" min="1" v-model="transicionAutomata2.from" class="form-control"> 
+                                    <input type="number" min="0" v-model="transicionAutomata2.from" class="form-control"> 
                                 </div>
                                 <div class="form-group">
                                     <label>Ingrese el id del estado final de la transición:</label>
-                                    <input type="number" min="1" v-model="transicionAutomata2.to" class="form-control"> 
+                                    <input type="number" min="0" v-model="transicionAutomata2.to" class="form-control"> 
                                 </div>
                                 <div class="form-group">
                                     <label>Ingrese carácter de la transición: </label>
-                                    <input type="text" minlength="1" maxlength="1" pattern="[a-zA-Z]+" v-model="transicionAutomata2.label" class="form-control">
+                                    <input type="text" minlength="1" maxlength="1"  v-model="transicionAutomata2.label" class="form-control">
                                 </div>
                         
                                 <button class="btn btn-success btn-sm" type="submit" >Agregar</button>
@@ -242,7 +242,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item,index) in estadosAutomata1" :key="index">
+                            <tr v-for="(item,index) in estadosAutomata1" :key="index" v-show="index!=0">
                                 <td scope="row">{{index}}</td>
                                 <td>{{item.label}}</td>
                                 <td>
@@ -264,7 +264,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item,index) in estadosAutomata2" :key="index">
+                            <tr v-for="(item,index) in estadosAutomata2" :key="index" v-show="index!=0">
                                 <td scope="row">{{index}}</td>
                                 <td>{{item.label}}</td>
                                 <td>
@@ -371,10 +371,10 @@
                     <div id="interseccion" class="mb-3" style="border: 1px solid lightgray;"></div>
                 </div>
                 <div class="text-center">
-                    <button class="btn btn-success" @click="simplificarAFD(estadosAutomata1)">SIMPLIFICA LA WEA 1</button>
+                    <button class="btn btn-success" @click="simplificarAFD(estadosAutomata1)">SIMPLIFICA 1</button>
                 </div>
                 <div class="text-center">
-                    <button class="btn btn-success" @click="simplificarAFD(estadosAutomata2)">SIMPLIFICA LA WEA 2</button>
+                    <button class="btn btn-success" @click="simplificarAFD(estadosAutomata2)">SIMPLIFICA 2</button>
                 </div>
             </div>
         </div>
@@ -1081,6 +1081,15 @@ export default {
                     }
                     
                 }
+                if(!this.existeEstadoTransicion(this.estadosAutomata1,this.transicionAutomata1))
+                {
+                    swal("Los estados ingresados no existen, Ingrese otros estados para generar la transición",{
+                        className: "alertas",
+                        button: "Aceptar",
+                        title: "Error"
+                    });
+                    return;
+                }
                 this.addCaracterToAlfabeto();
                 this.transicionesAutomata1.push(this.transicionAutomata1);
                 this.transicionAutomata1={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
@@ -1108,6 +1117,15 @@ export default {
                         return;
                     }
                     
+                }
+                if(!this.existeEstadoTransicion(this.estadosAutomata2,this.transicionAutomata2))
+                {
+                    swal("Los estados ingresados no existen, Ingrese otros estados para generar la transición",{
+                        className: "alertas",
+                        button: "Aceptar",
+                        title: "Error"
+                    });
+                    return;
                 }
                 this.addCaracterToAlfabeto();
                 this.transicionesAutomata2.push(this.transicionAutomata2);
@@ -1138,6 +1156,24 @@ export default {
                    return;
                 }
                 else{
+                    if(!this.existeEstadoTransicion(this.estadosAutomata1,this.transicionAutomata1))
+                    {
+                        swal("Los estados ingresados no existen, Ingrese otros estados para generar la transición",{
+                            className: "alertas",
+                            button: "Aceptar",
+                            title: "Error"
+                        });
+                        return;
+                    }
+                    if(this.existeTransicionAFND(this.transicionesAutomata1,this.transicionAutomata1))
+                    {
+                        swal("La transicion ya existe. Ingrese otra",{
+                            className: "alertas",
+                            button: "Aceptar",
+                            title: "Error"
+                        });
+                        return;
+                    }
                     for(var i=0; i<this.transicionesAutomata1.length;i++)
                     {
                         if(this.transicionesAutomata1[i].from===this.transicionAutomata1.from && this.transicionesAutomata1[i].label!=this.transicionAutomata1.label && this.transicionesAutomata1[i].to===this.transicionAutomata1.to){
@@ -1176,6 +1212,24 @@ export default {
                    return;
                 }
                 else{
+                    if(!this.existeEstadoTransicion(this.estadosAutomata2,this.transicionAutomata2))
+                    {
+                        swal("Los estados ingresados no existen, Ingrese otros estados para generar la transición",{
+                            className: "alertas",
+                            button: "Aceptar",
+                            title: "Error"
+                        });
+                        return;
+                    }
+                    if(this.existeTransicionAFND(this.transicionesAutomata2,this.transicionAutomata2))
+                    {
+                        swal("La transicion ya existe. Ingrese otra",{
+                            className: "alertas",
+                            button: "Aceptar",
+                            title: "Error"
+                        });
+                        return;
+                    }
                     for(var i=0; i<this.transicionesAutomata2.length;i++)
                     {
                         if(this.transicionesAutomata2[i].from===this.transicionAutomata2.from && this.transicionesAutomata2[i].label!=this.transicionAutomata2.label && this.transicionesAutomata2[i].to===this.transicionAutomata2.to)
@@ -1197,6 +1251,34 @@ export default {
             this.drawAutomata(); 
         },
 
+        existeTransicionAFND(transiciones,transicion){
+            var existe=false;
+            var caracteres=[];
+            var aux;
+            for(var i=0; i<transiciones.length;i++)
+            {
+                if(transiciones[i].from===transicion.from && transiciones[i].to===transicion.to)
+                {
+                    if(transiciones[i].label.includes(','))
+                    {
+    
+                        aux=transiciones[i].label;
+                        caracteres=aux.split(',');
+                        for(var j=0; j<caracteres.length;j++)
+                        {
+                            if(caracteres[j]===transicion.label)
+                            {
+                                return true;
+                            }
+                        }
+                        return false;
+                        
+                    }
+                }
+            }
+            
+        },
+
         existeTransicion(transiciones,transicion)
         {
             for(var i=0; i<transiciones.length;i++)
@@ -1209,6 +1291,59 @@ export default {
             return false;
 
         },
+
+        existeEstadoTransicion(estados, transicion)
+        {
+            var existeFrom=false;
+            var existeTo= false;
+            for(var i=0; i<estados.length;i++)
+            {
+                if(estados[i].id===transicion.from)
+                {
+                    existeFrom=true;
+                }
+                else{
+                    if(estados[i].id!=transicion.from && existeFrom===true)
+                    {
+                        existeFrom=true;
+                    }
+                    else{
+                        if(estados[i].id!=transicion.from && existeFrom===false)
+                        {
+                            existeFrom=false;
+                        }
+                    }
+                }
+            }
+            for(var j=0; j<estados.length;j++)
+            {
+                if(estados[j].id===transicion.to)
+                {
+                    existeTo=true;
+                }
+                else{
+                    if(estados[j].id!=transicion.to && existeTo===true)
+                    {
+                        existeTo=true;
+                    }
+                    else{
+                        if(estados[j].id!=transicion.to && existeTo===false)
+                        {
+                            existeTo=false;
+                        }
+                    }
+                }
+            }
+
+            if(existeFrom && existeTo)
+            {
+                return true;
+            }
+            else{
+                return false;
+            }
+        },
+
 
         addCaracterToAlfabeto(){
 
@@ -1634,10 +1769,12 @@ export default {
             var matriz3=matriz2;
             var largo=matriz2.length;
             var arrayaux=[];
+            var strAux;
             for(let j=0; j<largo; j++){
                 for(let i=1; i<=abc.length; i++){
                     if(matriz2[j].length>1){
                         inicio=matriz2[j][i][1];
+                        console.log("inicio adentro:", inicio);
                         for( let k=0; k<matriz2.length; k++){
                             if(this.compararArray(inicio, matriz2[k][0])){
                                 cond=true;
@@ -1656,15 +1793,30 @@ export default {
                 }
 
                 arrayaux=this.simplificarArray(arrayaux);
+                console.log("arrayaux: ", arrayaux);
                 for(let y=0; y<arrayaux.length; y++){
-                    if(!cond){
+                    if(!cond && arrayaux[y].length!=null){
+                        console.log("arrayaux[y] >>>", arrayaux[y]);
                         estaux.push(arrayaux[y]);
+                        console.log("estaux adentro: ",estaux)
                     }
                 }
-                console.log("matriz3: ",matriz3);
-                matriz3.push(estaux);
-                cond=false;
+                console.log("estaux", estaux);
+                strAux=estaux[0];
+                for(let u=1; u<estaux.length; u++){
+                    strAux=strAux+','+estaux[u];
+                }
                 inicio=[];
+                inicio.push(strAux);
+                let vacio=[];
+                for(let p=0; p<abc.length; p++){
+                    inicio.push(vacio);  
+                }
+                matriz3.push(inicio);
+                console.log("matriz3: ",matriz3);
+                estaux=[];
+                inicio=[];
+                cond=false;
             }
             console.log("fin estadoSiguiente");
             return matriz3;
@@ -1672,6 +1824,14 @@ export default {
 
         compararArray(array1, array2){
             console.log("inicio compararArry");
+            if(array1.includes(',')){
+                array1=array1.split(',');
+                array1=array1.sort();
+            }
+            if(array2.includes(',')){
+                array2=array2.split(',');
+                array2=array2.sort();
+            }
             array1=this.simplificarArray(array1);
             array2=this.simplificarArray(array2);
             var largo1=array1.length;
@@ -1695,37 +1855,55 @@ export default {
         buscarTransicion(matriz1, matriz2, abc){
             console.log("inicio buscarTRansicion");
             var transicion=[];
+            var transicionxABC=[];
             for(let i=0; i<matriz2.length; i++){
-                if(matriz2[i].length==1){   //aca revisar
+                console.log("matriz2[i].length == 1", matriz2[i][1].length);
+                if(matriz2[i][1].length==0){   //aca revisar
+                    console.log("entro if 1");
                     if(matriz2[i][0].length>1){  // o aca jej 
+                        console.log("entro if 2 >>", matriz2[i][0]);
+                        for(let q=1; q<=abc.length;q++)
+                        {
+                            matriz2[i].splice(1,1);
+                        }
                         for(let k=1; k<=abc.length; k++){
                             for(let j=0; j<matriz2[i][0].length; j++){
                                 for(let h=0; h<matriz1.length; h++){
-                                    if(matriz2[i][0][j]==matriz1[h][0]){
+                                    if(matriz2[i][0][j]==matriz1[h][0]){  
                                         console.log("matriz1[h][k][1]: ", matriz1[h][k][1]);
                                         transicion=transicion.concat(matriz1[h][k][1]);
-                                        console.log("transicion 1: ",transicion);
                                     }
                                 }
                             }
                             transicion=this.simplificarArray(transicion);
-                            matriz2[i].push(transicion);
+                            transicionxABC.push(abc[k-1]);
+                            transicionxABC.push(transicion);
+                            console.log("XABC", transicionxABC);
+                            matriz2[i].push(transicionxABC);
                             transicion=[];
-                            console.log("matriz2[i] 1", matriz2[i]);
+                            transicionxABC=[];
                         }
                     }else{
+                        for(let q=1; q<=abc.length;q++)
+                        {
+                            matriz2[i].splice(1,1);
+                        }
                         for(let k=1; k<=abc.length; k++){
                             for(let h=0; h<matriz1.length; h++){
-                                if(matriz2[i][0]==matriz1[h][0]){
+                                if(matriz2[i][0]==matriz1[h][0]){  
+                                    console.log("matriz1[h][k][1] v2: ", matriz1[h][k][1]);
                                     transicion=transicion.concat(matriz1[h][k][1]);
-                                    console.log("transicion 2: ",transicion);
                                 }
                             }
                             transicion=this.simplificarArray(transicion);
-                            matriz2[i].push(transicion);
-                            console.log("matriz2[i] 2", matriz2[i]);
+                            transicionxABC.push(abc[k-1]);
+                            transicionxABC.push(transicion);
+                            console.log("XABC v2", transicionxABC);
+                            matriz2[i].push(transicionxABC);
                             transicion=[];
+                            transicionxABC=[];
                         }
+                        
                     }
                 }
             }
@@ -1739,11 +1917,17 @@ export default {
             this.matrizAFND();
             var matriz1=this.matriz1AFND;
             var matriz2=[];
+            var matrizant=[];
             var estadoaux = [];
             var abc = this.simplificarAlfabeto(this.alfabeto1);
             matriz2.push(matriz1[0]);
-            matriz2=this.estadoSiguiente(matriz2, abc);
-            matriz2=this.buscarTransicion(matriz1, matriz2, abc);
+            while(matrizant.length != matriz2.length){
+                matrizant=matriz2;
+                matriz2=this.estadoSiguiente(matriz2, abc);
+                matriz2=this.buscarTransicion(matriz1, matriz2, abc);
+                matriz2=this.estadoSiguiente(matriz2, abc);
+                matriz2=this.buscarTransicion(matriz1, matriz2, abc);
+            }
             console.log("matriz2", matriz2);
             console.log("fin afdEquivalente");
         },
@@ -1754,8 +1938,8 @@ export default {
             if(array.length>1)
             {
 
-                var newArray=[];
-                array=array.sort();
+                var newArray=[]; 
+                
                 for(var j=0; j<array.length-1; j++)
                 {
                     if(array[j] != array[j+1])
@@ -1763,9 +1947,7 @@ export default {
                         newArray.push(array[j]);
                     }
                 }
-                if(array[array.length-1] != array[array.length-2]){
-                    newArray.push(array[array.length-1]);
-                }
+                newArray.push(array[array.length-1]);
                 
                 
 
@@ -1802,7 +1984,7 @@ export default {
                 transiciones={from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
             }
         },
-
+  
         complemento(){
             this.automataComplemento=[];
             this.transicionesComplemento=[];
@@ -1870,6 +2052,7 @@ export default {
                         trans.color={color:'rgb(197,44,11)'};
                         trans.to= automataAux[0].id;
                         this.transicionesConcatenacion.push(trans);
+                        trans= {from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
                     }
                 }
                 
@@ -1896,6 +2079,7 @@ export default {
                         trans.color={color:'rgb(197,44,11)'};
                         trans.to= automataAux[0].id;
                         this.transicionesConcatenacion.push(trans);
+                        trans= {from:'',label: '',to:'',color:{color:'rgb(0,0,0)'}};
                     }
                 }
                 
@@ -2063,30 +2247,60 @@ export default {
             this.transicionesInterseccion=matrix;
         },
 
-        simplificarAFD(estados){
+        simplificarAFD(estads,transicioes){
+            var estados=[{id:'inicio', label:'inicio',color:'#75616b47', final:false},{id:'1', label:'1',color:'#75616b47', final:false},{id:'2', label:'2',color:'#75616b47', final:true},{id:'3', label:'3',color:'#75616b47', final:true},{id:'4', label:'4',color:'#75616b47', final:true},{id:'5', label:'5',color:'#75616b47', final:true}]
+            var transiciones = [{from:'inicio',label: '',to:'5',color:{color:'rgb(0,0,0)'}},{from:'5',label: 'a',to:'4',color:{color:'rgb(0,0,0)'}},{from:'5',label: 'b',to:'3',color:{color:'rgb(0,0,0)'}},{from:'4',label: 'a',to:'4',color:{color:'rgb(0,0,0)'}},{from:'4',label: 'b',to:'2',color:{color:'rgb(0,0,0)'}},{from:'3',label: 'a',to:'4',color:{color:'rgb(0,0,0)'}},{from:'3',label: 'b',to:'1',color:{color:'rgb(0,0,0)'}},{from:'2',label: 'a',to:'4',color:{color:'rgb(0,0,0)'}},{from:'2',label: 'b',to:'1',color:{color:'rgb(0,0,0)'}},{from:'1',label: 'a,b',to:'1',color:{color:'rgb(0,0,0)'}},]
+            
+            estados.forEach(element =>  {
+                console.log("id estado",element.id);
+            });
+            var matTrans = this.crearMatrizTransiciones(transiciones)
+            console.log("matriz transiciones",matTrans);
             var res = [];
             // Se crea la matriz
             for(var i=0; i<estados.length;i++){
                 res[i]= new Array(estados.length);
             }
-            
+            console.log("res1",res);
             //Se marcan con x todos los estados que no pueden simplificar entre si y con 0 la diagonal
             for(var n=0; n<estados.length; n++){
+                console.log("entro1");
                 for(var m=0; m<estados.length; m++){
-                    if(n=m){
+                    console.log("entro2");
+                    if(n==m){
+                        console.log("if1");
+                        console.log(res[n]);
                         res[n][m]='x';
                     }
-                    if(estados[n].final!=estados.final[m]){
-                        res[n][m]='x';
-                        res[m][n]='x';
+                    else{
+                        if(estados[n].final!=estados[m].final){
+                            console.log("if2");
+                            res[n][m]='x';
+                            res[m][n]='x';
+                        }
+                        if(estados[n].final==estados[m].final){
+                            res[n][m]='-';
+                            res[m][n]='-';
+                        }
                     }
                 }
             }
-
+            console.log("res",res); //imprime matriz
             for(var k=0; k<estados.length; k++){
                 for(var l=0; l<estados.length; l++){
-                    if(res[k][l]!='x'){
+                    if(res[k][l]=='-'){ //estados [k][l] [2][3]
+                        console.log("k-l:",k,"-",l);
+                        console.log("res[k][l]",res[k][l]);
                         
+                        // for (let index = 0; index < matTrans[0].length; index++) {
+                        //     if(k==matTrans[0][index]){
+                        //         for(let jdex=0 ;jdex<alfabeto.length ;jdex++){
+                                    
+                        //         }
+                        //     }
+                             
+                        // }
+
                     }
                 }
             }
