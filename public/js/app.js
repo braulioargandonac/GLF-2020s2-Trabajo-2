@@ -2291,6 +2291,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2433,6 +2434,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       },
       cadena: '',
+      matrizAFD: [],
       matriz1AFND: [],
       option: 0,
       operacion: '',
@@ -2443,7 +2445,8 @@ __webpack_require__.r(__webpack_exports__);
       representacion1: false,
       checked: false,
       automataCreate: false,
-      selectAuto: ''
+      selectAuto: '',
+      dibujarSimplificado: false
     };
   },
   created: function created() {},
@@ -2474,6 +2477,8 @@ __webpack_require__.r(__webpack_exports__);
       return;
     },
     mostrarOp1: function mostrarOp1() {
+      this.dibujarSimplificado = false;
+
       if (this.existeFinales()) {
         this.operacion = 1;
         this.afdEquivalente();
@@ -2486,6 +2491,10 @@ __webpack_require__.r(__webpack_exports__);
         });
         return;
       }
+    },
+    mostrarSimplificado: function mostrarSimplificado() {
+      this.dibujarSimplificado = true;
+      this.drawAutomata();
     },
     showComplemento: function showComplemento(opcion) {
       if (opcion === 1) {
@@ -2500,6 +2509,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     mostrarOp2: function mostrarOp2() {
+      this.dibujarSimplificado = false;
+
       if (this.existeFinales()) {
         this.operacion = 2;
         this.complemento();
@@ -2514,6 +2525,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     mostrarOp3: function mostrarOp3() {
+      this.dibujarSimplificado = false;
+
       if (this.existeFinales()) {
         this.operacion = 3;
         this.union();
@@ -2530,6 +2543,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     mostrarOp4: function mostrarOp4() {
+      this.dibujarSimplificado = false;
+
       if (this.existeFinales()) {
         this.operacion = 4;
         this.concatenacion();
@@ -2544,7 +2559,11 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     mostrarOp5: function mostrarOp5() {
+      this.dibujarSimplificado = false;
+
       if (this.existeFinales()) {
+        this.automataSimplificado = [];
+        this.transicionesSimplificado = [];
         this.operacion = 5;
         this.interseccion();
         return;
@@ -2557,7 +2576,6 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
     },
-    mostrartabla: function mostrartabla() {},
     marcarInicial: function marcarInicial() {
       this.inicial = 1;
       return;
@@ -3517,6 +3535,15 @@ __webpack_require__.r(__webpack_exports__);
       return false;
     },
     union: function union() {
+      if (!this.compararAlfabetos()) {
+        swal("Los alfabetos de ambos automatas deben ser iguales", {
+          className: "alertas",
+          button: "Aceptar",
+          title: "Error"
+        });
+        return;
+      }
+
       this.automataUnion = [{
         id: 'inicio',
         label: 'inicio',
@@ -3655,7 +3682,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.operacion === 1) {
         var networkEquivalente = new vis.Network(containerEquivalente, dataEquivalente, options);
 
-        if (this.showSimplificado === true) {
+        if (this.dibujarSimplificado === true) {
           var networkSimplificado = new vis.Network(containerSimplificado, dataSimplificado, options);
         }
       }
@@ -3663,7 +3690,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.operacion === 2) {
         var networkComplemento = new vis.Network(containerComplemento, dataComplemento, options);
 
-        if (this.showSimplificado === true) {
+        if (this.dibujarSimplificado === true) {
           var networkSimplificado = new vis.Network(containerSimplificado, dataSimplificado, options);
         }
       }
@@ -3671,7 +3698,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.operacion === 3) {
         var networkUnion = new vis.Network(containerUnion, dataUnion, options);
 
-        if (this.showSimplificado === true) {
+        if (this.dibujarSimplificado === true) {
           var networkSimplificado = new vis.Network(containerSimplificado, dataSimplificado, options);
         }
       }
@@ -3679,7 +3706,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.operacion === 4) {
         var networkConcatenacion = new vis.Network(containerConcatenacion, dataConcatenacion, options);
 
-        if (this.showSimplificado === true) {
+        if (this.dibujarSimplificado === true) {
           var networkSimplificado = new vis.Network(containerSimplificado, dataSimplificado, options);
         }
       }
@@ -3687,7 +3714,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.operacion === 5) {
         var networkInterseccion = new vis.Network(containerInterseccion, dataInterseccion, options);
 
-        if (this.showSimplificado === true) {
+        if (this.dibujarSimplificado === true) {
           var networkSimplificado = new vis.Network(containerSimplificado, dataSimplificado, options);
         }
       }
@@ -3787,6 +3814,7 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
 
+        arrayaux = [];
         console.log("estaux", estaux);
         strAux = estaux[0];
 
@@ -3814,40 +3842,53 @@ __webpack_require__.r(__webpack_exports__);
     },
     compararArray: function compararArray(array1, array2) {
       console.log("inicio compararArry");
+      console.log("array 1", array1);
+      console.log("array 2", array2);
+
+      if (array1 == undefined || array2 == undefined) {
+        return true;
+      }
 
       if (array1.includes(',')) {
         array1 = array1.split(',');
-        array1 = array1.sort();
       }
 
       if (array2.includes(',')) {
         array2 = array2.split(',');
-        array2 = array2.sort();
       }
 
       array1 = this.simplificarArray(array1);
       array2 = this.simplificarArray(array2);
       var largo1 = array1.length;
-      var largo2;
+      var largo2 = 0;
 
-      for (var i = 0; i < array1.length; i++) {
-        for (var _j2 = 0; _j2 < array2.length; _j2++) {
-          if (array1[i] == array2[_j2]) {
+      if (array1.length > 1 && array2.length > 1) {
+        console.log("array 1", array1);
+        console.log("array 2", array2);
+
+        for (var i = 0; i < array2.length; i++) {
+          console.log("include >>>>>>>>", array2[i]);
+
+          if (array1.includes(array2[i])) {
             largo2++;
           }
         }
+      } else {
+        if (array1 == array2) {
+          largo2 = largo1;
+        }
       }
 
-      if (largo2 == largo1) {
-        console.log("fin compararArray");
+      if (largo2 == largo1 && array1.length > 0 && array2.length > 0) {
+        console.log("comparar Array: IGUALES", array1, array2);
         return true;
       } else {
-        console.log("fin compararArray");
+        console.log("comparar Array: DIFERENTES", array1, array2);
         return false;
       }
     },
     buscarTransicion: function buscarTransicion(matriz1, matriz2, abc) {
-      console.log("inicio buscarTRansicion");
+      console.log("inicio buscarTransicion");
       var transicion = [];
       var transicionxABC = [];
 
@@ -3867,9 +3908,9 @@ __webpack_require__.r(__webpack_exports__);
             }
 
             for (var k = 1; k <= abc.length; k++) {
-              for (var _j3 = 0; _j3 < matriz2[i][0].length; _j3++) {
+              for (var _j2 = 0; _j2 < matriz2[i][0].length; _j2++) {
                 for (var h = 0; h < matriz1.length; h++) {
-                  if (matriz2[i][0][_j3] == matriz1[h][0]) {
+                  if (matriz2[i][0][_j2] == matriz1[h][0]) {
                     console.log("matriz1[h][k][1]: ", matriz1[h][k][1]);
                     transicion = transicion.concat(matriz1[h][k][1]);
                   }
@@ -3940,6 +3981,12 @@ __webpack_require__.r(__webpack_exports__);
 
       if (array.length > 1) {
         var newArray = [];
+
+        if (array.includes(',')) {
+          array = array.split(',');
+        }
+
+        array = array.sort();
 
         for (var j = 0; j < array.length - 1; j++) {
           if (array[j] != array[j + 1]) {
@@ -4131,6 +4178,15 @@ __webpack_require__.r(__webpack_exports__);
       console.log("transiciones concat: ", this.transicionesConcatenacion);
     },
     interseccion: function interseccion() {
+      /*if(!this.compararAlfabetos())
+      {
+          swal("Los alfabetos de ambos automatas deben ser iguales",{
+              className: "alertas",
+              button: "Aceptar",
+              title:"Error"
+          });
+          return;
+      }*/
       var auto1 = this.transicionesAutomata1;
       var auto2 = this.transicionesAutomata2;
       console.log("alfabeto 1", this.alfabeto1);
@@ -4349,135 +4405,35 @@ __webpack_require__.r(__webpack_exports__);
       console.log("matrix", matrix);
       this.transicionesInterseccion = matrix;
     },
-    simplificarAFD: function simplificarAFD(estads, transicioes) {
-      var estados = [{
-        id: 'inicio',
-        label: 'inicio',
-        color: '#75616b47',
-        "final": false
-      }, {
-        id: '1',
-        label: '1',
-        color: '#75616b47',
-        "final": false
-      }, {
-        id: '2',
-        label: '2',
-        color: '#75616b47',
-        "final": true
-      }, {
-        id: '3',
-        label: '3',
-        color: '#75616b47',
-        "final": true
-      }, {
-        id: '4',
-        label: '4',
-        color: '#75616b47',
-        "final": true
-      }, {
-        id: '5',
-        label: '5',
-        color: '#75616b47',
-        "final": true
-      }];
-      var transiciones = [{
-        from: 'inicio',
-        label: '',
-        to: '5',
-        color: {
-          color: 'rgb(0,0,0)'
-        }
-      }, {
-        from: '5',
-        label: 'a',
-        to: '4',
-        color: {
-          color: 'rgb(0,0,0)'
-        }
-      }, {
-        from: '5',
-        label: 'b',
-        to: '3',
-        color: {
-          color: 'rgb(0,0,0)'
-        }
-      }, {
-        from: '4',
-        label: 'a',
-        to: '4',
-        color: {
-          color: 'rgb(0,0,0)'
-        }
-      }, {
-        from: '4',
-        label: 'b',
-        to: '2',
-        color: {
-          color: 'rgb(0,0,0)'
-        }
-      }, {
-        from: '3',
-        label: 'a',
-        to: '4',
-        color: {
-          color: 'rgb(0,0,0)'
-        }
-      }, {
-        from: '3',
-        label: 'b',
-        to: '1',
-        color: {
-          color: 'rgb(0,0,0)'
-        }
-      }, {
-        from: '2',
-        label: 'a',
-        to: '4',
-        color: {
-          color: 'rgb(0,0,0)'
-        }
-      }, {
-        from: '2',
-        label: 'b',
-        to: '1',
-        color: {
-          color: 'rgb(0,0,0)'
-        }
-      }, {
-        from: '1',
-        label: 'a,b',
-        to: '1',
-        color: {
-          color: 'rgb(0,0,0)'
-        }
-      }];
-      estados.forEach(function (element) {
-        console.log("id estado", element.id);
-      });
-      var matTrans = this.crearMatrizTransiciones(transiciones);
-      console.log("matriz transiciones", matTrans);
+    simplificarAFD: function simplificarAFD(estadaux, transaux) {
+      this.automataSimplificado = [];
+      this.transicionesSimplificado = []; //var estados=[{id:'inicio', label:'inicio',color:'#75616b47', final:false},{id:'1', label:'1',color:'#75616b47', final:false},{id:'2', label:'2',color:'#75616b47', final:true},{id:'3', label:'3',color:'#75616b47', final:true},{id:'4', label:'4',color:'#75616b47', final:true},{id:'5', label:'5',color:'#75616b47', final:true}]
+      //var transiciones = [{from:'inicio',label: '',to:'5',color:{color:'rgb(0,0,0)'}},{from:'5',label: 'a',to:'4',color:{color:'rgb(0,0,0)'}},{from:'5',label: 'b',to:'3',color:{color:'rgb(0,0,0)'}},{from:'4',label: 'a',to:'4',color:{color:'rgb(0,0,0)'}},{from:'4',label: 'b',to:'2',color:{color:'rgb(0,0,0)'}},{from:'3',label: 'a',to:'4',color:{color:'rgb(0,0,0)'}},{from:'3',label: 'b',to:'1',color:{color:'rgb(0,0,0)'}},{from:'2',label: 'a',to:'4',color:{color:'rgb(0,0,0)'}},{from:'2',label: 'b',to:'1',color:{color:'rgb(0,0,0)'}},{from:'1',label: 'a',to:'1',color:{color:'rgb(0,0,0)'}},{from:'1',label: 'b',to:'1',color:{color:'rgb(0,0,0)'}}]
+
+      var transiciones = [];
+      var estados = [];
+      this.copiarAutomata(estadaux, transaux, estados, transiciones);
+      var matTrans = this.crearMatrizTransiciones(transiciones); //nsole.log("matriz transiciones",matTrans);
+
       var res = []; // Se crea la matriz
 
       for (var i = 0; i < estados.length; i++) {
         res[i] = new Array(estados.length);
-      }
+      } //console.log("res1",res);
+      //Se marcan con x todos los estados que no pueden simplificar entre si y con 0 la diagonal
 
-      console.log("res1", res); //Se marcan con x todos los estados que no pueden simplificar entre si y con 0 la diagonal
 
       for (var n = 0; n < estados.length; n++) {
-        console.log("entro1");
-
+        //console.log("entro1");
         for (var m = 0; m < estados.length; m++) {
-          console.log("entro2");
-
+          //console.log("entro2");
           if (n == m) {
-            console.log("if1");
+            //console.log("if1");
             console.log(res[n]);
             res[n][m] = 'x';
           } else {
             if (estados[n]["final"] != estados[m]["final"]) {
-              console.log("if2");
+              //console.log("if2");
               res[n][m] = 'x';
               res[m][n] = 'x';
             }
@@ -4488,24 +4444,125 @@ __webpack_require__.r(__webpack_exports__);
             }
           }
         }
-      }
+      } //hasta acá se creó la matriz
+      //console.log("res",res); //imprime matriz
+      //analisis de matriz
 
-      console.log("res", res); //imprime matriz
 
       for (var k = 0; k < estados.length; k++) {
         for (var l = 0; l < estados.length; l++) {
-          if (res[k][l] == '-') {
-            //estados [k][l] [2][3]
-            console.log("k-l:", k, "-", l);
-            console.log("res[k][l]", res[k][l]); // for (let index = 0; index < matTrans[0].length; index++) {
-            //     if(k==matTrans[0][index]){
-            //         for(let jdex=0 ;jdex<alfabeto.length ;jdex++){
-            //         }
-            //     }
-            // }
+          if (res[k][l] == '-' && res[l][k] == '-') {
+            //console.log("k-l:",k,"-",l);
+            //console.log("res[k][l]",res[k][l]);
+            for (var index = 0; index < matTrans[0].length; index++) {
+              if (k == matTrans[0][index]) {
+                //console.log("trans",matTrans[0][index],matTrans[1][index],matTrans[2][index]);
+                for (var jdex = 0; jdex < matTrans[0].length; jdex++) {
+                  if (l == matTrans[0][jdex]) {
+                    //console.log("trans2",matTrans[0][jdex],matTrans[1][jdex],matTrans[2][jdex]);
+                    if (matTrans[2][index] != matTrans[2][jdex] && matTrans[1][index] == matTrans[1][jdex]) {
+                      var aux = [];
+                      aux.push(matTrans[2][index]);
+                      aux.push(matTrans[2][jdex]); //console.log("coordenadas matriz:",aux);  
+                      //comparacion de variables                                       
+
+                      if (res[aux[0]][aux[1]] == 'x' && aux[0] != aux[1]) {
+                        //console.log("entra");
+                        res[k][l] = 'x';
+                        res[l][k] = 'x';
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
+
+      console.log("res", res);
+      this.matrizAFD = res;
+      this.drawMinAfd(estados, transiciones);
+    },
+    drawMinAfd: function drawMinAfd(estados, transiciones) {
+      var matriz = this.matrizAFD;
+      var inicial;
+      console.log("matriz", matriz);
+      console.log("trans", transiciones);
+
+      for (var i = 0; i < matriz.length; i++) {
+        for (var _j3 = 0; i < matriz.length; i++) {
+          if (matriz[i][_j3] == '-') {
+            console.log("indice", i, _j3);
+
+            for (var m = 0; m < estados.length; m++) {
+              console.log("estados eliminados", estados[m].id);
+
+              if (estados[m].id == "inicio") {
+                for (var h = 0; h < transiciones.length; h++) {
+                  if (transiciones[h].from == estados[m].id) {
+                    inicial = transiciones[h].to;
+                    console.log("inicial", inicial);
+                  }
+                }
+              } else {
+                if (estados[m].id == _j3 && estados[m].id != "inicio") {
+                  console.log("estado para eliminar:", estados[m].id);
+
+                  for (var k = 1; k < transiciones.length; k++) {
+                    if (estados[m].id == transiciones[k].from && transiciones[k].from != "inicio") {
+                      //1 a 3 ,1 b 2 del // 4 a 1, 5 b 2 //4 a 4 5 b 5 
+                      transiciones.splice(k, 1); //(?)
+                    } else {
+                      if (transiciones[k].to == estados[m].id && transiciones[k].from != "inicio") {
+                        transiciones[m].to = transiciones[k].from;
+                      }
+                    }
+                  }
+
+                  estados.splice(m, 1);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      console.log(estados);
+      console.log(transiciones);
+      this.copiarAutomata(estados, transiciones, this.automataSimplificado, this.transicionesSimplificado);
+      var existe = false;
+      /*for(var h=0; h<this.automataSimplificado.length;h++)
+      {
+          for(var t=0; t<this.transicionesSimplificado.length;t++)
+          {
+              if(this.automataSimplificado[h].id ===this.transicionesSimplificado[t].from)
+              {
+                  existe=true;
+              }
+              else{
+                  if(this.automataSimplificado[h].id != this.transicionesSimplificado[t].from && existe ===true)
+                  {
+                      existe=true;
+                  }
+                  else{
+                      if(this.automataSimplificado[h].id != this.transicionesSimplificado[t].from && existe ===false)
+                      {
+                          existe=false;
+                      }
+                  }
+              }
+          }
+          if(!existe)
+          {
+              this.automataSimplificado.splice(h,1);
+          }
+      } */
+
+      console.log(this.automataSimplificado);
+      console.log(this.transicionesSimplificado);
+      this.dibujarSimplificado = true;
+      this.drawAutomata();
     }
   }
 });
@@ -96838,9 +96895,14 @@ var render = function() {
                         [_vm._v("AFD equivalente simplificado")]
                       ),
                       _vm._v(" "),
-                      _c("button", { staticClass: "btn btn-success" }, [
-                        _vm._v("Mostrar Autómata")
-                      ]),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          on: { click: _vm.mostrarSimplificado }
+                        },
+                        [_vm._v("Mostrar Autómata")]
+                      ),
                       _vm._v(" "),
                       _c("div", {
                         staticClass: "mb-3",
@@ -96981,12 +97043,21 @@ var render = function() {
                     staticClass: "btn btn-success",
                     on: {
                       click: function($event) {
-                        return _vm.simplificarAFD(_vm.estadosAutomata1)
+                        return _vm.simplificarAFD(
+                          _vm.estadosAutomata1,
+                          _vm.transicionesAutomata1
+                        )
                       }
                     }
                   },
                   [_vm._v("SIMPLIFICA 1")]
-                )
+                ),
+                _vm._v(" "),
+                _c("div", {
+                  staticClass: "mb-3",
+                  staticStyle: { border: "1px solid lightgray" },
+                  attrs: { id: "afdSimplificado" }
+                })
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "text-center" }, [
@@ -96996,7 +97067,10 @@ var render = function() {
                     staticClass: "btn btn-success",
                     on: {
                       click: function($event) {
-                        return _vm.simplificarAFD(_vm.estadosAutomata2)
+                        return _vm.simplificarAFD(
+                          _vm.estadosAutomata2,
+                          _vm.transicionesAutomata2
+                        )
                       }
                     }
                   },
@@ -109877,14 +109951,15 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*!********************************************************!*\
   !*** ./resources/js/components/AutomatasComponent.vue ***!
   \********************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AutomatasComponent_vue_vue_type_template_id_06dab8b6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AutomatasComponent.vue?vue&type=template&id=06dab8b6& */ "./resources/js/components/AutomatasComponent.vue?vue&type=template&id=06dab8b6&");
 /* harmony import */ var _AutomatasComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AutomatasComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/AutomatasComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _AutomatasComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _AutomatasComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -109914,7 +109989,7 @@ component.options.__file = "resources/js/components/AutomatasComponent.vue"
 /*!*********************************************************************************!*\
   !*** ./resources/js/components/AutomatasComponent.vue?vue&type=script&lang=js& ***!
   \*********************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -110153,8 +110228,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\GLF-2020s2-Trabajo-2\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /opt/lampp/htdocs/GLF-2020s2-Trabajo-2/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /opt/lampp/htdocs/GLF-2020s2-Trabajo-2/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
